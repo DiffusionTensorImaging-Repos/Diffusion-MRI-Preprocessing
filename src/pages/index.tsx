@@ -26,16 +26,53 @@ const PIPELINE_STAGES = [
 
 type FeatureItem = {
   title: string;
-  icon: string;
+  icon: ReactNode;
   description: ReactNode;
   link: string;
   linkText: string;
 };
 
+const iconProps = {
+  width: 48,
+  height: 48,
+  viewBox: '0 0 24 24',
+  fill: 'none',
+  stroke: 'currentColor',
+  strokeWidth: 1.5,
+  strokeLinecap: 'round' as const,
+  strokeLinejoin: 'round' as const,
+};
+
+const BookIcon = () => (
+  <svg {...iconProps} aria-hidden="true">
+    <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v18H6.5A2.5 2.5 0 0 0 4 22.5z" />
+    <path d="M4 4.5V22.5" />
+    <path d="M8 7h8M8 11h8" />
+  </svg>
+);
+
+const StepsIcon = () => (
+  <svg {...iconProps} aria-hidden="true">
+    <path d="M3 21h4v-4" />
+    <path d="M7 17h4v-4" />
+    <path d="M11 13h4v-4" />
+    <path d="M15 9h4V5" />
+    <path d="M3 21h18" />
+  </svg>
+);
+
+const DatabaseIcon = () => (
+  <svg {...iconProps} aria-hidden="true">
+    <ellipse cx="12" cy="5" rx="8" ry="3" />
+    <path d="M4 5v6c0 1.66 3.58 3 8 3s8-1.34 8-3V5" />
+    <path d="M4 11v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6" />
+  </svg>
+);
+
 const FeatureList: FeatureItem[] = [
   {
     title: 'Learn DTI Concepts',
-    icon: '\uD83E\uDDE0',
+    icon: <BookIcon />,
     description: (
       <>
         Understand the physics of diffusion imaging, what FA, MD, and RD actually
@@ -47,7 +84,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Step-by-Step Pipeline',
-    icon: '\uD83D\uDD27',
+    icon: <StepsIcon />,
     description: (
       <>
         Walk through each preprocessing stage with generalized, copy-paste-ready
@@ -59,7 +96,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Practice Data & Tools',
-    icon: '\uD83D\uDE80',
+    icon: <DatabaseIcon />,
     description: (
       <>
         Download public DTI datasets to practice with, and find setup guides for
@@ -75,7 +112,15 @@ function Feature({title, icon, description, link, linkText}: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
       <div className="feature-card">
-        <div className="text--center" style={{fontSize: '3rem', marginBottom: '1rem'}}>
+        <div
+          className="text--center"
+          style={{
+            marginBottom: '1rem',
+            color: 'var(--ifm-color-primary)',
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
           {icon}
         </div>
         <div className="text--center padding-horiz--md">
