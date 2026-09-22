@@ -89,6 +89,10 @@ mtnormalise \
 
 All three tissues are passed together because normalization is a joint operation — it solves for a spatially smooth scaling that makes the three compartments sum coherently. Normalizing white matter alone is not equivalent and is not supported.
 
+:::caution
+Normalization is only as good as the brain mask. A mask that includes non-brain tissue, or that clips the temporal poles, biases the fit **without failing** — the command completes normally and the output looks plausible. The symptom surfaces much later, as one participant whose tractography behaves differently from everyone else's at the same settings. If a participant looks like an outlier downstream, re-check their mask from [Step 6](./brain-masking) before adjusting tracking parameters.
+:::
+
 ### Single-Shell Data — the Two-Tissue Variant
 
 Three-tissue estimation needs at least two non-zero shells. With single-shell data only two compartments can be separated, so the gray matter arguments are **dropped** from both commands:

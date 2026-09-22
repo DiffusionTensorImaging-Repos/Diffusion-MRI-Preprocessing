@@ -5,7 +5,7 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
 const config: Config = {
-  title: 'DTI Preprocessing Tutorial',
+  title: 'Diffusion MRI Preprocessing',
   tagline: 'From raw scanner output to tractography-ready diffusion data',
   favicon: 'img/favicon.ico',
 
@@ -14,10 +14,10 @@ const config: Config = {
   },
 
   url: 'https://diffusiontensorimaging-repos.github.io',
-  baseUrl: '/TUBRIC-DTI/',
+  baseUrl: '/Diffusion-MRI-Preprocessing/',
 
   organizationName: 'DiffusionTensorImaging-Repos',
-  projectName: 'TUBRIC-DTI',
+  projectName: 'Diffusion-MRI-Preprocessing',
 
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
@@ -48,7 +48,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/DiffusionTensorImaging-Repos/TUBRIC-DTI/tree/main/',
+          editUrl: 'https://github.com/DiffusionTensorImaging-Repos/Diffusion-MRI-Preprocessing/tree/main/',
           remarkPlugins: [remarkMath],
           rehypePlugins: [rehypeKatex],
         },
@@ -69,7 +69,7 @@ const config: Config = {
     navbar: {
       title: 'DTI Tutorial',
       logo: {
-        alt: 'DTI Preprocessing Tutorial',
+        alt: 'Diffusion MRI Preprocessing',
         src: 'img/logo.svg',
       },
       items: [
@@ -95,7 +95,7 @@ const config: Config = {
           position: 'right',
         },
         {
-          href: 'https://github.com/DiffusionTensorImaging-Repos/TUBRIC-DTI',
+          href: 'https://github.com/DiffusionTensorImaging-Repos/Diffusion-MRI-Preprocessing',
           label: 'GitHub',
           position: 'right',
         },
@@ -132,7 +132,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright \u00A9 ${new Date().getFullYear()} DTI Preprocessing Tutorial. Built with Docusaurus.`,
+      copyright: `Copyright \u00A9 ${new Date().getFullYear()} Diffusion MRI Preprocessing. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,

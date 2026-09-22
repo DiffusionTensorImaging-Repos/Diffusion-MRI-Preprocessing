@@ -3,7 +3,7 @@ sidebar_position: 1
 title: "Getting Started"
 ---
 
-# DTI Preprocessing Tutorial
+# Diffusion MRI Preprocessing
 
 A practical guide to diffusion MRI preprocessing: from raw scanner output to data a tractography workflow can run on without modification.
 

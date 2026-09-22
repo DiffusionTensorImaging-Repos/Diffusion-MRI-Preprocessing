@@ -13,6 +13,8 @@ This step estimates one response function per tissue type (white matter, gray ma
 
 :::caution
 Three-tissue estimation needs **multi-shell** data — at least two non-zero b-values plus b=0. Single-shell data can only separate two tissues; see the [two-tissue variant](./fod-estimation#single-shell-data--the-two-tissue-variant) in Step 12.
+
+A white-matter response from a two-tissue fit is **not** interchangeable with one from a three-tissue fit. Do not mix single-shell and multi-shell participants in the same group average.
 :::
 
 ## Conceptual Background
@@ -51,6 +53,12 @@ Averaging the responses into one group reference removes that problem: every par
 
 :::tip
 The group average is computed across **all** participants in your study, so this step has a natural two-phase structure: estimate per-subject responses for everyone first, then average, then move on. You cannot compute FODs for participant 1 until every participant's response has been estimated.
+:::
+
+:::caution
+**The group average locks the cohort.** Adding a participant later changes the average, so their FODs are no longer expressed against the same reference as everyone else's. If your sample grows, rerun [Step 12](./fod-estimation) for *everybody*, not just the new arrivals.
+
+This matters more than it looks. Anything downstream that thresholds on FOD amplitude — tractography cutoffs in particular — quietly means something different for participants fitted against different averages.
 :::
 
 ## Prerequisites
