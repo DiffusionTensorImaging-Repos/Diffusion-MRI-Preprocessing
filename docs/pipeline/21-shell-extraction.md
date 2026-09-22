@@ -1,13 +1,13 @@
 ---
-sidebar_position: 11
-title: "Step 10: Shell Extraction"
+sidebar_position: 21
+title: "Shell Extraction (optional)"
 ---
 
-# Step 10: Removing the b=250 Shell
+# Shell Extraction — Removing Very Low Shells
 
 If your acquisition includes a low b-value shell (e.g., b=250 s/mm²), this step removes it. At b-values below ~300 s/mm², microvascular perfusion contaminates the diffusion signal through a phenomenon called **intravoxel incoherent motion (IVIM)**. This pseudo-diffusion from capillary blood flow inflates apparent diffusivity estimates by 4–8% and can cause instability in tensor fitting.
 
-Most modern diffusion protocols do not collect b=250 at all — the Human Connectome Project uses b=1000/2000/3000, UK Biobank uses b=1000/2000, and ABCD uses b=500/1000/2000/3000. Labs at Temple University have also confirmed that including b=250 volumes introduces instability in downstream modeling.
+Most modern diffusion protocols do not collect b=250 at all — the Human Connectome Project uses b=1000/2000/3000, UK Biobank uses b=1000/2000, and ABCD uses b=500/1000/2000/3000. Very low non-zero shells such as b=250 sit close to the noise floor for tensor and multi-tissue fitting, and including them can destabilize downstream modeling.
 
 If your data does not include a low b-value shell like b=250, skip this step.
 
@@ -130,4 +130,4 @@ cat "$output_dir/${subj}_dwi_no_b250.bval"
 
 ## Next Step
 
-Proceed to **[Step 11: Tensor Fitting (DTIFIT)](./dtifit)** to fit the diffusion tensor model and compute FA, MD, AD, and RD maps.
+Proceed to **[Step 9: Tensor Fitting (DTIFIT)](./dtifit)** to fit the diffusion tensor model and compute FA, MD, AD, and RD maps.

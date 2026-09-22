@@ -133,7 +133,7 @@ printf '1 %.0s' $(seq 1 $n_vols) > index.txt
 
 ### After Shell Removal
 
-If you removed specific shells from your data (e.g., the b=250 shell in Step 10), make sure the number of entries in `index.txt` matches the number of volumes in the data you pass to `eddy`. If `eddy` is run before shell extraction (which is the typical pipeline order), no adjustment is needed.
+If you removed specific shells from your data (e.g., a very low shell removed during shell extraction), make sure the number of entries in `index.txt` matches the number of volumes in the data you pass to `eddy`. If `eddy` is run before shell extraction (which is the typical pipeline order), no adjustment is needed.
 
 :::note
 If your acquisition used alternating phase-encoding directions across volumes (less common), the index file would contain alternating values (e.g., `1 2 1 2 1 2 ...`). Consult your acquisition protocol documentation.

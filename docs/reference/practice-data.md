@@ -121,7 +121,7 @@ Once you are comfortable with practice data, applying the pipeline to your own r
 | File paths and naming | Every script — update `base_dir`, `subj`, file suffixes |
 | `acqp.txt` | Must match your scanner's phase encoding direction and readout time — see [Configuration Files](./config-files) |
 | `index.txt` | Must have one entry per DWI volume — see [Configuration Files](./config-files) |
-| Shell selection | [Step 10](../pipeline/shell-extraction) — depends on your b-values and planned analysis |
-| Template choice | [Step 2](../pipeline/skull-stripping) and [Step 12](../pipeline/flirt-registration) — match your population |
+| Shell selection | [Shell Extraction](../pipeline/shell-extraction) — depends on your b-values and planned analysis |
+| Template choice | [Step 2](../pipeline/skull-stripping) and [Step 10](../pipeline/flirt-registration) — match your population |
 
 The preprocessing steps themselves are identical regardless of the data source. The commands, quality checks, and troubleshooting all apply.

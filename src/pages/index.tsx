@@ -8,21 +8,24 @@ import Heading from '@theme/Heading';
 import styles from './index.module.css';
 
 const PIPELINE_STAGES = [
-  {num: 1, title: 'DICOM to NIfTI', tools: 'dcm2niix', link: '/docs/pipeline/dicom-to-nifti'},
-  {num: 2, title: 'Skull Stripping', tools: 'ANTs', link: '/docs/pipeline/skull-stripping'},
-  {num: 3, title: 'B0 Concatenation', tools: 'FSL', link: '/docs/pipeline/b0-concatenation'},
-  {num: 4, title: 'TOPUP Distortion Correction', tools: 'FSL', link: '/docs/pipeline/topup'},
-  {num: 5, title: 'Mean B0 Image', tools: 'FSL', link: '/docs/pipeline/mean-b0'},
-  {num: 6, title: 'Brain Masking', tools: 'FSL', link: '/docs/pipeline/brain-masking'},
-  {num: 7, title: 'Denoising & Gibbs Correction', tools: 'MRtrix3', link: '/docs/pipeline/denoising-gibbs'},
-  {num: 8, title: 'Eddy Current Correction', tools: 'FSL', link: '/docs/pipeline/eddy'},
-  {num: 9, title: 'BedpostX', tools: 'FSL', link: '/docs/pipeline/bedpostx'},
-  {num: 10, title: 'Shell Extraction', tools: 'MRtrix3', link: '/docs/pipeline/shell-extraction'},
-  {num: 11, title: 'Tensor Fitting (DTIFIT)', tools: 'FSL', link: '/docs/pipeline/dtifit'},
-  {num: 12, title: 'Registration (FLIRT)', tools: 'FSL', link: '/docs/pipeline/flirt-registration'},
-  {num: 13, title: 'ICV Calculation', tools: 'ANTs / FSL', link: '/docs/pipeline/icv-calculation'},
-  {num: 14, title: 'BIDS & pyAFQ', tools: 'pyAFQ', link: '/docs/pipeline/pyafq-bids'},
+  {num: 1, title: 'DICOM to NIfTI', tools: 'dcm2niix', link: '/docs/pipeline/dicom-to-nifti', part: 'A'},
+  {num: 2, title: 'Skull Stripping', tools: 'ANTs', link: '/docs/pipeline/skull-stripping', part: 'A'},
+  {num: 3, title: 'B0 Concatenation', tools: 'FSL', link: '/docs/pipeline/b0-concatenation', part: 'A'},
+  {num: 4, title: 'TOPUP Distortion Correction', tools: 'FSL', link: '/docs/pipeline/topup', part: 'A'},
+  {num: 5, title: 'Mean B0 Image', tools: 'FSL', link: '/docs/pipeline/mean-b0', part: 'A'},
+  {num: 6, title: 'Brain Masking', tools: 'FSL', link: '/docs/pipeline/brain-masking', part: 'A'},
+  {num: 7, title: 'Denoising & Gibbs Correction', tools: 'MRtrix3', link: '/docs/pipeline/denoising-gibbs', part: 'A'},
+  {num: 8, title: 'Eddy Current Correction', tools: 'FSL', link: '/docs/pipeline/eddy', part: 'A'},
+  {num: 9, title: 'Tensor Fitting (DTIFIT)', tools: 'FSL', link: '/docs/pipeline/dtifit', part: 'B'},
+  {num: 10, title: 'Registration (FLIRT)', tools: 'FSL', link: '/docs/pipeline/flirt-registration', part: 'B'},
+  {num: 11, title: 'Response Function Estimation', tools: 'MRtrix3', link: '/docs/pipeline/response-functions', part: 'B'},
+  {num: 12, title: 'Fiber Orientation Distributions', tools: 'MRtrix3', link: '/docs/pipeline/fod-estimation', part: 'B'},
 ];
+
+const PART_LABELS: Record<string, string> = {
+  A: 'Part A — Core Preprocessing',
+  B: 'Part B — Tractography Readiness',
+};
 
 type FeatureItem = {
   title: string;
@@ -140,15 +143,29 @@ function PipelinePreview() {
     <section className={styles.pipelineSection}>
       <div className="container">
         <Heading as="h2" className="text--center" style={{marginBottom: '0.5rem'}}>
-          A DTI Preprocessing Pipeline
+          From Scanner to Tractography-Ready
         </Heading>
         <p className="text--center" style={{marginBottom: '2rem', color: 'var(--ifm-color-emphasis-600)'}}>
-          One example workflow from raw scanner output to analysis-ready diffusion metrics.
-          Your pipeline may include fewer or more steps depending on your data and goals.
+          Twelve steps take raw scanner output to data a tractography workflow can run on.
+          Part A is corrections every diffusion study needs; Part B produces the specific
+          files tract reconstruction reads.
         </p>
         <div className="pipeline-explorer">
           {PIPELINE_STAGES.map((stage, idx) => (
             <div key={stage.num}>
+              {(idx === 0 || PIPELINE_STAGES[idx - 1].part !== stage.part) && (
+                <p
+                  style={{
+                    margin: idx === 0 ? '0 0 0.75rem' : '1.5rem 0 0.75rem',
+                    fontSize: '0.8rem',
+                    fontWeight: 600,
+                    letterSpacing: '0.06em',
+                    textTransform: 'uppercase',
+                    color: 'var(--ifm-color-emphasis-600)',
+                  }}>
+                  {PART_LABELS[stage.part]}
+                </p>
+              )}
               <Link to={stage.link} className="pipeline-explorer__stage">
                 <div className="pipeline-explorer__number">{stage.num}</div>
                 <div className="pipeline-explorer__content">
@@ -161,7 +178,19 @@ function PipelinePreview() {
               )}
             </div>
           ))}
+          <div className="pipeline-explorer__arrow">&darr;</div>
+          <Link to="/docs/pipeline/output-contract" className="pipeline-explorer__stage">
+            <div className="pipeline-explorer__number">&#10003;</div>
+            <div className="pipeline-explorer__content">
+              <p className="pipeline-explorer__title">Tractography Handoff</p>
+              <p className="pipeline-explorer__tools">Verify outputs before tracking</p>
+            </div>
+          </Link>
         </div>
+        <p className="text--center" style={{marginTop: '2rem', color: 'var(--ifm-color-emphasis-600)'}}>
+          Optional steps (BedpostX, shell extraction, ICV, BIDS/pyAFQ) are covered separately
+          in <Link to="/docs/pipeline/overview">the pipeline overview</Link>.
+        </p>
       </div>
     </section>
   );
@@ -173,7 +202,7 @@ function HomepageHeader() {
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
         <div className={styles.heroInner}>
-          <p className={styles.heroLabel}>Temple University Brain Research Imaging Center</p>
+          <p className={styles.heroLabel}>Diffusion MRI Preprocessing</p>
           <Heading as="h1" className="hero__title">
             {siteConfig.title}
           </Heading>
@@ -200,7 +229,7 @@ export default function Home(): ReactNode {
   return (
     <Layout
       title="Home"
-      description="A comprehensive, open-source tutorial for diffusion tensor imaging preprocessing from the Temple University Brain Research Imaging Center (TUBRIC).">
+      description="A comprehensive, open-source tutorial for diffusion tensor imaging preprocessing.">
       <HomepageHeader />
       <main>
         <section className={styles.features}>

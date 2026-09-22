@@ -129,7 +129,7 @@ No additional flags are typically needed. Run this **after** denoising.
 
 ### dwiextract
 
-**Pipeline stage**: [Step 10: Shell Extraction](../pipeline/shell-extraction)
+**Pipeline stage**: [Shell Extraction](../pipeline/shell-extraction)
 
 Extracts volumes corresponding to a specific b-value shell from multi-shell diffusion data.
 

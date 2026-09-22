@@ -384,4 +384,6 @@ The most common and most consequential mistake after running eddy is to use the 
 
 ## Next Step
 
-Proceed to **[Step 9: BedpostX](./bedpostx)** to fit crossing-fibre models at each voxel using Bayesian estimation of diffusion parameters.
+Proceed to **[Step 9: Tensor Fitting (DTIFIT)](./dtifit)** to compute FA and the other tensor metrics.
+
+Eddy also marks the end of Part A. From here the path splits: tensor fitting (Step 9) and response function estimation (Step 11) are independent of each other and can run in parallel. Both are needed before the [handoff](./output-contract).

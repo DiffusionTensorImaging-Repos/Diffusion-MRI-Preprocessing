@@ -135,6 +135,10 @@ If the mean B0 looks noisy or distorted, the issue likely occurred upstream in T
 | Image looks very noisy | Only 1 B0 volume available | This is expected with a single B0; the mask may need manual adjustment in Step 6 |
 | Signal dropout in frontal/temporal lobes | TOPUP did not fully correct distortions | Revisit TOPUP parameters; check `acqp.txt` values |
 
+:::tip
+Keep this image. Beyond brain masking, the mean B0 is the greyscale background that tractography QC overlays are drawn on — streamlines and ROIs are much harder to read against a bare binary mask. The [handoff contract](./output-contract) expects it at `dwi/<subj>/mean_b0.nii.gz`.
+:::
+
 ## Next Step
 
 Proceed to **[Step 6: Brain Masking](./brain-masking)** to create a binary brain mask from this mean B0 image.

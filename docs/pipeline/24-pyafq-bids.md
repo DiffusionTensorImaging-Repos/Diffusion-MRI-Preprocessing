@@ -1,9 +1,9 @@
 ---
-sidebar_position: 15
-title: "Step 14: BIDS Conversion & pyAFQ"
+sidebar_position: 24
+title: "BIDS & pyAFQ (optional)"
 ---
 
-# Step 14: BIDS Organization and Automated Fiber Quantification
+# BIDS Organization and Automated Fiber Quantification
 
 ## Overview
 

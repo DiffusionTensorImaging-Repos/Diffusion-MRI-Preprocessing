@@ -1,9 +1,9 @@
 ---
-sidebar_position: 13
-title: "Step 12: Registration (FLIRT)"
+sidebar_position: 11
+title: "Step 10: Registration (FLIRT)"
 ---
 
-# Step 12: Registration and Spatial Alignment
+# Step 10: Registration and Spatial Alignment
 
 ## Overview
 
@@ -66,7 +66,7 @@ If your participants are healthy adults, the MNI152_T1_2mm_brain template includ
 
 | Input | Source | Description |
 |-------|--------|-------------|
-| FA map | [Step 11: DTIFIT](./dtifit) | Fractional anisotropy image in diffusion space |
+| FA map | [Step 9: DTIFIT](./dtifit) | Fractional anisotropy image in diffusion space |
 | Brain-extracted T1 | [Step 2: Skull Stripping](./skull-stripping) | ANTs skull-stripped structural image |
 | MNI template | FSL installation | `$FSLDIR/data/standard/MNI152_T1_2mm_brain` |
 
@@ -226,4 +226,6 @@ FLIRT performs **linear** registration. For analyses requiring more precise alig
 
 ## Next Step
 
-Proceed to **[Step 13: ICV Calculation](./icv-calculation)** to estimate intracranial volume.
+Proceed to **[Step 11: Response Function Estimation](./response-functions)** to begin the CSD modeling chain.
+
+If you also want intracranial volume as a covariate, [ICV Calculation](./icv-calculation) is optional and can be run at any point after Step 2.

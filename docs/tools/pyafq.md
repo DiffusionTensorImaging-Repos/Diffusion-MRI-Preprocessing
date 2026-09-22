@@ -91,7 +91,7 @@ Every BIDS derivatives directory needs this file. A minimal version:
 }
 ```
 
-See [Step 14: BIDS & pyAFQ](../pipeline/pyafq-bids) for a complete guide to organizing your preprocessed data into BIDS format.
+See [BIDS & pyAFQ](../pipeline/pyafq-bids) for a complete guide to organizing your preprocessed data into BIDS format.
 
 ## Running pyAFQ
 

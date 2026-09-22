@@ -5,8 +5,8 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
 const config: Config = {
-  title: 'TUBRIC DTI Preprocessing Tutorial',
-  tagline: 'A comprehensive, open-source guide to diffusion tensor imaging preprocessing',
+  title: 'DTI Preprocessing Tutorial',
+  tagline: 'From raw scanner output to tractography-ready diffusion data',
   favicon: 'img/favicon.ico',
 
   future: {
@@ -61,7 +61,7 @@ const config: Config = {
   ],
 
   themeConfig: {
-    image: 'img/tubric-social-card.jpg',
+    image: 'img/social-card.jpg',
     colorMode: {
       defaultMode: 'light',
       respectPrefersColorScheme: true,
@@ -69,7 +69,7 @@ const config: Config = {
     navbar: {
       title: 'DTI Tutorial',
       logo: {
-        alt: 'TUBRIC Logo',
+        alt: 'DTI Preprocessing Tutorial',
         src: 'img/logo.svg',
       },
       items: [
@@ -85,8 +85,13 @@ const config: Config = {
           position: 'left',
         },
         {
+          href: 'https://diffusiontensorimaging-repos.github.io/MesoConnect-Tutorial/',
+          label: 'Tractography \u2192',
+          position: 'left',
+        },
+        {
           href: 'https://github.com/DiffusionTensorImaging-Repos/SDN-IMPACT-DTI',
-          label: 'Example Repo (IMPACT)',
+          label: 'Worked Example',
           position: 'right',
         },
         {
@@ -119,15 +124,15 @@ const config: Config = {
           ],
         },
         {
-          title: 'About',
+          title: 'Next Steps',
           items: [
-            {label: 'TUBRIC', href: 'https://www.temple.edu/research/tubric'},
-            {label: 'Temple University', href: 'https://www.temple.edu'},
-            {label: 'Example Repo (IMPACT)', href: 'https://github.com/DiffusionTensorImaging-Repos/SDN-IMPACT-DTI'},
+            {label: 'Output Contract', to: '/docs/pipeline/output-contract'},
+            {label: 'MesoConnect Atlas Tutorial', href: 'https://diffusiontensorimaging-repos.github.io/MesoConnect-Tutorial/'},
+            {label: 'Worked Example', href: 'https://github.com/DiffusionTensorImaging-Repos/SDN-IMPACT-DTI'},
           ],
         },
       ],
-      copyright: `Copyright \u00A9 ${new Date().getFullYear()} Temple University Brain Research Imaging Center (TUBRIC). Built with Docusaurus.`,
+      copyright: `Copyright \u00A9 ${new Date().getFullYear()} DTI Preprocessing Tutorial. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,

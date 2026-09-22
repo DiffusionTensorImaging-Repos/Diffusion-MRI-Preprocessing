@@ -1,9 +1,9 @@
 ---
-sidebar_position: 10
-title: "Step 9: BedpostX"
+sidebar_position: 20
+title: "BedpostX (optional)"
 ---
 
-# Step 9: BedpostX — Fiber Orientation Estimation
+# BedpostX — Fiber Orientation Estimation
 
 ## Overview
 
@@ -17,7 +17,7 @@ BedpostX output is required for **probabilistic tractography** (`probtrackx2`). 
 
 ### Why Single-Tensor Models Are Not Enough
 
-The diffusion tensor model used in [Step 11: DTIFIT](./dtifit) assumes that water diffusion at each voxel can be described by a single ellipsoid — one principal direction of diffusion. This assumption works well in regions where fibers are coherently organized in one direction.
+The diffusion tensor model used in [Step 9: DTIFIT](./dtifit) assumes that water diffusion at each voxel can be described by a single ellipsoid — one principal direction of diffusion. This assumption works well in regions where fibers are coherently organized in one direction.
 
 However, **60–90% of white matter voxels contain crossing, kissing, or fanning fibers**. In these regions, a single tensor cannot accurately represent the fiber architecture. For example, at the intersection of the corpus callosum (left-right) and the corticospinal tract (superior-inferior), water diffuses along both tracts simultaneously — a single tensor averages these two directions into a misleading intermediate orientation.
 
@@ -37,7 +37,7 @@ The volume fractions sum to ≤ 1, with the remainder attributed to isotropic (n
 | Plan | Run BedpostX? | Why |
 |------|--------------|-----|
 | Probabilistic tractography (`probtrackx2`) | **Yes** — required | probtrackx2 uses BedpostX fiber orientation distributions |
-| DTI scalar maps only (FA, MD, RD) | **No** — skip to [Step 10](./shell-extraction) | DTIFIT is sufficient for scalar maps |
+| DTI scalar maps only (FA, MD, RD) | **No** — skip to [Shell Extraction](./shell-extraction) | DTIFIT is sufficient for scalar maps |
 | Connectome analysis | **Yes** — required | Tractography-based connectivity requires BedpostX |
 
 ## Prerequisites
@@ -213,4 +213,4 @@ fsleyes "$bedpostx_dir.bedpostX/mean_f2samples" -cm hot &
 
 ## Next Step
 
-Proceed to **[Step 10: Shell Extraction](./shell-extraction)** to extract specific b-value shells for tensor fitting and other analyses.
+BedpostX sits outside the main path — nothing later in this tutorial reads its output. Return to **[Step 9: Tensor Fitting](./dtifit)** to continue toward the [tractography handoff](./output-contract), or see [Shell Extraction](./shell-extraction) if you need a single shell isolated.

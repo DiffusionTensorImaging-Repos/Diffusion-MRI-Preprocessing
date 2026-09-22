@@ -37,7 +37,7 @@ Use the volume slider to step through. Volumes should be well-aligned with no ju
 - **Venetian blind artifact** — alternating bright/dark stripes from interleaved acquisition with motion
 - **Volume-to-volume jumps** — the brain shifts suddenly between adjacent volumes
 
-## Optional: FA Maps (Step 11)
+## Optional: FA Maps (Step 9)
 
 A quick sanity check — not a formal QC step:
 

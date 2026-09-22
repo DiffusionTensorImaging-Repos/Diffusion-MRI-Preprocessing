@@ -51,7 +51,7 @@ The preprocessing pipeline described in this tutorial handles multi-shell data w
 
 ### Steps That Change
 
-**Step 10: Shell Extraction** — This is where multi-shell data diverges. Instead of extracting a single shell, you select the shells needed for your analysis:
+**Shell Extraction** — This is where multi-shell data diverges. Instead of extracting a single shell, you select the shells needed for your analysis:
 
 ```bash
 # For DTI: extract b=0 + b=1000
@@ -70,7 +70,7 @@ dwiextract input.nii.gz output_multishell.nii.gz \
     -export_grad_fsl out.bvec out.bval
 ```
 
-**Step 11: Tensor Fitting** — DTIFIT still uses only the b=0 + b=1000 data. Higher shells are used for the advanced models below.
+**Step 9: Tensor Fitting** — DTIFIT still uses only the b=0 + b=1000 data. Higher shells are used for the advanced models below.
 
 ## Constrained Spherical Deconvolution (CSD)
 
@@ -181,7 +181,7 @@ When you have multi-shell data, choosing the right shells for each analysis matt
 | DKI | b=0 + b=1000 + b=2000 | Kurtosis estimation needs multiple b-values |
 
 :::tip Keep All Shells Through Eddy
-Always run eddy on the complete multi-shell dataset (all b-values together). Eddy uses information across all shells to estimate motion and eddy current parameters more accurately. Extract specific shells after eddy correction in [Step 10](../pipeline/shell-extraction).
+Always run eddy on the complete multi-shell dataset (all b-values together). Eddy uses information across all shells to estimate motion and eddy current parameters more accurately. Extract specific shells after eddy correction in [Shell Extraction](../pipeline/shell-extraction).
 :::
 
 ## References

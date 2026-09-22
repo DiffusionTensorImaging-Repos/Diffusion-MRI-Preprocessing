@@ -158,7 +158,7 @@ antsBrainExtraction.sh \
 
 ### Atropos
 
-Used in [Step 13: ICV Calculation](../pipeline/icv-calculation) for tissue segmentation (CSF, gray matter, white matter).
+Used in [ICV Calculation](../pipeline/icv-calculation) for tissue segmentation (CSF, gray matter, white matter).
 
 ```bash
 Atropos -d 3 \

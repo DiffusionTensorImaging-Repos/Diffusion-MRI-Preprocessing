@@ -13,7 +13,7 @@ BIDS is a community standard for organizing and describing neuroimaging datasets
 - **Reproducible**: Standardized naming eliminates ambiguity about what each file contains
 - **Shareable**: Platforms like OpenNeuro require BIDS format for data sharing
 
-If you plan to use pyAFQ for tract profiling (see [Step 14: pyAFQ & BIDS](../pipeline/pyafq-bids)), your data must be in BIDS format.
+If you plan to use pyAFQ for tract profiling (see [BIDS & pyAFQ](../pipeline/pyafq-bids)), your data must be in BIDS format.
 
 ## BIDS Directory Structure for Diffusion MRI
 
@@ -123,7 +123,7 @@ The validator will list any errors (required files missing) and warnings (recomm
 
 ## Converting Your Pipeline Output to BIDS
 
-The preprocessing pipeline in this tutorial does not produce BIDS-formatted output by default. [Step 14: pyAFQ & BIDS](../pipeline/pyafq-bids) walks through copying and renaming your processed files into BIDS format for use with pyAFQ and other BIDS-aware tools.
+The preprocessing pipeline in this tutorial does not produce BIDS-formatted output by default. [BIDS & pyAFQ](../pipeline/pyafq-bids) walks through copying and renaming your processed files into BIDS format for use with pyAFQ and other BIDS-aware tools.
 
 ## BIDS-Aware Processing Tools
 

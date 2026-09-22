@@ -116,7 +116,7 @@ cat "$nifti_dir/${subj}_dti.bval"
 
 **When to keep all shells:**
 - You plan to use multi-shell models (CSD, NODDI, DKI) — see [Advanced: Multi-Shell Analysis](../advanced/multi-shell)
-- You are unsure — it is safer to keep everything and extract specific shells later in [Step 10](./shell-extraction)
+- You are unsure — it is safer to keep everything and extract specific shells later in [Shell Extraction](./shell-extraction)
 
 If you do want to remove shells at this stage:
 
@@ -131,7 +131,7 @@ dwiextract "$output_dir/${subj}_denoised_degibbs.nii.gz" \
 ```
 
 :::tip Decision: Remove Shells Now or Later?
-If you are only doing standard DTI analysis (FA, MD maps), removing extra shells here reduces processing time for eddy. If you might want multi-shell analysis later, keep all shells and extract specific shells in [Step 10: Shell Extraction](./shell-extraction) after eddy correction. The safest approach is to keep everything through eddy and extract later.
+If you are only doing standard DTI analysis (FA, MD maps), removing extra shells here reduces processing time for eddy. If you might want multi-shell analysis later, keep all shells and extract specific shells in [Shell Extraction](./shell-extraction) after eddy correction. The safest approach is to keep everything through eddy and extract later.
 :::
 
 ## Batch Processing Script

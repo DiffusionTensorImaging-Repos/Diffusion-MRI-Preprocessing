@@ -47,7 +47,7 @@ Always redirect output to log files when running pipeline stages. Without logs, 
 | Complete failure (empty output) | Missing template files, wrong ANTSPATH | Verify template path and ANTs installation |
 | Takes forever (hours) | Normal for ANTs — it is slow | Be patient; use 4+ CPU cores with `ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS` |
 
-**Re-run**: Re-run Step 2 only. Does not affect Steps 3–8 (which use diffusion-space masks). Affects Step 12 (registration uses the structural brain).
+**Re-run**: Re-run Step 2 only. Does not affect Steps 3–8 (which use diffusion-space masks). Affects Step 10 (registration uses the structural brain).
 
 ### Step 3: B0 Concatenation
 
@@ -101,7 +101,7 @@ Always redirect output to log files when running pipeline stages. Without logs, 
 
 **Re-run**: Re-run Step 8 and all subsequent steps (9–14).
 
-### Step 9: BedpostX
+### BedpostX
 
 | Problem | Likely Cause | Fix |
 |---------|-------------|-----|
@@ -111,9 +111,9 @@ Always redirect output to log files when running pipeline stages. Without logs, 
 | GPU version crashes | CUDA error or insufficient VRAM | Check `nvidia-smi` for available memory; bedpostx_gpu needs ~2–4 GB VRAM |
 | Output directory empty | Job was interrupted | Delete the `.bedpostX` directory completely and re-run |
 
-**Re-run**: Re-run Step 9 only. Does not affect DTIFIT or registration.
+**Re-run**: Re-run BedpostX only. Does not affect DTIFIT or registration.
 
-### Step 11: DTIFIT
+### Step 9: DTIFIT
 
 | Problem | Likely Cause | Fix |
 |---------|-------------|-----|
@@ -121,9 +121,9 @@ Always redirect output to log files when running pipeline stages. Without logs, 
 | Uniformly low FA | Wrong bvecs, wrong bvals, or failed eddy | Verify bvec/bval files match the data; check eddy output |
 | Streaks in FA map | Residual artifacts from eddy or Gibbs | Re-run eddy with different parameters; check denoising |
 
-**Re-run**: Re-run Step 11 and Steps 12–14.
+**Re-run**: Re-run Step 9, then Steps 10–12.
 
-### Step 12: Registration (FLIRT)
+### Step 10: Registration (FLIRT)
 
 | Problem | Likely Cause | Fix |
 |---------|-------------|-----|
@@ -131,7 +131,7 @@ Always redirect output to log files when running pipeline stages. Without logs, 
 | Brain rotated | Wrong transform concatenation order | In `convert_xfm -concat A B`, B is applied first, then A |
 | Very poor alignment | Large anatomical differences from template | Consider using FNIRT (nonlinear) or a population-specific template |
 
-**Re-run**: Re-run Step 12 and Steps 13–14.
+**Re-run**: Re-run Step 10, then Steps 11–12.
 
 ## Cascading Failures
 

@@ -1,9 +1,9 @@
 ---
-sidebar_position: 14
-title: "Step 13: ICV Calculation"
+sidebar_position: 22
+title: "ICV Calculation (optional)"
 ---
 
-# Step 13: Intracranial Volume (ICV) Estimation
+# Intracranial Volume (ICV) Estimation
 
 ## Overview
 
@@ -63,4 +63,4 @@ Atropos -d 3 \
 
 ## Next Step
 
-Proceed to **[Step 14: BIDS Conversion & pyAFQ](./pyafq-bids)** to organize your data for automated tract analysis.
+ICV is a covariate rather than a pipeline input, so nothing downstream blocks on it. Return to the [Tractography Handoff](./output-contract) to confirm the rest of your outputs are in place, or see [BIDS & pyAFQ](./pyafq-bids) if you plan to use pyAFQ's whole-brain bundle recognition.

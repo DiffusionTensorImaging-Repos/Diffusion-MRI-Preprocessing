@@ -15,24 +15,43 @@ This pipeline follows the standardized preprocessing flow used across major diff
 
 ## Pipeline Stages
 
-The pipeline presented here covers 14 stages. Your workflow may include fewer or more steps depending on your acquisition, analysis goals, and software choices — this is one well-tested configuration, not the only way to preprocess DTI data.
+The required path is **twelve steps in two parts**. Part A is the correction work every diffusion study needs. Part B produces the specific files a tractography workflow reads. A few further steps are useful but optional, and are listed separately.
 
-| Stage | Step | Purpose | Tool(s) |
-|-------|------|---------|---------|
-| 1 | DICOM to NIfTI | Standardize raw scanner data | dcm2niix |
-| 2 | Skull Stripping | Remove non-brain tissue | ANTs |
-| 3 | B0 Concatenation | Merge AP/PA fieldmaps | FSL |
-| 4 | TOPUP | Correct susceptibility distortions | FSL |
-| 5 | Mean B0 | Create high-SNR reference image | FSL |
-| 6 | Brain Masking | Define analysis region | FSL |
-| 7 | Denoising & Gibbs | Remove noise and ringing artifacts | MRtrix3 |
-| 8 | Eddy Correction | Correct motion and eddy currents | FSL |
-| 9 | BedpostX | Estimate fiber orientations | FSL |
-| 10 | Shell Extraction | Isolate b-value shells | MRtrix3 |
-| 11 | Tensor Fitting | Compute FA, MD, RD, AD | FSL |
-| 12 | Registration | Align to structural/standard space | FSL |
-| 13 | ICV Calculation | Estimate intracranial volume | ANTs/FSL |
-| 14 | BIDS & pyAFQ | Organize for tractography | pyAFQ |
+Your workflow may include fewer or more steps depending on your acquisition, analysis goals, and software choices — this is one well-tested configuration, not the only way to preprocess diffusion data.
+
+### Part A — Core Preprocessing
+
+| Step | Name | Purpose | Tool(s) |
+|---|---|---|---|
+| 1 | [DICOM to NIfTI](./dicom-to-nifti) | Standardize raw scanner data | dcm2niix |
+| 2 | [Skull Stripping](./skull-stripping) | Remove non-brain tissue | ANTs |
+| 3 | [B0 Concatenation](./b0-concatenation) | Merge AP/PA fieldmaps | FSL |
+| 4 | [TOPUP](./topup) | Correct susceptibility distortions | FSL |
+| 5 | [Mean B0](./mean-b0) | Create high-SNR reference image | FSL |
+| 6 | [Brain Masking](./brain-masking) | Define analysis region | FSL |
+| 7 | [Denoising & Gibbs](./denoising-gibbs) | Remove noise and ringing artifacts | MRtrix3 |
+| 8 | [Eddy Correction](./eddy) | Correct motion and eddy currents | FSL |
+
+### Part B — Tractography Readiness
+
+| Step | Name | Purpose | Tool(s) |
+|---|---|---|---|
+| 9 | [Tensor Fitting](./dtifit) | Compute FA, MD, RD, AD | FSL |
+| 10 | [Registration](./flirt-registration) | Align T1 to diffusion space | FSL |
+| 11 | [Response Functions](./response-functions) | Estimate per-tissue reference signals | MRtrix3 |
+| 12 | [FOD Estimation](./fod-estimation) | Deconvolve to fiber orientation distributions | MRtrix3 |
+| — | [Tractography Handoff](./output-contract) | Verify outputs before tracking | — |
+
+### Optional Steps
+
+These are covered in this tutorial but are not required to reach tractography.
+
+| Name | Purpose | When you need it |
+|---|---|---|
+| [BedpostX](./bedpostx) | Bayesian fiber orientation estimation | The FSL `probtrackx2` tractography route |
+| [Shell Extraction](./shell-extraction) | Isolate b-value shells | Tensor fitting — **not** for MSMT-CSD, which needs all shells |
+| [ICV Calculation](./icv-calculation) | Estimate intracranial volume | As a statistical covariate |
+| [BIDS & pyAFQ](./pyafq-bids) | Organize for pyAFQ | pyAFQ's automated whole-brain bundle recognition |
 
 ---
 
@@ -47,16 +66,19 @@ graph TD
     E --> F["6. Brain Masking<br/><i>FSL bet</i>"]
     F --> G["7. Denoising & Gibbs<br/><i>MRtrix3</i>"]
     G --> H["8. Eddy Correction<br/><i>FSL eddy</i>"]
-    H --> I["9. BedpostX<br/><i>FSL bedpostx</i>"]
-    H --> J["10. Shell Extraction<br/><i>MRtrix3 dwiextract</i>"]
-    J --> K["11. Tensor Fitting<br/><i>FSL dtifit</i>"]
-    K --> L["12. Registration<br/><i>FSL flirt</i>"]
-    L --> M["13. ICV Calculation<br/><i>ANTs/FSL</i>"]
-    M --> N["14. BIDS & pyAFQ<br/><i>pyAFQ</i>"]
+    H --> I["9. Tensor Fitting<br/><i>FSL dtifit</i>"]
+    H --> K["11. Response Functions<br/><i>MRtrix3 dwi2response</i>"]
+    B --> J["10. Registration<br/><i>FSL flirt</i>"]
+    I --> J
+    K --> L["12. FOD Estimation<br/><i>MRtrix3 dwi2fod</i>"]
+    I --> M
+    J --> M{"Tractography Handoff"}
+    L --> M
+    M --> N["Tract reconstruction<br/><i>separate workflow</i>"]
 ```
 
 :::note
-Stages 9 (BedpostX) and 10-14 branch from stage 8 (Eddy). BedpostX runs independently and does not feed into the tensor fitting pathway.
+Steps 9 and 11 both branch from Step 8 — tensor fitting and FOD estimation are independent of each other and can run in parallel. Registration (Step 10) needs the skull-stripped T1 from Step 2 as well. All three converge at the [handoff](./output-contract).
 :::
 
 ---
@@ -67,19 +89,19 @@ Stages 9 (BedpostX) and 10-14 branch from stage 8 (Eddy). BedpostX runs independ
 
 The following stages are accepted across the field as minimum required operations for diffusion MRI preprocessing:
 
-- **Brain extraction** (Stage 2) -- non-brain tissue introduces artifacts and errors in all downstream steps
-- **Susceptibility distortion correction** (Stage 4) -- corrects geometric distortions caused by magnetic field inhomogeneities
-- **Denoising** (Stage 7) -- thermal noise degrades tensor estimation, especially at higher b-values
-- **Motion and eddy current correction** (Stage 8) -- subject motion and eddy currents cause volume misalignment and signal distortions
-- **Tensor fitting** (Stage 11) -- the fundamental computation that produces FA, MD, and other diffusion metrics
+- **Brain extraction** (Step 2) -- non-brain tissue introduces artifacts and errors in all downstream steps
+- **Susceptibility distortion correction** (Step 4) -- corrects geometric distortions caused by magnetic field inhomogeneities
+- **Denoising** (Step 7) -- thermal noise degrades tensor estimation, especially at higher b-values
+- **Motion and eddy current correction** (Step 8) -- subject motion and eddy currents cause volume misalignment and signal distortions
+- **Tensor fitting** (Step 9) -- the fundamental computation that produces FA, MD, and other diffusion metrics
 
 ### Software-Specific Steps
 
 Some stages exist because of specific software requirements rather than conceptual necessity:
 
-- **B0 concatenation** (Stage 3) -- FSL's `topup` requires AP and PA B0 volumes in a single file
-- **Mean B0 creation** (Stage 5) -- averaging multiple B0 volumes produces a higher-SNR reference for brain masking
-- **Brain masking** (Stage 6) -- `eddy` requires an explicit brain mask; this refines the initial skull strip
+- **B0 concatenation** (Step 3) -- FSL's `topup` requires AP and PA B0 volumes in a single file
+- **Mean B0 creation** (Step 5) -- averaging multiple B0 volumes produces a higher-SNR reference for brain masking
+- **Brain masking** (Step 6) -- `eddy` requires an explicit brain mask; this refines the initial skull strip
 
 ### Processing Standards
 
@@ -136,11 +158,11 @@ This structure keeps raw data separate from processed outputs and groups outputs
 
 ## Reference Implementation
 
-The full pipeline described in this tutorial has been implemented and applied in the IMPACT study:
+The full pipeline described in this tutorial has been implemented and run end to end on a real multi-shell dataset:
 
 **Repository:** [github.com/DiffusionTensorImaging-Repos/SDN-IMPACT-DTI](https://github.com/DiffusionTensorImaging-Repos/SDN-IMPACT-DTI)
 
-This reference implementation applies these stages to 55 participants with comprehensive quality control at each step. It includes batch processing scripts, configuration files, and QC workflows. Use it as a reference when adapting the pipeline to your own data.
+It includes batch processing scripts, configuration files, and the QC output from each step. Use it as a reference when adapting the pipeline to your own data — see the [Worked Example](../reference/worked-example) page for what it contains.
 
 ---
 

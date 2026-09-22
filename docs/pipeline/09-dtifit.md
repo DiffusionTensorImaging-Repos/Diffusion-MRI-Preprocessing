@@ -1,9 +1,9 @@
 ---
-sidebar_position: 12
-title: "Step 11: Tensor Fitting (DTIFIT)"
+sidebar_position: 10
+title: "Step 9: Tensor Fitting (DTIFIT)"
 ---
 
-# Step 11: Tensor Fitting (DTIFIT)
+# Step 9: Tensor Fitting (DTIFIT)
 
 ## Overview
 
@@ -66,7 +66,7 @@ Before running this step, you should have completed:
 | Requirement | Source |
 |---|---|
 | Eddy-corrected DWI data | Step 8 (Eddy Correction) |
-| Extracted b=0 and b=1000 shell | Step 10 (Shell Extraction) |
+| b=0 and b=1000 volumes | [Shell Extraction](./shell-extraction) (optional) |
 | Brain mask | Step 5 or Step 8 |
 | Rotated bvecs from eddy | Step 8 (Eddy Correction) |
 
@@ -93,7 +93,7 @@ dtifit \
 
 | Flag | Description |
 |---|---|
-| `--data` | The input 4D DWI file containing only the b=0 and b=1000 volumes (from Step 10). |
+| `--data` | The input 4D DWI file. Tensor fitting conventionally uses only the b=0 and b=1000 volumes, which [Shell Extraction](./shell-extraction) produces. |
 | `--out` | The output basename. DTIFIT appends suffixes like `_FA`, `_MD`, `_L1`, etc. to this prefix. |
 | `--mask` | A binary brain mask. Tensor fitting is performed only within this mask, which speeds up computation and prevents noisy fits outside the brain. |
 | `--bvecs` | The b-vector file corresponding to the extracted shell. These must be the **rotated** bvecs from eddy correction. |
@@ -190,4 +190,4 @@ In FSLeyes, load the V1 map as a directionally encoded color (DEC) map to verify
 
 ## Next Step
 
-Proceed to **[Step 12: Registration (FLIRT)](./flirt-registration)** to register your DTI maps to a standard space template for group-level analyses.
+Proceed to **[Step 10: Registration (FLIRT)](./flirt-registration)** to register your DTI maps to a standard space template for group-level analyses.
