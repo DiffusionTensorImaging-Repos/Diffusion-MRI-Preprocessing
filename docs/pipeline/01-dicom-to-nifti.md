@@ -19,7 +19,7 @@ DICOM files contain both **image data** and **metadata** (patient information, a
 
 NIfTI consolidates all image slices from an acquisition into a single 3D or 4D volume file (`.nii` or compressed `.nii.gz`). It stores minimal but essential header information (voxel dimensions, orientation, data type) while discarding extraneous DICOM metadata.
 
-### Why dcm2niix?
+### dcm2niix Over Alternatives
 
 [dcm2niix](https://github.com/rordenlab/dcm2niix) is the standard tool for DICOM-to-NIfTI conversion because it:
 
@@ -59,7 +59,6 @@ $base_dir/dicoms/
     ...
 ```
 
-:::tip Finding Your Scan Names
 If you are not sure what your DICOM folders are called, list one subject's directory and look for scan types that match the descriptions above. Scanner vendors use different naming conventions — Siemens, GE, and Philips all name sequences differently. See the [Acquisition Protocols](../foundations/acquisition-protocols) page for a vendor comparison table. You can also do a dry-run conversion to see what dcm2niix detects:
 
 ```bash
@@ -67,7 +66,6 @@ dcm2niix -b o -f "%p_%s" /path/to/one/subject/dicoms/
 ```
 
 This prints protocol names without converting, helping you identify which folders contain which scan types.
-:::
 
 ## Tool & Command Reference
 

@@ -29,9 +29,7 @@ mrinfo "$input_dir/${subj}_eddy.nii.gz" \
 # Example output: 0 250 1000 2000 3250 5000
 ```
 
-:::tip B-Values Are Not Always Exact
 Scanners often produce b-values like 248, 1003, or 2005 instead of exactly 250, 1000, or 2000. MRtrix3 handles this automatically by grouping b-values within a tolerance (default ±100).
-:::
 
 ## Prerequisites
 
@@ -41,9 +39,7 @@ Scanners often produce b-values like 248, 1003, or 2005 instead of exactly 250, 
 | Rotated bvecs | [Step 8: Eddy](./eddy) | Gradient directions corrected for head rotation |
 | b-values | [Step 1: DICOM to NIfTI](./dicom-to-nifti) | Original b-value file |
 
-:::caution Use Rotated bvecs
-**Always** use the rotated bvecs from eddy (`eddy_rotated_bvecs`), **not** the original bvecs from DICOM conversion. Eddy corrects for head rotation during the scan and updates the gradient directions accordingly. Using the original bvecs means your gradient directions no longer match the data.
-:::
+Use the rotated bvecs from eddy (`eddy_rotated_bvecs`), not the original bvecs from DICOM conversion. Eddy corrects for head rotation during the scan and updates the gradient directions accordingly. Using the original bvecs means your gradient directions no longer match the data.
 
 ## Command
 

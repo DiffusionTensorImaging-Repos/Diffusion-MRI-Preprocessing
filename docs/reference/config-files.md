@@ -9,9 +9,7 @@ title: "Configuration Files"
 
 Several preprocessing steps require configuration files that describe your acquisition protocol or analysis parameters. These files tell tools like TOPUP, EDDY, and pyAFQ how your data was acquired and how it should be processed. This page explains each configuration file, what it contains, and how to create one for your specific data.
 
-:::tip
 Most of these files only need to be created once per study, since all subjects typically share the same acquisition protocol. Store them in a central location and reference them in your scripts.
-:::
 
 ---
 
@@ -51,7 +49,7 @@ The first three columns specify the direction of phase encoding in image coordin
 
 This file describes **two acquisitions**: the first with AP phase encoding and the second with PA phase encoding, both with a total readout time of approximately 0.032 seconds. This is the standard configuration for a typical AP/PA fieldmap pair.
 
-### How to Determine Your Values
+### Determining Your Values
 
 #### Phase Encoding Direction
 
@@ -87,9 +85,7 @@ Where:
 - **EffectiveEchoSpacing** is the time between the acquisition of consecutive phase-encode lines (in seconds)
 - **ReconMatrixPE** is the size of the reconstruction matrix in the phase-encode direction
 
-:::caution
 Do not confuse `TotalReadoutTime` with `EchoTime` (TE) or `DwellTime`. These are different parameters. Using the wrong value will result in incorrect distortion correction.
-:::
 
 ### Reference
 
@@ -121,7 +117,7 @@ For the most common case where all DWI volumes were acquired with the same phase
 
 If your DWI data has **145 volumes**, the file should contain **145 ones**.
 
-### How to Create
+### Creating the File
 
 ```bash
 # Determine the number of volumes in your DWI data
@@ -135,9 +131,7 @@ printf '1 %.0s' $(seq 1 $n_vols) > index.txt
 
 If you removed specific shells from your data (e.g., a very low shell removed during shell extraction), make sure the number of entries in `index.txt` matches the number of volumes in the data you pass to `eddy`. If `eddy` is run before shell extraction (which is the typical pipeline order), no adjustment is needed.
 
-:::note
 If your acquisition used alternating phase-encoding directions across volumes (less common), the index file would contain alternating values (e.g., `1 2 1 2 1 2 ...`). Consult your acquisition protocol documentation.
-:::
 
 ---
 

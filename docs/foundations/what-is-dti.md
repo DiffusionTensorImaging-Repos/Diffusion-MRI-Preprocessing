@@ -3,7 +3,7 @@ sidebar_position: 1
 title: "What is DTI?"
 ---
 
-# What is Diffusion Tensor Imaging?
+# Diffusion Tensor Imaging
 
 Diffusion tensor imaging (DTI) is a magnetic resonance imaging technique that measures how water molecules move through brain tissue. Because water diffusion is shaped by the microstructural environment it occurs in, DTI gives us an indirect window into the organization of white matter -- the bundles of myelinated axons that connect brain regions.
 

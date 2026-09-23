@@ -52,9 +52,7 @@ source ~/.bashrc
 conda install -c conda-forge fsl
 ```
 
-:::caution conda FSL
 The conda distribution of FSL may not include all tools (e.g., `eddy_cuda`, `bedpostx_gpu`). For a complete installation, use the official installer.
-:::
 
 ### Option 4: Docker
 

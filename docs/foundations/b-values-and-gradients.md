@@ -7,7 +7,7 @@ title: "B-Values and Gradient Directions"
 
 Every diffusion MRI acquisition is defined by two fundamental parameters: how strongly diffusion is weighted (the **b-value**) and in which direction diffusion is measured (the **gradient direction** or **b-vector**). Understanding these is essential for making informed decisions about acquisition protocols, shell selection, and which analyses your data can support.
 
-## What is a B-Value?
+## B-Values
 
 The b-value controls the sensitivity of the MRI signal to water diffusion. It is defined by the **Stejskal-Tanner equation**:
 
@@ -42,7 +42,7 @@ where $S_0$ is the signal with no diffusion weighting and $D$ is the apparent di
 
 As b-value increases, SNR decreases because more signal is lost to diffusion attenuation. This is a fundamental trade-off: higher b-values provide more microstructural information but noisier images.
 
-## What are Gradient Directions (B-Vectors)?
+## Gradient Directions (B-Vectors)
 
 For each diffusion-weighted volume, the scanner applies the sensitizing gradient along a specific **direction in 3D space**. This direction is the **b-vector** (or gradient direction). The measured signal attenuation at each voxel reflects how much water is diffusing *along that particular direction*.
 
@@ -80,9 +80,7 @@ Three rows of space-separated numbers (x, y, and z components), with one column 
 
 For b=0 volumes, the gradient direction is typically `[0, 0, 0]` since no diffusion gradient is applied.
 
-:::caution
 The .bval and .bvec files must be kept in sync with the NIfTI data. If you remove, reorder, or extract volumes from the 4D image, you must apply the same changes to these files. Mismatched bvals/bvecs will produce incorrect tensor fits with no error message -- the software will not warn you.
-:::
 
 ## Single-Shell vs. Multi-Shell Acquisitions
 
@@ -128,7 +126,7 @@ Not all acquired shells are necessarily used for every analysis. The choice depe
 
 **For NODDI and other multi-compartment models:** These models are specifically designed to leverage multi-shell data and typically require at least two non-zero shells.
 
-### Why Some Shells Might Be Excluded
+### Excluding Shells
 
 Some acquisition protocols include low b-value shells (e.g., b=250 or b=500). These intermediate shells:
 

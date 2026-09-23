@@ -13,7 +13,7 @@ This step creates a **binary brain mask** from the mean B0 image using FSL's BET
 
 ## Conceptual Background
 
-### Why Another Brain Extraction?
+### A Second Brain Extraction
 
 You already performed skull stripping on the T1 structural image in [Step 2](./skull-stripping) using ANTs. Why do you need another brain mask here?
 
@@ -24,7 +24,7 @@ Because the T1 mask lives in **structural space** and this mask needs to be in *
 
 Rather than trying to warp the T1 mask into diffusion space (which introduces interpolation errors), it is simpler and more reliable to create a mask directly from the diffusion data itself.
 
-### How BET Works
+### BET
 
 BET (Brain Extraction Tool) fits a deformable surface (mesh) to the brain boundary. It starts with a sphere centered on the brain's center of gravity and iteratively expands it outward, stopping when it encounters the intensity transition between brain and non-brain tissue.
 
@@ -142,9 +142,7 @@ fsleyes "$topup_dir/$subj/${subj}_topup_Tmean" \
 - The mask extends beyond the brain boundary
 - **Fix**: Raise `-f` (e.g., from 0.3 to 0.4)
 
-:::tip Iterative Adjustment
 It is completely normal to run BET 2–3 times with different `-f` values to find the right threshold for your data. Some datasets need `-f 0.2`, others need `-f 0.4`. Check a few subjects and pick a value that works well across your sample. If one `-f` value does not work for all subjects, you may need different values for different subjects.
-:::
 
 ### Alternative: Use `-R` for Robust Mode
 

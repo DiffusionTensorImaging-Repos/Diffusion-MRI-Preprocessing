@@ -63,9 +63,7 @@ Throughout the preprocessing pipeline, you will encounter a variety of file form
 - **EDDY**: needs phase encoding information and readout time.
 - **Any BIDS-compliant pipeline**: JSON sidecars are a core component of the BIDS standard.
 
-:::tip
 Always inspect your JSON sidecar files early in the pipeline. Missing or incorrect metadata here will cause silent errors downstream. The `PhaseEncodingDirection` and `TotalReadoutTime` fields are especially important to verify.
-:::
 
 ## B-Value and B-Vector Files (.bval / .bvec)
 

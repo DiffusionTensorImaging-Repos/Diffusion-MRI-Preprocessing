@@ -11,7 +11,7 @@ The final step organizes all preprocessed outputs into the **Brain Imaging Data 
 
 ## Conceptual Background
 
-### What Is BIDS?
+### BIDS
 
 BIDS (Brain Imaging Data Structure) is a community standard for organizing neuroimaging data. Instead of every lab inventing their own directory structure, BIDS provides a consistent convention that:
 
@@ -24,7 +24,7 @@ For preprocessed (derivative) data, BIDS requires:
 - Standardized file naming (`sub-001_dwi.nii.gz`, `sub-001_dwi.bvec`, etc.)
 - A `dataset_description.json` file describing the pipeline
 
-### What Is pyAFQ?
+### pyAFQ
 
 pyAFQ (Automated Fiber Quantification) takes your preprocessed, BIDS-organized diffusion data and:
 

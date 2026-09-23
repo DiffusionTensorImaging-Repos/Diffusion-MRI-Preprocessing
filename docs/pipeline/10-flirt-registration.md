@@ -19,7 +19,7 @@ This step computes six transformation matrices that let you move images and coor
 
 ## Conceptual Background
 
-### Why Register?
+### Aligning to a Common Space
 
 Different MRI sequences produce images in different spaces — they have different resolutions, fields of view, and geometric distortions. Registration is needed to:
 
@@ -58,9 +58,7 @@ By concatenating these two transforms, you get a direct diffusion → standard m
 | Infants | Age-specific atlas | [dHCP atlas](https://brain-development.org/brain-atlases/) |
 | Study-specific | Build your own | `antsMultivariateTemplateConstruction2.sh` from ANTs |
 
-:::tip MNI152 Is the Default
 If your participants are healthy adults, the MNI152_T1_2mm_brain template included with FSL is the standard choice. It is used by most DTI studies and is compatible with all major atlases (JHU, Harvard-Oxford, AAL, etc.).
-:::
 
 ## Prerequisites
 
@@ -122,9 +120,7 @@ convert_xfm -omat "$output_dir/${subj}_diff2standard.mat" \
                     "$output_dir/${subj}_diff2str.mat"
 ```
 
-:::caution Concatenation Order
 The `-concat` flag applies transforms in right-to-left order. So `-concat A B` means "apply B first, then A." In this case: diffusion→structural (B) then structural→standard (A) = diffusion→standard.
-:::
 
 ### Step 5: Inverse of Concatenated
 

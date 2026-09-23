@@ -7,7 +7,7 @@ title: "Getting Started"
 
 A practical guide to diffusion MRI preprocessing: from raw scanner output to data a tractography workflow can run on without modification.
 
-## What This Covers
+## Scope
 
 The pipeline here is **twelve steps in two parts**, followed by a handoff checklist.
 
@@ -17,7 +17,7 @@ The pipeline here is **twelve steps in two parts**, followed by a handoff checkl
 
 A few further steps — BedpostX, shell extraction, ICV, BIDS/pyAFQ — are documented but **optional**. They are grouped separately so the required path stays unambiguous.
 
-## What's Here
+## Sections
 
 - **Foundations** — What diffusion MRI measures, how the tensor works, and what the key file formats mean.
 - **Pipeline** — The ordered walkthrough described above. Each step explains what it does, why it matters, how to run it, and how to check it worked.
@@ -49,7 +49,7 @@ Floors below; the [handoff page](./pipeline/output-contract#software-versions) l
 | ANTs | 2.3 |
 | Python | 3.8 |
 
-## Where This Leads
+## After Preprocessing
 
 Preprocessing ends where tract reconstruction begins. Once the [handoff contract](./pipeline/output-contract) is satisfied, you have everything a tractography workflow needs: corrected diffusion data, a brain mask, an FA map, a skull-stripped T1, the transform between them, and normalized FOD images.
 

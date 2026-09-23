@@ -130,9 +130,7 @@ The `.json` sidecar file contains acquisition parameters extracted from DICOM he
 | `SliceTiming` | eddy (`--slspec`) | Required for slice-to-volume correction |
 | `MultibandAccelerationFactor` | eddy | Informs slice timing model |
 
-:::tip Check Your JSON Sidecars
 After conversion, open one of your DWI `.json` files and verify that `PhaseEncodingDirection` and `TotalReadoutTime` are present. If they are missing, TOPUP and eddy will not work correctly. Missing fields usually mean dcm2niix could not parse them from your DICOM headers — see [Common Issues](#common-issues) below.
-:::
 
 ### .bval and .bvec Files
 

@@ -11,9 +11,7 @@ This optional step estimates the total intracranial volume (ICV) for each subjec
 
 **Further reading:** [Understanding ICV / eTIV](https://surfer.nmr.mgh.harvard.edu/fswiki/eTIV) — FreeSurfer Wiki on the atlas-scaling method for estimating intracranial volume from transform matrices
 
-:::tip When Do You Need ICV?
 Whether to control for ICV depends on your research question, analysis approach, and population. ICV is necessary in some contexts but not others — for example, developmental and aging studies where head size varies systematically across groups often include ICV as a covariate, while studies of healthy adults using tract-based metrics (e.g., mean FA along a tract via pyAFQ) typically do not. Consult your statistical analysis plan before deciding.
-:::
 
 ## When ICV Matters
 

@@ -3,54 +3,48 @@ sidebar_position: 14
 title: "Tractography Handoff"
 ---
 
-# Tractography Handoff — What Tractography Needs From Preprocessing
+# Tractography Handoff
 
 ## Overview
 
-Preprocessing is finished when a tractography workflow can pick up your data and run without modification. This page states exactly what that means: which files must exist, what each one is for, and how to verify you have them.
-
-Treat it as a checklist. If everything here passes, you are ready to track. If something is missing, this page says which step produces it.
+Preprocessing is finished when a tractography workflow can pick up your data and run without modification. This page states exactly what that means: which files must exist, what each one is for, and how to verify you have them. If everything here passes, you are ready to track. If something is missing, the table says which step produces it.
 
 ## The Contract
 
-The handoff splits naturally into two parts. The first is **method-neutral**: corrected data that any tractography approach would want, regardless of how it reconstructs tracts. The second is the **FOD image**, which is specific to spherical-deconvolution tracking.
+The handoff splits into two parts. The first is method-neutral: corrected data that any tractography approach would want, regardless of how it reconstructs tracts. The second is the FOD image, which is specific to spherical-deconvolution tracking.
 
-### Part 1 — Method-Neutral Outputs
+### Method-Neutral Outputs
 
-| File | Produced by | What it is used for |
+| File | Produced by | Used for |
 |---|---|---|
 | `data.nii.gz` | [Step 8](./eddy) | Preprocessed DWI. Input to FOD estimation and to any voxelwise model fitted later. |
 | `bvals` | [Step 8](./eddy) | b-values matching `data.nii.gz`. |
-| `bvecs` | [Step 8](./eddy) | **Eddy-rotated** gradient directions. |
+| `bvecs` | [Step 8](./eddy) | Eddy-rotated gradient directions. |
 | `nodif_brain_mask.nii.gz` | [Step 6](./brain-masking) | Brain mask in diffusion space. Bounds model fitting and ROI warping, and serves as the grid template for tract density maps. |
 | `fa.nii.gz` | [Step 9](./dtifit) | FA map. Sampled along the reconstructed tract to produce node-wise profiles. |
 | `<subj>_T1w_brain.nii.gz` | [Step 2](./skull-stripping) | Skull-stripped T1. Fixed image for MNI→subject registration, which is how atlas ROIs reach the participant. |
-| `mean_b0.nii.gz` | [Step 5](./mean-b0) | Greyscale background for QC overlays. Strictly optional, but QC images are much harder to read without it. |
-| `str2diff.mat` | [Step 10](./flirt-registration) | FLIRT matrix, T1 → diffusion. **Conditional** — see below. |
+| `mean_b0.nii.gz` | [Step 5](./mean-b0) | Greyscale background for QC overlays. Optional, but QC images are much harder to read without it. |
+| `str2diff.mat` | [Step 10](./flirt-registration) | FLIRT matrix, T1 → diffusion. Only needed when T1 and diffusion sit on different grids. |
 
-:::note
-**`str2diff.mat` is only needed when T1 and diffusion sit on different grids.** If your acquisition already has them aligned — HCP-style data is the common case — the transform can be read straight from the image headers and no FLIRT matrix is required. Downstream workflows typically expose this as a switch (matrix vs header). Check your data before assuming you need [Step 10](./flirt-registration).
-:::
+`bvecs` must be the rotated version written by `eddy`. This is the most common way a run reaches tractography and produces subtly wrong results rather than failing outright; every orientation downstream inherits the error.
 
-:::caution
-`bvecs` must be the rotated version written by `eddy`. This is the single most common way a run reaches tractography and produces subtly wrong results rather than failing outright — every orientation downstream inherits the error.
-:::
+`str2diff.mat` is conditional. If your acquisition already has T1 and diffusion aligned, as HCP-style data does, the transform can be read straight from the image headers and no FLIRT matrix is required. Downstream workflows typically expose this as a switch between matrix and header. Check your data before assuming you need [Step 10](./flirt-registration).
 
-### Part 2 — FOD Image
+### FOD Image
 
-| File | Produced by | What it is used for |
+| File | Produced by | Used for |
 |---|---|---|
-| `wm_fod_norm.mif` | [Step 12](./fod-estimation) | Normalized white-matter FOD. What streamline tracking actually follows. |
+| `wm_fod_norm.mif` | [Step 12](./fod-estimation) | Normalized white-matter FOD. What streamline tracking follows. |
 
 This is the eighth output and the one that makes the data tractography-ready rather than merely corrected.
 
 ### Not Produced Here
 
-Two things a tractography workflow needs that this tutorial deliberately does **not** generate:
+Two things a tractography workflow needs that this tutorial deliberately does not generate:
 
 | Item | Where it comes from |
 |---|---|
-| NODDI maps (`fit_NDI_modulated.nii.gz`, `fit_ODI_modulated.nii.gz`, `fit_FWF.nii.gz`) | Fitted by the tractography workflow itself, from `data.nii.gz` + `bvals` + `bvecs` + mask — all of which you already deliver. No extra preprocessing needed. |
+| NODDI maps (`fit_NDI_modulated.nii.gz`, `fit_ODI_modulated.nii.gz`, `fit_FWF.nii.gz`) | Fitted by the tractography workflow itself, from `data.nii.gz` + `bvals` + `bvecs` + mask, all of which you already deliver. |
 | `covariates.csv` | Your study's own participant table (motion, ICV, demographics). Read only at the statistics stage. |
 
 Any scalar map on the diffusion grid can be profiled along a tract, so if your pipeline also emits MD, RD, or DKI maps, they can be added to the sampling list without changing anything structural.
@@ -63,35 +57,35 @@ Tractography workflows generally expect a flat, per-participant layout like the 
 project/
 ├── anat/
 │   └── sub-001/
-│       └── sub-001_T1w_brain.nii.gz     ← Step 2
+│       └── sub-001_T1w_brain.nii.gz     # Step 2
 ├── dwi/
 │   └── sub-001/
-│       ├── data.nii.gz                  ← Step 8
-│       ├── bvals                        ← Step 8
-│       ├── bvecs                        ← Step 8 (rotated)
-│       ├── nodif_brain_mask.nii.gz      ← Step 6
-│       ├── mean_b0.nii.gz               ← Step 5  (QC background)
-│       ├── fa.nii.gz                    ← Step 9
-│       └── wm_fod_norm.mif              ← Step 12
+│       ├── data.nii.gz                  # Step 8
+│       ├── bvals                        # Step 8
+│       ├── bvecs                        # Step 8 (rotated)
+│       ├── nodif_brain_mask.nii.gz      # Step 6
+│       ├── mean_b0.nii.gz               # Step 5 (QC background)
+│       ├── fa.nii.gz                    # Step 9
+│       └── wm_fod_norm.mif              # Step 12
 ├── xfm/
 │   └── sub-001/
-│       └── str2diff.mat                 ← Step 10 (only if grids differ)
-└── covariates.csv                       ← your study records
+│       └── str2diff.mat                 # Step 10 (only if grids differ)
+└── covariates.csv                       # your study records
 ```
 
 If your preprocessing wrote files elsewhere or under different names, symlink or copy them into this shape rather than editing the downstream scripts. Keeping the contract stable is what lets a tractography workflow be reused across studies.
 
-## Spaces — What Lives Where
+## Coordinate Spaces
 
 Three coordinate spaces are in play, and mixing them up is the other common failure mode.
 
-| Space | What is in it | How things get in or out |
+| Space | Contents | Movement between spaces |
 |---|---|---|
-| **MNI / template** | Atlas ROIs and tract priors | Warped into T1 by ANTs registration (a tractography step, not a preprocessing one) |
-| **T1 / structural** | `<subj>_T1w_brain.nii.gz` | Bridge space between MNI and diffusion |
-| **Diffusion** | `data.nii.gz`, masks, `fa.nii.gz`, FODs | Tracking happens here. Everything must arrive here eventually. |
+| MNI / template | Atlas ROIs and tract priors | Warped into T1 by ANTs registration (a tractography step, not a preprocessing one) |
+| T1 / structural | `<subj>_T1w_brain.nii.gz` | Bridge space between MNI and diffusion |
+| Diffusion | `data.nii.gz`, masks, `fa.nii.gz`, FODs | Tracking happens here. Everything must arrive here eventually. |
 
-Preprocessing's job is to deliver a clean T1, clean diffusion data, and — when the grids differ — the `str2diff.mat` that connects them. Getting atlas ROIs from MNI down into diffusion space is the first thing the tractography workflow does, using exactly those ingredients.
+Preprocessing delivers a clean T1, clean diffusion data, and, when the grids differ, the `str2diff.mat` that connects them. Getting atlas ROIs from MNI down into diffusion space is the first thing the tractography workflow does, using those ingredients.
 
 ## Software Versions
 
@@ -107,9 +101,7 @@ The stack below has been exercised end to end on real multi-shell data. Floors a
 | pyAFQ | — | 1.3.5 (also 3.3) |
 | R | 4.x | with `readr`, `dplyr`, `stringr`, `tibble`, `foreach`, `doParallel` |
 
-:::caution
-**Multi-shell data is required.** [Step 11](./response-functions) and [Step 12](./fod-estimation) need at least two non-zero b-values plus b=0 to separate tissue compartments. The worked example uses b = 1000 / 2000 / 3250 / 5000 s/mm². Single-shell data needs a two-tissue variant — see the note on [Step 12](./fod-estimation).
-:::
+Multi-shell data is required. [Step 11](./response-functions) and [Step 12](./fod-estimation) need at least two non-zero b-values plus b=0 to separate tissue compartments. The worked example uses b = 1000 / 2000 / 3250 / 5000 s/mm². Single-shell data needs the two-tissue variant described in [Step 12](./fod-estimation#single-shell-data).
 
 ## Verification Script
 
@@ -165,7 +157,7 @@ else
 fi
 ```
 
-### Sanity Checks Beyond File Existence
+### Checks Beyond File Existence
 
 Files existing is necessary but not sufficient. Three quick checks catch most remaining problems:
 
@@ -183,23 +175,21 @@ mrinfo "$d/nodif_brain_mask.nii.gz" -size -vox
 fslstats "$d/fa.nii.gz" -R
 ```
 
-## What You Do *Not* Need
+## Not Required
 
-Several steps in this tutorial are useful but are **not** part of the handoff contract. Skipping them does not block tracking.
+Several steps in this tutorial are useful but are not part of the handoff contract. Skipping them does not block tracking.
 
-| Step | Why it is optional here |
+| Step | Reason |
 |---|---|
 | [BedpostX](./bedpostx) | Belongs to the FSL `probtrackx2` tractography route. A CSD-based workflow uses FODs instead and never reads BedpostX output. |
-| [Shell extraction](./shell-extraction) | MSMT-CSD needs **all** shells — extracting a single shell would actively harm it. Extraction remains useful for tensor fitting, but the extracted files are not handed off. |
+| [Shell extraction](./shell-extraction) | MSMT-CSD needs all shells; extracting a single shell would actively harm it. Extraction remains useful for tensor fitting, but the extracted files are not handed off. |
 | [ICV calculation](./icv-calculation) | A statistical covariate, not a pipeline input. Compute it whenever convenient and put it in `covariates.csv`. |
 | [BIDS & pyAFQ](./pyafq-bids) | For pyAFQ's whole-brain bundle recognition. ROI-to-ROI workflows do their own tracking and use pyAFQ only as a streamline-cleaning library, which needs no BIDS tree. |
 
-:::note
-**Anatomically constrained tractography (ACT) is not part of this handoff.** Corridor-constrained ROI-to-ROI workflows get their anatomical constraint from an explicit tract-shaped exclusion mask rather than from a whole-brain tissue segmentation, so no `5ttgen` output is required. If you are doing whole-brain connectome work instead, ACT is worth reading about in the MRtrix3 documentation — but it is outside this pipeline.
-:::
+Anatomically constrained tractography (ACT) is also outside this handoff. Corridor-constrained ROI-to-ROI workflows get their anatomical constraint from an explicit tract-shaped exclusion mask rather than from a whole-brain tissue segmentation, so no `5ttgen` output is required. If you are doing whole-brain connectome work instead, ACT is documented in the MRtrix3 manual, but it is not part of this pipeline.
 
-## Where This Hands Off To
+## Handoff
 
 Once the contract is satisfied, preprocessing is done and tract reconstruction begins: warping atlas ROIs into each participant, building corridor masks, tracking, cleaning bundles, and sampling scalars along them.
 
-The [MesoConnect Atlas tutorial](https://diffusiontensorimaging-repos.github.io/MesoConnect-Tutorial/) picks up from exactly this point for mesolimbic tract reconstruction. Its first reconstruction step reads `wm_fod_norm.mif` and the files listed above.
+The [MesoConnect Atlas tutorial](https://diffusiontensorimaging-repos.github.io/MesoConnect-Tutorial/) picks up from this point for mesolimbic tract reconstruction. Its first reconstruction step reads `wm_fod_norm.mif` and the files listed above.

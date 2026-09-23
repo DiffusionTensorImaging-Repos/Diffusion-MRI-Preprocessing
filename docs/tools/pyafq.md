@@ -42,9 +42,7 @@ cd pyAFQ
 pip install -e ".[dev]"
 ```
 
-:::tip Python Version
 pyAFQ works best with Python 3.9–3.11. Check compatibility with your Python version on the [pyAFQ releases page](https://github.com/yeatmanlab/pyAFQ/releases).
-:::
 
 ## Verify Installation
 
@@ -146,7 +144,7 @@ clean_rounds = 5
 distance_threshold = 5
 ```
 
-## What pyAFQ Produces
+## pyAFQ Outputs
 
 ### Tract Profiles
 

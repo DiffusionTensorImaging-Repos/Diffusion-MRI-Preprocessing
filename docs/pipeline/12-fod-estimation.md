@@ -7,15 +7,15 @@ title: "Step 12: Fiber Orientation Distributions"
 
 ## Overview
 
-This step turns the diffusion signal into a **fiber orientation distribution (FOD)** at every voxel — a function on the sphere whose peaks point along the fiber bundles passing through that voxel. Tractography follows those peaks, so the FOD image is the direct input to every tracking algorithm downstream.
+This step turns the diffusion signal into a fiber orientation distribution (FOD) at every voxel: a function on the sphere whose peaks point along the fiber bundles passing through that voxel. Tractography follows those peaks, so the FOD image is the direct input to every tracking algorithm downstream.
 
 It is the last modeling step before tractography, and the point where the tensor model is left behind.
 
 ## Conceptual Background
 
-### Why Not Just Use the Tensor
+### The Tensor Is Not Enough
 
-The diffusion tensor from [Step 9](./dtifit) describes each voxel with a single ellipsoid, which means a single dominant direction. That is a reasonable summary in the middle of a large coherent tract, but it fails wherever bundles cross, fan, or kiss — which is most of the white matter. Estimates commonly put crossing-fiber voxels at 60–90% of white matter.
+The diffusion tensor from [Step 9](./dtifit) describes each voxel with a single ellipsoid, which means a single dominant direction. That is a reasonable summary in the middle of a large coherent tract, but it fails wherever bundles cross, fan, or kiss, which is most of the white matter. Estimates commonly put crossing-fiber voxels at 60–90% of white matter.
 
 An FOD has no such limit. It can represent two, three, or more distinct orientations in one voxel, which is what makes it possible to track through crossings instead of stopping or turning at them.
 
@@ -23,23 +23,21 @@ An FOD has no such limit. It can represent two, three, or more distinct orientat
 
 [Step 11](./response-functions) established the response function: the signal a single coherent fiber bundle produces. The measured signal in a voxel is that response convolved with however the fibers are actually arranged.
 
-Constrained spherical deconvolution (CSD) inverts that operation. Knowing the response and the measured signal, it solves for the orientation distribution that must have produced them. The "constrained" part enforces that the resulting distribution is non-negative — fiber density cannot be negative, and imposing that constraint suppresses the spurious ringing that unconstrained deconvolution produces.
+Constrained spherical deconvolution (CSD) inverts that operation. Knowing the response and the measured signal, it solves for the orientation distribution that must have produced them. The constraint is that the resulting distribution is non-negative; fiber density cannot be negative, and imposing that suppresses the spurious ringing that unconstrained deconvolution produces.
 
-### What "Multi-Shell Multi-Tissue" Adds
+### Multi-Shell Multi-Tissue
 
 Single-tissue CSD assumes every voxel is pure white matter. At tissue boundaries that assumption breaks: partial-volume CSF or gray matter gets deconvolved as if it were fiber signal, producing spurious peaks and, downstream, streamlines that leak into ventricles and cortex.
 
-MSMT-CSD uses the different b-value behavior of the three tissues (established in Step 11) to split each voxel's signal into white matter, gray matter, and CSF compartments, and deconvolves only the white matter part. The practical effect is much cleaner FODs at boundaries — which matters a great deal for small subcortical targets sitting near CSF.
+MSMT-CSD uses the different b-value behavior of the three tissues (established in Step 11) to split each voxel's signal into white matter, gray matter, and CSF compartments, and deconvolves only the white matter part. The result is much cleaner FODs at boundaries, which matters for small subcortical targets sitting near CSF.
 
-### Why Normalization Is Not Optional
+### Normalization Is Not Optional
 
-`mtnormalise` corrects the overall intensity scaling of the FODs so that tissue compartments sum sensibly and so that amplitudes are comparable **across participants**.
+`mtnormalise` corrects the overall intensity scaling of the FODs so that tissue compartments sum sensibly and so that amplitudes are comparable across participants.
 
-Without it, a participant scanned with slightly different coil loading or receive gain has globally larger or smaller FOD amplitudes than everyone else. Since tractography stops when FOD amplitude falls below a cutoff, that participant would effectively be tracked at a different threshold — producing systematically more or fewer streamlines for a reason that has nothing to do with their brain.
+Without it, a participant scanned with slightly different coil loading or receive gain has globally larger or smaller FOD amplitudes than everyone else. Since tractography stops when FOD amplitude falls below a cutoff, that participant is effectively tracked at a different threshold, producing systematically more or fewer streamlines for a reason that has nothing to do with their brain.
 
-:::caution
-The normalized white-matter FOD (`wm_fod_norm.mif`) is the file tractography should use. The un-normalized `wm_fod.mif` is an intermediate. Mixing them across participants reintroduces exactly the scaling problem normalization exists to remove.
-:::
+The normalized white-matter FOD, `wm_fod_norm.mif`, is the file tractography should use. The un-normalized `wm_fod.mif` is an intermediate, and mixing the two across participants reintroduces the scaling problem normalization exists to remove.
 
 ## Prerequisites
 
@@ -50,9 +48,7 @@ The normalized white-matter FOD (`wm_fod_norm.mif`) is the file tractography sho
 | Group response functions (WM, GM, CSF) | [Step 11](./response-functions) |
 | MRtrix3 installed | [Tool setup](../tools/mrtrix3) |
 
-:::tip
-Every participant must be deconvolved against the **same** group response files. That is the whole reason Step 11 averages them.
-:::
+Every participant must be deconvolved against the same group response files. That is the reason Step 11 averages them.
 
 ## Commands
 
@@ -70,12 +66,10 @@ dwi2fod msmt_csd \
 | Argument | Description |
 |---|---|
 | `msmt_csd` | The multi-shell multi-tissue algorithm. Requires 2+ non-zero shells. |
-| response / output pairs | Each tissue is given as a **pair**: its response file, then the FOD image to write. Order is WM, GM, CSF. |
+| response / output pairs | Each tissue is given as a pair: its response file, then the FOD image to write. Order is WM, GM, CSF. |
 | `-mask` | Restricts fitting to inside the brain. Substantially reduces runtime. |
 
-:::caution
-The response/output arguments are positional pairs. Swapping the WM and CSF responses will run without error and produce nonsense — the command has no way to know which file is which.
-:::
+The response/output arguments are positional pairs. Swapping the WM and CSF responses runs without error and produces nonsense; the command has no way to know which file is which.
 
 ### Normalize
 
@@ -87,15 +81,13 @@ mtnormalise \
   -mask "$subj_dir/mask.mif"
 ```
 
-All three tissues are passed together because normalization is a joint operation — it solves for a spatially smooth scaling that makes the three compartments sum coherently. Normalizing white matter alone is not equivalent and is not supported.
+All three tissues are passed together because normalization is a joint operation: it solves for a spatially smooth scaling that makes the three compartments sum coherently. Normalizing white matter alone is not equivalent and is not supported.
 
-:::caution
-Normalization is only as good as the brain mask. A mask that includes non-brain tissue, or that clips the temporal poles, biases the fit **without failing** — the command completes normally and the output looks plausible. The symptom surfaces much later, as one participant whose tractography behaves differently from everyone else's at the same settings. If a participant looks like an outlier downstream, re-check their mask from [Step 6](./brain-masking) before adjusting tracking parameters.
-:::
+Normalization is only as good as the brain mask. A mask that includes non-brain tissue, or that clips the temporal poles, biases the fit without failing; the command completes normally and the output looks plausible. The symptom surfaces much later, as one participant whose tractography behaves differently from everyone else's at the same settings. If a participant looks like an outlier downstream, re-check their mask from [Step 6](./brain-masking) before adjusting tracking parameters.
 
-### Single-Shell Data — the Two-Tissue Variant
+### Single-Shell Data
 
-Three-tissue estimation needs at least two non-zero shells. With single-shell data only two compartments can be separated, so the gray matter arguments are **dropped** from both commands:
+Three-tissue estimation needs at least two non-zero shells. With single-shell data only two compartments can be separated, so the gray matter arguments are dropped from both commands:
 
 ```bash
 # Two-tissue CSD: white matter + CSF only
@@ -111,13 +103,13 @@ mtnormalise \
   -mask "$subj_dir/mask.mif"
 ```
 
-The gray matter response from [Step 11](./response-functions) is simply left unused. Everything downstream is unchanged — `wm_fod_norm.mif` is still the output that matters.
+The gray matter response from [Step 11](./response-functions) is left unused. Everything downstream is unchanged; `wm_fod_norm.mif` is still the output that matters.
 
-:::caution
-Two-tissue FODs are more affected by partial volume at gray matter boundaries than three-tissue FODs. If you are targeting small structures near cortex or deep gray matter, this is a real limitation of single-shell acquisition rather than something the processing can recover.
-:::
+Two-tissue FODs are more affected by partial volume at gray matter boundaries than three-tissue FODs. If you are targeting small structures near cortex or deep gray matter, this is a limitation of single-shell acquisition rather than something the processing can recover.
 
 ## Batch Processing Script
+
+FOD estimation is memory-hungry. Total load is roughly `max_jobs × nthreads`, so size both against your machine rather than maximizing either alone.
 
 ```bash
 #!/bin/bash
@@ -181,10 +173,6 @@ wait
 echo "FOD estimation complete."
 ```
 
-:::tip
-FOD estimation is memory-hungry. Total load is roughly `max_jobs × nthreads`, so size both against your machine rather than maximizing either alone.
-:::
-
 ## Expected Output
 
 ```
@@ -192,7 +180,7 @@ dwi/sub-001/
 ├── wm_fod.mif            # white matter FOD (intermediate)
 ├── gm_fod.mif            # gray matter compartment
 ├── csf_fod.mif           # CSF compartment
-├── wm_fod_norm.mif       # ← normalized WM FOD: the tractography input
+├── wm_fod_norm.mif       # normalized WM FOD: the tractography input
 ├── gm_fod_norm.mif
 └── csf_fod_norm.mif
 ```
@@ -203,7 +191,7 @@ dwi/sub-001/
 
 ### Build a Tissue-Composition Image
 
-A standard MRtrix QC trick is to combine the three compartments into one RGB-style volume, where white matter, gray matter, and CSF each drive a channel:
+A standard MRtrix QC check is to combine the three compartments into one RGB-style volume, where white matter, gray matter, and CSF each drive a channel:
 
 ```bash
 # Take the l=0 term of the WM FOD, then stack CSF / GM / WM into one image
@@ -214,7 +202,7 @@ mrconvert -coord 3 0 "$subj_dir/wm_fod_norm.mif" - | \
 mrview "$subj_dir/vf_norm.mif"
 ```
 
-The result should look like a clean tissue segmentation: white matter bright in one channel, cortical ribbon in another, ventricles in the third. If the compartments are visibly mixed — CSF signal spread through white matter, say — the response functions or the mask are suspect.
+The result should look like a clean tissue segmentation: white matter bright in one channel, cortical ribbon in another, ventricles in the third. If the compartments are visibly mixed, with CSF signal spread through white matter for instance, the response functions or the mask are suspect.
 
 ### Inspect the FODs Directly
 
@@ -222,7 +210,7 @@ The result should look like a clean tissue segmentation: white matter bright in 
 mrview "$subj_dir/vf_norm.mif" -odf.load_sh "$subj_dir/wm_fod_norm.mif"
 ```
 
-Zoom into a region with known crossings — the centrum semiovale is the usual choice — and confirm you can see multiple distinct lobes per voxel. In the corpus callosum the FODs should be single, sharp, and left-right oriented. Outside the brain there should be essentially nothing.
+Zoom into a region with known crossings, the centrum semiovale being the usual choice, and confirm you can see multiple distinct lobes per voxel. In the corpus callosum the FODs should be single, sharp, and left-right oriented. Outside the brain there should be essentially nothing.
 
 ### Confirm Every Participant Finished
 
@@ -237,7 +225,7 @@ done
 
 | Symptom | Likely cause | Fix |
 |---|---|---|
-| `dwi2fod` reports "not enough shells" | Data is single-shell | MSMT-CSD needs 2+ non-zero b-values; use single-tissue CSD instead |
+| `dwi2fod` reports "not enough shells" | Data is single-shell | Use the two-tissue variant above |
 | FODs look noisy everywhere | Wrong response order, or unrotated bvecs | Confirm WM/GM/CSF ordering; re-check Step 8 rotated bvecs |
 | Tissue image shows CSF inside white matter | Poor response estimation | Re-inspect Step 11 responses in `shview` |
 | `mtnormalise` fails or produces flat output | Mask includes non-brain, or a compartment is empty | Tighten the mask; confirm all three FODs were written |
@@ -252,4 +240,4 @@ done
 
 ## Next Step
 
-The modeling is finished. Proceed to the **[Tractography Handoff](./output-contract)** to verify that your outputs match what a tractography workflow expects before you start tracking.
+The modeling is finished. Proceed to the [Tractography Handoff](./output-contract) to verify that your outputs match what a tractography workflow expects before you start tracking.

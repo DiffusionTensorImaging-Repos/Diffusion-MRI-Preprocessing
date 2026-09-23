@@ -5,13 +5,13 @@ title: "QSIPrep"
 
 # QSIPrep
 
-## What is QSIPrep?
+## QSIPrep
 
 QSIPrep is a containerized BIDS-app for preprocessing diffusion MRI data, developed by the PennLINC group at the University of Pennsylvania. It provides an automated, reproducible pipeline that handles the full diffusion preprocessing workflow inside a Docker or Singularity container.
 
 Under the hood, QSIPrep uses many of the same tools covered in this tutorial -- FSL, ANTs, MRtrix3, and others. It orchestrates these tools automatically, applying sensible defaults and handling the interdependencies between steps. Because QSIPrep runs inside a container, there is no need to manually install FSL, ANTs, MRtrix3, or any other dependency.
 
-## What QSIPrep Handles
+## QSIPrep Coverage
 
 QSIPrep automates the standard diffusion preprocessing steps:
 
@@ -87,9 +87,7 @@ $output_dir/
 
 QSIPrep is a great option for processing diffusion data — especially for multi-site studies or large samples where container-based reproducibility is important. The trade-off is that it abstracts away the individual steps, so you may not learn what each stage does or why it matters. This tutorial walks through each step manually so you understand the preprocessing logic. Both approaches are valid — they serve different purposes.
 
-:::caution
-This tutorial does **not** validate that QSIPrep produces identical results to the manual pipeline described here. While the underlying algorithms are similar, the specific parameter choices, step ordering, and implementation details may differ.
-:::
+This tutorial does not validate that QSIPrep produces identical results to the manual pipeline described here. While the underlying algorithms are similar, the specific parameter choices, step ordering, and implementation details may differ.
 
 ## Links and References
 

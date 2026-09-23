@@ -47,13 +47,11 @@ MRtrix3's `mrdegibbs` corrects this by estimating and removing the ringing patte
 
 ### Processing Order: Denoise First, Then Degibbs
 
-:::caution Critical: Order Matters
-**Always denoise before Gibbs correction.** The MP-PCA noise estimation relies on the statistical properties of unmodified data. If you apply Gibbs correction first, you alter the noise characteristics, and the denoising algorithm will not work correctly.
+The MP-PCA noise estimation relies on the statistical properties of unmodified data, so denoising has to come first. Applying Gibbs correction beforehand alters the noise characteristics and the denoising algorithm will not work correctly.
 
 The correct order is:
 1. `dwidenoise` (on raw DWI data)
 2. `mrdegibbs` (on denoised data)
-:::
 
 ## Prerequisites
 
@@ -130,9 +128,7 @@ dwiextract "$output_dir/${subj}_denoised_degibbs.nii.gz" \
                             "$output_dir/${subj}_cleaned.bval"
 ```
 
-:::tip Decision: Remove Shells Now or Later?
 If you are only doing standard DTI analysis (FA, MD maps), removing extra shells here reduces processing time for eddy. If you might want multi-shell analysis later, keep all shells and extract specific shells in [Shell Extraction](./shell-extraction) after eddy correction. The safest approach is to keep everything through eddy and extract later.
-:::
 
 ## Batch Processing Script
 

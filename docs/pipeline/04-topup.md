@@ -82,13 +82,11 @@ TOPUP requires a text file specifying the phase-encoding direction and timing pa
 | RL (right-to-left) | `-1 0 0` | Phase encoding along the negative x-axis |
 | LR (left-to-right) | `1  0 0` | Phase encoding along the positive x-axis |
 
-:::caution
-The direction vectors depend on your data's orientation convention. Always verify the phase-encoding direction from the **JSON sidecar** files generated during DICOM conversion (Step 1). Look for the `PhaseEncodingDirection` field:
+The direction vectors depend on your data's orientation convention. Always verify the phase-encoding direction from the JSON sidecar files generated during DICOM conversion (Step 1). Look for the `PhaseEncodingDirection` field:
 - `j-` corresponds to AP (`0 -1 0`)
 - `j` corresponds to PA (`0 1 0`)
 - `i-` corresponds to RL (`-1 0 0`)
 - `i` corresponds to LR (`1 0 0`)
-:::
 
 ### Calculating Total Readout Time
 
@@ -140,9 +138,7 @@ cat > "$config_dir/acqp.txt" << 'EOF'
 EOF
 ```
 
-:::tip
-The total readout time must be the **same** for both lines if the AP and PA scans were acquired with identical parameters (which is typically the case). Replace `0.0321302` with the value from your own data.
-:::
+The total readout time must be the same for both lines if the AP and PA scans were acquired with identical parameters (which is typically the case). Replace `0.0321302` with the value from your own data.
 
 ## Tool & Command Reference
 

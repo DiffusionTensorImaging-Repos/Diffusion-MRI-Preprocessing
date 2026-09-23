@@ -13,11 +13,11 @@ This step extracts the **B0 (non-diffusion-weighted) volumes** from the anterior
 
 ## Conceptual Background
 
-### Why B0 Images?
+### B0 Images
 
 In a diffusion MRI acquisition, most volumes are acquired with diffusion-sensitizing gradients applied (producing contrast that reflects water molecule displacement along specific directions). However, one or more volumes are acquired **without** diffusion weighting -- these are the **B0 images** (b-value = 0 s/mm^2). B0 images show the anatomy without diffusion contrast, making them ideal for estimating and correcting geometric distortions.
 
-### Why Opposite Phase-Encoding Directions?
+### Opposite Phase-Encoding Directions
 
 **Echo-planar imaging (EPI)** sequences, used for diffusion MRI, are highly sensitive to **magnetic field inhomogeneities** near air-tissue boundaries (frontal sinuses, ear canals, base of the skull). These inhomogeneities cause geometric distortions -- voxels are shifted along the **phase-encoding direction**, resulting in visible stretching or compression of anatomy.
 
@@ -28,7 +28,7 @@ By acquiring B0 images with **opposite phase-encoding directions** (AP and PA):
 
 TOPUP exploits this symmetry: the true anatomy lies somewhere between the two distorted versions, and the field map that best explains both distortions simultaneously can be estimated and used to correct all diffusion volumes.
 
-### What This Step Does
+### The Concatenation
 
 1. **Extracts** the first B0 volume from the AP fieldmap scan
 2. **Extracts** the first B0 volume from the PA fieldmap scan

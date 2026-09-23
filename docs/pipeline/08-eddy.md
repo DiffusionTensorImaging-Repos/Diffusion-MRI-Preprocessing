@@ -15,13 +15,13 @@ FSL's `eddy` corrects both eddy-current distortions and subject motion in a sing
 
 ## Conceptual Background
 
-### What Are Eddy Currents?
+### Eddy Currents
 
 When a magnetic field gradient is switched on or off rapidly, the change in magnetic flux induces electrical currents (eddy currents) in nearby conducting materials according to Faraday's law of electromagnetic induction. In an MRI scanner, these conducting structures include the cryostat housing, the gradient coil assembly, and the radiofrequency shields. The induced eddy currents generate their own secondary magnetic fields that oppose the change that produced them. These secondary fields add to the imaging gradients, causing spatially varying perturbations to the magnetic field during image readout.
 
 The net effect on the image is a geometric distortion. Depending on the orientation and magnitude of the eddy currents, the image may be sheared (parallelogram distortion), scaled (stretched or compressed), or translated (shifted) along the phase-encoding direction. These distortions are relatively small in magnitude (typically a few millimeters at most) but are large enough to misalign corresponding voxels across volumes, which corrupts the diffusion tensor fit.
 
-### Why Eddy Currents Are Worse in Diffusion MRI
+### Eddy Currents Are Worse in Diffusion MRI
 
 In standard fMRI or structural imaging, eddy currents are largely consistent across volumes because the same gradient waveforms are applied repeatedly. This makes them easier to handle -- any residual distortion is the same in every image.
 
@@ -40,7 +40,7 @@ Head motion introduces two distinct problems:
 1. **Between-volume misalignment**: the brain is in a slightly different position and orientation in each volume.
 2. **Within-volume signal loss**: rapid motion during the diffusion gradient pulse causes spin dephasing, leading to anomalously dark slices (signal dropout).
 
-### Why Correct Eddy Currents and Motion Together
+### Eddy Currents and Motion Are Corrected Together
 
 Eddy-current distortions and head motion are not independent. The eddy-current model needs to know the true orientation of the diffusion gradient relative to the brain, but the true orientation depends on the head position, which is what the motion model is trying to estimate. Conversely, the motion model needs to register each volume to a reference, but volumes that are distorted differently by eddy currents cannot be accurately registered without first accounting for those distortions.
 
@@ -60,7 +60,7 @@ The `--repol` (replace outliers) flag in `eddy` takes a different approach. It u
 
 The `--repol` flag is strongly recommended for all datasets. It is particularly valuable for high-motion populations and for datasets with relatively few gradient directions, where losing even a single volume meaningfully reduces the quality of the tensor fit.
 
-### How eddy Uses TOPUP Output
+### eddy and the TOPUP Output
 
 When `eddy` receives the `--topup` flag, it incorporates the susceptibility-induced off-resonance field estimated by TOPUP into its distortion model. This means `eddy` simultaneously corrects for three sources of geometric distortion:
 
@@ -326,9 +326,7 @@ The following thresholds are general guidelines. Adjust based on your study popu
 | Outlier slice percentage | > 10% | Visual inspection required; consider exclusion |
 | CNR far below group mean | > 2 SD below mean | Investigate cause; consider exclusion |
 
-:::caution
 These are guidelines, not absolute rules. The decision to exclude a subject should consider the totality of the QC evidence, the sample size, and the research question. For small studies, excluding subjects has a larger impact on statistical power. For clinical studies with difficult-to-recruit populations, more lenient thresholds may be appropriate if the impact on data quality is documented.
-:::
 
 ## Visual Inspection
 
@@ -370,9 +368,7 @@ fsleyes "$output_dir/${subj}_eddy.nii.gz" &
 | **eddy runs extremely slowly** | Using `eddy_openmp` on a large dataset without GPU acceleration | Switch to `eddy_cuda` if a compatible GPU is available. Alternatively, reduce `--niter` (not recommended unless necessary) |
 | **Negative or NaN voxels in output** | Can occur at the edges of the brain where the mask is borderline | Check the mask; a slightly more generous mask usually resolves this |
 
-:::warning Rotated Bvecs
-The most common and most consequential mistake after running eddy is to use the original `.bvec` file instead of the `eddy_rotated_bvecs` file for downstream analysis. When eddy corrects for head rotation, it physically rotates each volume back to the reference position. The gradient direction recorded in the original bvec file described the gradient relative to the head before rotation. After correction, the gradient direction relative to the (now-realigned) head is different. The `eddy_rotated_bvecs` file contains these updated directions. Using the original bvecs will produce **systematically incorrect** FA, MD, and tractography results with no error messages or warnings.
-:::
+The most common and most consequential mistake after running eddy is to use the original `.bvec` file instead of the `eddy_rotated_bvecs` file for downstream analysis. When eddy corrects for head rotation, it physically rotates each volume back to the reference position. The gradient direction recorded in the original bvec file described the gradient relative to the head before rotation. After correction, the gradient direction relative to the (now-realigned) head is different. The `eddy_rotated_bvecs` file contains these updated directions. Using the original bvecs will produce systematically incorrect FA, MD, and tractography results with no error messages or warnings.
 
 ## References
 

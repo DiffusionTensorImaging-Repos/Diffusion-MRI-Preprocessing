@@ -47,9 +47,7 @@ conda install -c aramislab ants
 conda install -c conda-forge ants
 ```
 
-:::caution conda ANTs
 conda packages may lag behind official releases. Verify that `antsBrainExtraction.sh` is included — some minimal packages omit the shell scripts.
-:::
 
 ### Option 3: Build from Source
 
@@ -78,11 +76,9 @@ echo 'export PATH="$ANTSPATH:$PATH"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
-:::info Build Tips
 - The build uses a lot of RAM. On systems with less than 16 GB, reduce parallelism: `make -j2` instead of `make -j$(nproc)`
 - If cmake fails, check your cmake version: ANTs requires cmake ≥ 3.16. Update with `pip install cmake` or from [cmake.org](https://cmake.org/download/)
 - `BUILD_TESTING=OFF` skips the test suite, cutting build time significantly
-:::
 
 ## Verify Installation
 
@@ -117,9 +113,7 @@ Download templates from the official ANTs figshare repository:
 | **NIH Pediatric** | Children (4–18 years) | Pediatric studies — brain shape differs significantly from adults |
 | **Study-specific** | Your participants | If you have 20+ subjects, consider building a study-specific template |
 
-:::tip Template Selection Matters
 Using an adult template on pediatric data (or vice versa) will produce poor brain extractions. If your participants are children, elderly, or a clinical population with atypical brain anatomy, choose a template that matches your population.
-:::
 
 ### Template File Structure
 

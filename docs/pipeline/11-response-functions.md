@@ -7,27 +7,23 @@ title: "Step 11: Response Function Estimation"
 
 ## Overview
 
-Before you can estimate which directions fibers run in each voxel, you need a reference: what does the diffusion signal from a *single*, perfectly coherent fiber bundle actually look like in this dataset? That reference is called the **response function**.
+Before you can estimate which directions fibers run in each voxel, you need a reference: what the diffusion signal from a single, perfectly coherent fiber bundle looks like in this dataset. That reference is the response function.
 
 This step estimates one response function per tissue type (white matter, gray matter, CSF) for every participant, then averages them into a single group response that all participants share.
 
-:::caution
-Three-tissue estimation needs **multi-shell** data — at least two non-zero b-values plus b=0. Single-shell data can only separate two tissues; see the [two-tissue variant](./fod-estimation#single-shell-data--the-two-tissue-variant) in Step 12.
-
-A white-matter response from a two-tissue fit is **not** interchangeable with one from a three-tissue fit. Do not mix single-shell and multi-shell participants in the same group average.
-:::
+Three-tissue estimation needs multi-shell data: at least two non-zero b-values plus b=0. Single-shell data can only separate two tissues, and the [two-tissue variant](./fod-estimation#single-shell-data) in Step 12 covers that case. A white-matter response from a two-tissue fit is not interchangeable with one from a three-tissue fit, so single-shell and multi-shell participants must not share a group average.
 
 ## Conceptual Background
 
-### What a Response Function Is
+### The Response Function
 
-The diffusion signal measured in a voxel is a mixture: it is the signal from one idealized fiber bundle, smeared out across however many directions fibers actually run in that voxel. Mathematically, the measured signal is the response function **convolved** with the fiber orientation distribution.
+The diffusion signal measured in a voxel is a mixture: the signal from one idealized fiber bundle, smeared across however many directions fibers actually run in that voxel. Mathematically, the measured signal is the response function convolved with the fiber orientation distribution.
 
-That framing is useful because convolution can be undone. If you know the response function, you can **deconvolve** it out of the measured signal and recover the orientation distribution — which is exactly what [Step 12](./fod-estimation) does. The response function is the piece you need to know first.
+That framing is useful because convolution can be undone. If you know the response function, you can deconvolve it out of the measured signal and recover the orientation distribution, which is what [Step 12](./fod-estimation) does. The response function is the piece you need first.
 
-A helpful comparison is the point spread function in optics. A telescope blurs a point of light into a small disc. If you measure that blur precisely, you can deconvolve it back out of your images and sharpen them. The response function is the diffusion equivalent: it describes how a single fiber population "blurs" across the sphere of measured directions.
+The optical analogue is the point spread function. A telescope blurs a point of light into a small disc; measure that blur precisely and you can deconvolve it back out and sharpen the image. The response function describes how a single fiber population blurs across the sphere of measured directions.
 
-### Why Three Tissue Types
+### Three Tissue Types
 
 Multi-shell acquisitions make it possible to distinguish three compartments, because each behaves differently as b-value increases:
 
@@ -35,31 +31,23 @@ Multi-shell acquisitions make it possible to distinguish three compartments, bec
 |---|---|---|
 | White matter | Strongly anisotropic | Signal drops steeply perpendicular to fibers, much less along them |
 | Gray matter | Roughly isotropic | Signal decays moderately and about equally in all directions |
-| CSF | Isotropic | Signal decays very fast — nearly gone by high b-values |
+| CSF | Isotropic | Signal decays very fast; nearly gone by high b-values |
 
 Estimating all three lets the deconvolution in Step 12 assign each voxel's signal to the right compartment instead of forcing everything into a white-matter model. This matters most at tissue boundaries, where a voxel may be part white matter and part CSF.
 
 ### The Dhollander Algorithm
 
-`dwi2response dhollander` is **unsupervised**: it finds representative voxels for each tissue class from the diffusion data alone, with no T1 segmentation required. This is convenient (no dependency on a separate anatomical pipeline) and robust (no registration error propagating into the response estimate).
+`dwi2response dhollander` is unsupervised: it finds representative voxels for each tissue class from the diffusion data alone, with no T1 segmentation required. There is no dependency on a separate anatomical pipeline and no registration error propagating into the response estimate.
 
-### Why the Responses Are Group-Averaged
+### The Responses Are Group-Averaged
 
-This is the part that is easy to get wrong.
-
-If every participant uses their own response function, the resulting FOD amplitudes are **not comparable across participants**. Each person's FODs would be expressed relative to a slightly different reference, so an amplitude of 0.4 would not mean the same thing in two different brains. Any group analysis built on those amplitudes would be comparing units that silently differ.
+If every participant uses their own response function, the resulting FOD amplitudes are not comparable across participants. Each person's FODs are expressed relative to a slightly different reference, so an amplitude of 0.4 does not mean the same thing in two different brains, and any group analysis built on those amplitudes is comparing units that differ.
 
 Averaging the responses into one group reference removes that problem: every participant's FODs are deconvolved against the same yardstick. This is the standard MRtrix3 recommendation for group studies and it is what the downstream tractography and normalization steps assume.
 
-:::tip
-The group average is computed across **all** participants in your study, so this step has a natural two-phase structure: estimate per-subject responses for everyone first, then average, then move on. You cannot compute FODs for participant 1 until every participant's response has been estimated.
-:::
+Because the average is computed across all participants, the step has a two-phase structure: estimate per-subject responses for everyone first, then average, then move on. You cannot compute FODs for participant 1 until every participant's response has been estimated.
 
-:::caution
-**The group average locks the cohort.** Adding a participant later changes the average, so their FODs are no longer expressed against the same reference as everyone else's. If your sample grows, rerun [Step 12](./fod-estimation) for *everybody*, not just the new arrivals.
-
-This matters more than it looks. Anything downstream that thresholds on FOD amplitude — tractography cutoffs in particular — quietly means something different for participants fitted against different averages.
-:::
+The group average also locks the cohort. Adding a participant later changes the average, so their FODs are no longer expressed against the same reference as everyone else's. If your sample grows, rerun [Step 12](./fod-estimation) for everybody, not just the new arrivals. Anything downstream that thresholds on FOD amplitude, tractography cutoffs in particular, means something different for participants fitted against different averages.
 
 ## Prerequisites
 
@@ -71,9 +59,7 @@ This matters more than it looks. Anything downstream that thresholds on FOD ampl
 | Multi-shell acquisition (2+ non-zero b-values) | Acquisition |
 | MRtrix3 installed | [Tool setup](../tools/mrtrix3) |
 
-:::caution
-Use the **rotated** bvecs written by `eddy`, not the originals. Eddy rotates volumes to correct motion, and the gradient table has to be rotated with them. Passing the original bvecs produces response functions — and downstream FODs — that are systematically wrong.
-:::
+Use the rotated bvecs written by `eddy`, not the originals. Eddy rotates volumes to correct motion and the gradient table has to be rotated with them; passing the original bvecs produces response functions, and downstream FODs, that are systematically wrong.
 
 ## Commands
 
@@ -114,7 +100,7 @@ dwi2response dhollander \
 | Argument | Description |
 |---|---|
 | `dhollander` | The estimation algorithm. Unsupervised and multi-tissue; no T1 segmentation needed. |
-| Output 1–3 | Text files for white matter, gray matter, and CSF respectively. **Order is fixed** — WM, GM, CSF. |
+| Output 1–3 | Text files for white matter, gray matter, and CSF respectively. The order is fixed: WM, GM, CSF. |
 | `-mask` | Restricts voxel selection to inside the brain. Without it the algorithm may pick up background noise. |
 
 ### Average Across Participants
@@ -130,9 +116,7 @@ responsemean "$project_dir"/*/gm_response.txt  "$project_dir/group_gm_response.t
 responsemean "$project_dir"/*/csf_response.txt "$project_dir/group_csf_response.txt"
 ```
 
-:::caution
-The glob must match **only** the participants you intend to include. If a participant is later excluded for quality reasons, regenerate the group responses without them and recompute the FODs — otherwise the excluded participant still influences everyone else's results through the shared reference.
-:::
+The glob must match only the participants you intend to include. If a participant is later excluded for quality reasons, regenerate the group responses without them and recompute the FODs; otherwise the excluded participant still influences everyone else's results through the shared reference.
 
 ## Batch Processing Script
 
@@ -213,7 +197,7 @@ dwi/
 └── group_csf_response.txt
 ```
 
-A response file is small — a handful of rows of numbers, one row per b-value shell, each row holding spherical harmonic coefficients.
+A response file is small: a handful of rows of numbers, one row per b-value shell, each row holding spherical harmonic coefficients.
 
 ## Quality Check
 
@@ -223,7 +207,7 @@ A response file is small — a handful of rows of numbers, one row per b-value s
 shview "$dwi_dir/group_wm_response.txt"
 ```
 
-The white matter response should look like a **flattened disc** — wide perpendicular to the fiber direction and narrow along it — and it should get progressively flatter at higher b-values. Gray matter and CSF responses should look approximately spherical.
+The white matter response should look like a flattened disc, wide perpendicular to the fiber direction and narrow along it, and it should get progressively flatter at higher b-values. Gray matter and CSF responses should look approximately spherical.
 
 ### Compare Across Participants
 
@@ -234,7 +218,7 @@ for f in "$dwi_dir"/*/wm_response.txt; do
 done
 ```
 
-Values should be in the same ballpark across participants. One participant whose numbers differ by an order of magnitude usually indicates a problem earlier in preprocessing — a bad mask, a failed eddy correction, or a mismatched gradient table — not a real biological difference.
+Values should be in the same ballpark across participants. One participant whose numbers differ by an order of magnitude usually indicates a problem earlier in preprocessing (a bad mask, a failed eddy correction, or a mismatched gradient table), not a real biological difference.
 
 ### Confirm the Shell Count
 
@@ -261,4 +245,4 @@ The listed shells should match your acquisition. If b=0 is missing or a shell yo
 
 ## Next Step
 
-Proceed to **[Step 12: Fiber Orientation Distributions](./fod-estimation)** to deconvolve these responses out of the diffusion signal and produce the FOD images that tractography actually tracks through.
+Proceed to [Step 12: Fiber Orientation Distributions](./fod-estimation) to deconvolve these responses out of the diffusion signal and produce the FOD images that tractography tracks through.

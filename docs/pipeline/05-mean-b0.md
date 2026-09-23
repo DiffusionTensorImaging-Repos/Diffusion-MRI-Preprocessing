@@ -13,7 +13,7 @@ After TOPUP corrects susceptibility distortions in the B0 images, the corrected 
 
 ## Conceptual Background
 
-### Why Average Multiple B0 Volumes?
+### Averaging Improves SNR
 
 Every MRI image contains random thermal noise from the scanner electronics and the body. This noise varies randomly from volume to volume — sometimes a voxel reads slightly too high, sometimes too low. The underlying signal, however, stays consistent.
 
@@ -23,7 +23,7 @@ When you average multiple volumes together:
 
 The result is a cleaner image with better contrast between brain tissue and background — exactly what you need for reliable brain extraction in the next step.
 
-### What If I Only Have One B0?
+### A Single B0 Volume
 
 If your acquisition only has a single B0 volume (uncommon but possible), you can skip the averaging step and use that B0 directly as input to brain masking. The mask may be slightly noisier, but the pipeline will still work. Most modern DTI protocols acquire at least 2 B0 images — one in each phase-encoding direction — so this is rarely an issue.
 
@@ -50,7 +50,7 @@ fslmaths "$topup_dir/${subj}_topup_corrected_b0" \
     "$output_dir/${subj}_topup_Tmean"
 ```
 
-### What `-Tmean` Does
+### `-Tmean`
 
 The `-Tmean` flag tells `fslmaths` to compute the mean across the **T**ime (4th) dimension:
 
@@ -135,9 +135,7 @@ If the mean B0 looks noisy or distorted, the issue likely occurred upstream in T
 | Image looks very noisy | Only 1 B0 volume available | This is expected with a single B0; the mask may need manual adjustment in Step 6 |
 | Signal dropout in frontal/temporal lobes | TOPUP did not fully correct distortions | Revisit TOPUP parameters; check `acqp.txt` values |
 
-:::tip
-Keep this image. Beyond brain masking, the mean B0 is the greyscale background that tractography QC overlays are drawn on — streamlines and ROIs are much harder to read against a bare binary mask. The [handoff contract](./output-contract) expects it at `dwi/<subj>/mean_b0.nii.gz`.
-:::
+Keep this image after masking is done. The mean B0 is the greyscale background that tractography QC overlays are drawn on, and streamlines and ROIs are much harder to read against a bare binary mask. The [handoff contract](./output-contract) expects it at `dwi/<subj>/mean_b0.nii.gz`.
 
 ## Next Step
 

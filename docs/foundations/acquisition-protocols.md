@@ -7,7 +7,7 @@ title: "Acquisition Protocols"
 
 Before you can preprocess diffusion data, you need to acquire it properly. The quality of your raw data determines the ceiling of what preprocessing can achieve — no amount of correction can fix a fundamentally flawed acquisition. This page covers what scans you need, how to set up a DTI protocol, and what to check before leaving the scanner.
 
-## What Scans You Need
+## Required Scans
 
 A complete DTI acquisition for the preprocessing pipeline described in this tutorial requires **four scan types**:
 
@@ -18,9 +18,7 @@ A complete DTI acquisition for the preprocessing pipeline described in this tuto
 | **Fieldmap AP** | B0 field map with anterior-to-posterior phase encoding | 30 sec – 1 min |
 | **Fieldmap PA** | B0 field map with posterior-to-anterior phase encoding | 30 sec – 1 min |
 
-:::caution Fieldmaps Are Not Optional
 Without fieldmaps, you cannot run TOPUP to correct susceptibility distortions. Skipping TOPUP means your frontal and temporal lobe data will be geometrically distorted, which biases FA measurements and degrades registration accuracy. Always acquire fieldmaps with opposite phase encoding directions.
-:::
 
 ### T1-Weighted Structural
 
@@ -43,7 +41,7 @@ This is your primary data. Key parameters to consider:
 | **Resolution** | 1.5–2.5 mm isotropic | Smaller voxels resolve finer anatomy but have lower SNR |
 | **Multiband factor** | 2–4 (if available) | Acquires multiple slices simultaneously, reducing scan time |
 
-#### How Many Directions Do I Need?
+#### Number of Directions
 
 | Analysis | Minimum Directions | Recommended |
 |----------|-------------------|-------------|
@@ -78,9 +76,7 @@ Different scanner vendors use different names for the same things:
 | Phase encoding direction | In DICOM header | In DICOM header | In .PAR file |
 | DICOM output | One file per slice or enhanced DICOM | One file per series | Classic DICOM or PAR/REC |
 
-:::tip Check Your DICOM Output Format
 Before running `dcm2niix`, understand how your scanner exports DICOMs. Some scanners produce one DICOM file per slice (thousands of files per scan), while others produce one enhanced DICOM file per series. Both work with `dcm2niix`, but the directory organization will look very different.
-:::
 
 ## Multiband (Simultaneous Multi-Slice) Acceleration
 
@@ -104,9 +100,7 @@ This determines which direction susceptibility distortions occur in the image. F
 - **AP (anterior-to-posterior)**: Phase encoding runs from front to back. In the `acqp.txt` file, this is typically `0 -1 0 readout_time`
 - **PA (posterior-to-anterior)**: Phase encoding runs from back to front. This is typically `0 1 0 readout_time`
 
-:::caution Check Your Actual Direction
 The mapping between AP/PA and the numeric encoding in `acqp.txt` depends on your scanner and how the DICOM images were reconstructed. Always verify using the JSON sidecar from dcm2niix — look for the `PhaseEncodingDirection` field. See [Configuration Files](../reference/config-files) for details.
-:::
 
 ### Total Readout Time
 

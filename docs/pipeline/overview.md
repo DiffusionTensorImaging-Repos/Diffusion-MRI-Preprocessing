@@ -77,13 +77,11 @@ graph TD
     M --> N["Tract reconstruction<br/><i>separate workflow</i>"]
 ```
 
-:::note
 Steps 9 and 11 both branch from Step 8 — tensor fitting and FOD estimation are independent of each other and can run in parallel. Registration (Step 10) needs the skull-stripped T1 from Step 2 as well. All three converge at the [handoff](./output-contract).
-:::
 
 ---
 
-## Why This Specific Pipeline?
+## Rationale
 
 ### Core Operations (Required)
 

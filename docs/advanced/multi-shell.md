@@ -9,7 +9,7 @@ Standard DTI uses a single b-value shell (typically b=1000 s/mm$^2$) and fits a 
 
 Multi-shell acquisitions collect DWI data at **multiple b-values** (e.g., b=0, 1000, 2000, 3000), enabling advanced diffusion models that go beyond the limitations of the single tensor.
 
-## Why Multi-Shell?
+## The Case for Multi-Shell
 
 The single-tensor model assumes that diffusion is Gaussian — that the signal decay follows a simple exponential. This assumption holds reasonably well at low b-values (b=1000), but breaks down at higher b-values where non-Gaussian diffusion effects become prominent.
 
@@ -19,7 +19,7 @@ Multi-shell data provides additional information because:
 2. **Higher b-values provide stronger angular contrast** — making it easier to resolve crossing fibers
 3. **Multiple measurements constrain multi-compartment models** — you need more data points to estimate more parameters
 
-## What Multi-Shell Enables
+## Multi-Shell Analyses
 
 | Model | Required Shells | What It Measures | Key Output |
 |-------|----------------|-----------------|------------|
@@ -180,9 +180,7 @@ When you have multi-shell data, choosing the right shells for each analysis matt
 | NODDI | b=0 + b=1000 + b=2000 | Two non-zero shells constrain the model |
 | DKI | b=0 + b=1000 + b=2000 | Kurtosis estimation needs multiple b-values |
 
-:::tip Keep All Shells Through Eddy
 Always run eddy on the complete multi-shell dataset (all b-values together). Eddy uses information across all shells to estimate motion and eddy current parameters more accurately. Extract specific shells after eddy correction in [Shell Extraction](../pipeline/shell-extraction).
-:::
 
 ## References
 

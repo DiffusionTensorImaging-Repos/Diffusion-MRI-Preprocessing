@@ -29,13 +29,13 @@ In the brain, water is not free. It bumps into cell membranes, myelin sheaths, o
 | **Hindered** | Extracellular space | Water can move in all directions but is slowed by obstacles — diffusivity reduced by tortuosity |
 | **Restricted** | Inside axons, cells | Water is trapped within membranes and can only move along certain directions. $D \approx 0.7\text{–}1.0 \times 10^{-3}$ mm$^2$/s |
 
-### Why White Matter Is Special
+### White Matter Is Anisotropic
 
 White matter axons are long, thin cylinders wrapped in myelin — a fatty insulating sheath. Water inside an axon can move freely along its length but is blocked from moving perpendicular to it by the myelin membrane. Water between axons is also preferentially channeled along the fiber direction.
 
 This creates **anisotropic diffusion** — water moves farther along the fiber axis than perpendicular to it. This anisotropy is the signal that diffusion tensor imaging exploits. In terms of eigenvalues (which we define below), this means $\lambda_1 \gg \lambda_2 \approx \lambda_3$: fast diffusion along the fiber, slow diffusion across it.
 
-## How the MRI Scanner Measures Diffusion
+## Measuring Diffusion
 
 A standard MRI scanner measures total signal from hydrogen atoms (protons in water). To make the signal sensitive to diffusion, we add **diffusion-encoding gradients** — brief magnetic field gradients that dephase and rephase the proton spins.
 
@@ -49,9 +49,7 @@ The classic diffusion-encoding sequence applies two gradient pulses separated by
 4. **Second gradient pulse** (identical to the first): Reverses the phase shift — but only perfectly for protons that have **not moved**.
 5. **Signal acquisition**: Measure the remaining signal.
 
-:::info Stationary vs. Moving Protons
 **Stationary protons** receive equal and opposite phase shifts from the two gradient pulses, so their net phase is zero and they contribute full signal. **Moving protons** are at a different position during the second gradient pulse, so the reversal is imperfect — they retain residual phase, causing destructive interference and signal loss. More movement means more signal loss.
-:::
 
 ### The Stejskal-Tanner Equation
 
@@ -125,9 +123,7 @@ The eigenvectors define the orientation of an ellipsoid that visualizes the diff
 | **Oblate (pancake)** | $\lambda_1 \approx \lambda_2 \gg \lambda_3$ | Crossing fiber regions (centrum semiovale) | 0.3 – 0.5 |
 | **Sphere** | $\lambda_1 \approx \lambda_2 \approx \lambda_3$ | Isotropic diffusion (CSF, ventricles, gray matter) | ~0 |
 
-:::info Interpreting Ellipsoid Shape
 A **prolate** (cigar-shaped) ellipsoid indicates a single dominant fiber direction — this is what you see in large white matter tracts. An **oblate** (pancake-shaped) ellipsoid often indicates fiber crossings where two or more tracts intersect in a voxel. A **spherical** ellipsoid means diffusion is equal in all directions — characteristic of CSF or gray matter.
-:::
 
 ### Scalar Metrics
 
@@ -165,9 +161,7 @@ $$
 
 Average diffusion rate perpendicular to the primary axis.
 
-:::tip FA Formula Intuition
 The FA formula measures the **variance of the eigenvalues** relative to their magnitude. If all three eigenvalues are equal ($\lambda_1 = \lambda_2 = \lambda_3$), there is zero variance and FA = 0. If one eigenvalue is much larger than the others, the variance is high and FA approaches 1. FA was first defined by Basser & Pierpaoli (1996).
-:::
 
 For more on what these metrics mean biologically, see [What is DTI?](./what-is-dti).
 

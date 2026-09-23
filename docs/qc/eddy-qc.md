@@ -46,7 +46,7 @@ eddy_squad squad_list.txt -o "$base_dir/qc/eddy_squad_report"
 
 The output `group_qc.pdf` plots each subject as a point for motion and outlier metrics. Subjects that fall far from the cluster are worth inspecting more closely.
 
-## What to Do with These Metrics
+## Using These Metrics
 
 Subjects exceeding the thresholds above (absolute motion > 2 mm, relative motion > 1 mm, or outlier slices > 10%) should generally be excluded. Define your thresholds before you start processing and report them in your methods section.
 

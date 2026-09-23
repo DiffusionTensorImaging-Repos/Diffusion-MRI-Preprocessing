@@ -39,9 +39,7 @@ max_jobs=$((available_gb / ram_per_job))
 echo "Safe to run $max_jobs concurrent jobs for this stage"
 ```
 
-:::tip Start Conservative
 If you calculate 16 safe jobs, start with 10 and monitor with `htop`. Increase gradually. One out-of-memory crash can corrupt output files and force a full re-run.
-:::
 
 ## Method 1: GNU Parallel
 

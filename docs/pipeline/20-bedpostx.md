@@ -15,13 +15,13 @@ BedpostX output is required for **probabilistic tractography** (`probtrackx2`). 
 
 ## Conceptual Background
 
-### Why Single-Tensor Models Are Not Enough
+### Single-Tensor Models Are Not Enough
 
 The diffusion tensor model used in [Step 9: DTIFIT](./dtifit) assumes that water diffusion at each voxel can be described by a single ellipsoid — one principal direction of diffusion. This assumption works well in regions where fibers are coherently organized in one direction.
 
 However, **60–90% of white matter voxels contain crossing, kissing, or fanning fibers**. In these regions, a single tensor cannot accurately represent the fiber architecture. For example, at the intersection of the corpus callosum (left-right) and the corticospinal tract (superior-inferior), water diffuses along both tracts simultaneously — a single tensor averages these two directions into a misleading intermediate orientation.
 
-### What BedpostX Estimates
+### BedpostX Outputs
 
 At each voxel, BedpostX estimates:
 
@@ -61,9 +61,7 @@ bedpostx_input/
   nodif_brain_mask.nii.gz  # Brain mask
 ```
 
-:::caution Exact Names Required
 BedpostX will fail silently or produce errors if the files are not named exactly `data.nii.gz`, `bvecs`, `bvals`, and `nodif_brain_mask.nii.gz`. You must copy/rename your files to match.
-:::
 
 ## Commands
 
@@ -117,9 +115,7 @@ BedpostX is the most computationally expensive step in the pipeline:
 | **GPU VRAM** | N/A | 2–4 GB |
 | **Disk space** | 2–5 GB per subject | 2–5 GB per subject |
 
-:::tip Use GPU if Available
 If you have access to an NVIDIA GPU with CUDA, `bedpostx_gpu` is strongly recommended. It produces identical results to the CPU version but finishes in a fraction of the time. See [Environment Setup](../tools/environment-setup#gpu-setup-for-eddy_cuda) for CUDA setup instructions.
-:::
 
 ### Parallelization
 

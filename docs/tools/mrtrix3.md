@@ -51,14 +51,12 @@ echo 'export PATH="/path/to/mrtrix3/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
-:::info Qt5 is Optional
 The Qt5 packages (`libqt5opengl5-dev`, `libqt5svg5-dev`) are only needed for `mrview` (MRtrix3's image viewer). If you plan to use FSLeyes for visualization instead, you can skip Qt5 and build without the GUI:
 
 ```bash
 ./configure -nogui
 ./build
 ```
-:::
 
 ### Option 3: apt (Ubuntu/Debian)
 
@@ -111,9 +109,7 @@ dwidenoise input_dwi.nii.gz output_denoised.nii.gz \
 | `-fslgrad bvec bval` | Provide gradient information in FSL format |
 | `-noise` | Output the estimated noise map (useful for QC) |
 
-:::caution Order Matters
-`dwidenoise` must be run **before** any other processing (including Gibbs correction). The MP-PCA noise estimation requires unmodified data — any prior filtering corrupts the noise statistics.
-:::
+`dwidenoise` must be run before any other processing (including Gibbs correction). The MP-PCA noise estimation requires unmodified data — any prior filtering corrupts the noise statistics.
 
 ### mrdegibbs
 

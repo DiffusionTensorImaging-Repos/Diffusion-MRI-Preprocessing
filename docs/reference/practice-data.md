@@ -37,9 +37,7 @@ This dataset is ideal for testing individual pipeline steps but does not include
 | [ds001021](https://openneuro.org/datasets/ds001021) | HCP-style multi-shell | Multiple | Yes | ~3 GB/subject |
 | [ds000030](https://openneuro.org/datasets/ds000030) | UCLA Consortium, large sample | b=1000 | Varies | ~1 GB/subject |
 
-:::tip Start With One Subject
 Download a single subject first to test your pipeline before processing the full dataset. For `ds000201`, download just `sub-01` (~2 GB) — this is enough to practice all 14 pipeline steps.
-:::
 
 ### Downloading from OpenNeuro
 
@@ -83,9 +81,7 @@ Plan your storage before downloading:
 | HCP (diffusion only) | ~4 GB raw | ~40 GB raw |
 | **Processing space** | ~5–10 GB/subject | ~50–100 GB |
 
-:::caution Processing Creates Additional Data
 Preprocessing generates intermediate files at each stage. For multi-shell data, expect to use 5–10 GB per subject in addition to the raw data. BedpostX alone generates 2–5 GB of output. Plan for 3–5x your raw data size in total disk space.
-:::
 
 ## Setting Up Your Own Practice Environment
 

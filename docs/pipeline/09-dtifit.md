@@ -17,7 +17,7 @@ This step fits the diffusion tensor model to the corrected DWI data, producing v
 
 At each voxel, the diffusion tensor is a **3x3 symmetric positive-definite matrix** that describes the magnitude and preferred orientation of water diffusion. Because the matrix is symmetric, it has six unique elements, which means at least six diffusion-weighted measurements (plus one b=0 image) are required to estimate it.
 
-### How DTIFIT Estimates the Tensor
+### Tensor Estimation
 
 FSL's `dtifit` uses **weighted least squares (WLS)** regression to fit the tensor to the log-transformed DWI signal at each voxel. The relationship between the DWI signal and the tensor is described by the Stejskal-Tanner equation:
 
@@ -27,7 +27,7 @@ S(g) = S0 * exp(-b * g^T * D * g)
 
 where `S(g)` is the signal for gradient direction `g`, `S0` is the non-diffusion-weighted signal, `b` is the b-value, and `D` is the diffusion tensor.
 
-### Why Use Only the b=1000 Shell
+### Only the b=1000 Shell Is Used
 
 The single-tensor model assumes **Gaussian diffusion**, which holds best at moderate b-values (typically b=1000 s/mm^2). At higher b-values, the DWI signal reveals non-Gaussian effects such as diffusion kurtosis and signal contributions from crossing fibers, which violate the assumptions of the single-tensor model. Including higher b-value shells in the tensor fit can bias the resulting scalar maps. For this reason, we extract only the b=0 and b=1000 volumes prior to running `dtifit`.
 
@@ -70,9 +70,7 @@ Before running this step, you should have completed:
 | Brain mask | Step 5 or Step 8 |
 | Rotated bvecs from eddy | Step 8 (Eddy Correction) |
 
-:::caution
-You **must** use the rotated bvecs output by `eddy`, not the original bvecs. Eddy correction involves volume-by-volume rotations, and the gradient directions must be rotated accordingly. Using the original bvecs will produce incorrect tensor estimates and corrupted FA/MD maps.
-:::
+Use the rotated bvecs output by `eddy`, not the original bvecs. Eddy correction involves volume-by-volume rotations, and the gradient directions must be rotated accordingly. Using the original bvecs will produce incorrect tensor estimates and corrupted FA/MD maps.
 
 ## Tool & Command Reference
 

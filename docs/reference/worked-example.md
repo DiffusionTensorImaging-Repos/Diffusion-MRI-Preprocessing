@@ -11,7 +11,7 @@ It is useful for three things: seeing what each step's output actually looks lik
 
 ## Dataset Characteristics
 
-The example was run on a multi-shell acquisition with the following properties, which are worth noting because several parameter choices in this tutorial follow from them:
+The example was run on a multi-shell acquisition with the following properties. Several parameter choices in this tutorial follow from them:
 
 | Property | Value |
 |---|---|
@@ -22,7 +22,7 @@ The example was run on a multi-shell acquisition with the following properties, 
 
 The reverse phase-encode pairs are what make [TOPUP](../pipeline/topup) possible, and the multiple non-zero shells are what make [multi-shell multi-tissue CSD](../pipeline/fod-estimation) possible. A single-shell dataset would need a different approach at both of those steps.
 
-## What Is in the Repository
+## Repository Contents
 
 - Every preprocessing stage in this tutorial, fully executed
 - Per-step audit scripts and their recorded output

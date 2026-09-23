@@ -23,9 +23,7 @@ DTI preprocessing is computationally demanding. Here are the recommended specifi
 | **Storage** | 5 GB per subject | 10 GB per subject | Raw DICOMs + NIfTI + all derivatives |
 | **GPU** | None | NVIDIA (CUDA-capable) | `eddy_cuda` and `bedpostx_gpu` are 5–10× faster |
 
-:::tip macOS Users
 Most tools run on macOS, but **eddy_cuda** and **bedpostx_gpu** require an NVIDIA GPU with CUDA, which is not available on modern Macs. If you have a Mac, plan to run GPU-accelerated steps on a Linux workstation or cluster, or use the CPU versions (which are slower but produce identical results).
-:::
 
 ## Installation Overview
 
@@ -193,9 +191,7 @@ which dwidenoise
 which dcm2niix
 ```
 
-:::tip Ask Your Sysadmin
 Module names and versions vary across institutions. If `module avail fsl` returns nothing, check with your HPC support team — neuroimaging software is commonly installed but may be under a different name or path. Some systems use `Lmod` instead of `environment modules`, but the commands are the same.
-:::
 
 ## Docker and Singularity
 
@@ -225,9 +221,7 @@ docker run -v /path/to/data:/data brainlife/fsl:6.0.7 \
     flirt -in /data/input.nii.gz -ref /data/ref.nii.gz -out /data/output.nii.gz
 ```
 
-:::warning Container Paths
 When using Docker or Singularity, you must mount your data directory into the container with `-v` (Docker) or `-B` (Singularity). Commands inside the container cannot see your host filesystem unless you explicitly mount it.
-:::
 
 ## Remote Access
 

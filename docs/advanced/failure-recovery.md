@@ -17,13 +17,11 @@ When a subject fails:
 4. **Re-run** only the failed subject from the failed stage onward
 5. **Re-verify** to confirm successful completion
 
-:::tip Keep Log Files
 Always redirect output to log files when running pipeline stages. Without logs, diagnosing failures is guesswork:
 
 ```bash
 ./process_eddy.sh sub-003 > logs/eddy_sub-003.log 2>&1
 ```
-:::
 
 ## Stage-by-Stage Troubleshooting
 
