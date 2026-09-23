@@ -37,10 +37,17 @@ const sidebars: SidebarsConfig = {
         'pipeline/overview',
         {
           type: 'category',
-          label: 'Part A — Core Preprocessing',
+          label: 'Part A, Route 1 — QSIPrep',
           collapsed: false,
           items: [
             'pipeline/qsiprep-route',
+          ],
+        },
+        {
+          type: 'category',
+          label: 'Part A, Route 2 — Manual Steps',
+          collapsed: false,
+          items: [
             'pipeline/dicom-to-nifti',
             'pipeline/skull-stripping',
             'pipeline/b0-concatenation',

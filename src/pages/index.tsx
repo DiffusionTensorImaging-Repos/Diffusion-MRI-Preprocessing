@@ -22,11 +22,6 @@ const PIPELINE_STAGES = [
   {num: 12, title: 'Fiber Orientation Distributions', tools: 'MRtrix3', link: '/docs/pipeline/fod-estimation', part: 'B'},
 ];
 
-const PART_LABELS: Record<string, string> = {
-  A: 'Part A — Core Preprocessing',
-  B: 'Part B — Tractography Readiness',
-};
-
 type FeatureItem = {
   title: string;
   icon: ReactNode;
@@ -138,7 +133,38 @@ function Feature({title, icon, description, link, linkText}: FeatureItem) {
   );
 }
 
+function SectionLabel({children, top = '1.5rem'}: {children: ReactNode; top?: string}) {
+  return (
+    <p
+      style={{
+        margin: `${top} 0 0.75rem`,
+        fontSize: '0.8rem',
+        fontWeight: 600,
+        letterSpacing: '0.06em',
+        textTransform: 'uppercase',
+        color: 'var(--ifm-color-emphasis-600)',
+      }}>
+      {children}
+    </p>
+  );
+}
+
+function Stage({num, title, tools, link}: {num: ReactNode; title: string; tools: string; link: string}) {
+  return (
+    <Link to={link} className="pipeline-explorer__stage">
+      <div className="pipeline-explorer__number">{num}</div>
+      <div className="pipeline-explorer__content">
+        <p className="pipeline-explorer__title">{title}</p>
+        <p className="pipeline-explorer__tools">{tools}</p>
+      </div>
+    </Link>
+  );
+}
+
 function PipelinePreview() {
+  const partA = PIPELINE_STAGES.filter((s) => s.part === 'A');
+  const partB = PIPELINE_STAGES.filter((s) => s.part === 'B');
+  const arrow = <div className="pipeline-explorer__arrow">&darr;</div>;
   return (
     <section className={styles.pipelineSection}>
       <div className="container">
@@ -146,47 +172,61 @@ function PipelinePreview() {
           From Scanner to Tractography-Ready
         </Heading>
         <p className="text--center" style={{marginBottom: '2rem', color: 'var(--ifm-color-emphasis-600)'}}>
-          Twelve steps take raw scanner output to data a tractography workflow can run on.
-          Part A is corrections every diffusion study needs, and can be run as a single
-          QSIPrep command; Part B produces the specific files tract reconstruction reads.
+          Part A corrects the raw data and has two routes to the same result.
+          Part B produces the specific files tract reconstruction reads.
         </p>
-        <div className="pipeline-explorer">
-          {PIPELINE_STAGES.map((stage, idx) => (
-            <div key={stage.num}>
-              {(idx === 0 || PIPELINE_STAGES[idx - 1].part !== stage.part) && (
-                <p
-                  style={{
-                    margin: idx === 0 ? '0 0 0.75rem' : '1.5rem 0 0.75rem',
-                    fontSize: '0.8rem',
-                    fontWeight: 600,
-                    letterSpacing: '0.06em',
-                    textTransform: 'uppercase',
-                    color: 'var(--ifm-color-emphasis-600)',
-                  }}>
-                  {PART_LABELS[stage.part]}
-                </p>
-              )}
-              <Link to={stage.link} className="pipeline-explorer__stage">
-                <div className="pipeline-explorer__number">{stage.num}</div>
-                <div className="pipeline-explorer__content">
-                  <p className="pipeline-explorer__title">{stage.title}</p>
-                  <p className="pipeline-explorer__tools">{stage.tools}</p>
+
+        <SectionLabel top="0">Part A — Core Preprocessing · choose one route</SectionLabel>
+        <div className="row" style={{alignItems: 'flex-start'}}>
+          <div className="col col--5">
+            <SectionLabel top="0">Route 1 — QSIPrep</SectionLabel>
+            <div className="pipeline-explorer">
+              <Stage
+                num="1"
+                title="One QSIPrep run"
+                tools="Steps 1–8 in a container · BIDS in, derivatives out · QC report per participant"
+                link="/docs/pipeline/qsiprep-route"
+              />
+            </div>
+          </div>
+          <div
+            className="col col--2 text--center"
+            style={{
+              alignSelf: 'center',
+              fontSize: '0.85rem',
+              fontWeight: 600,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              color: 'var(--ifm-color-emphasis-500)',
+            }}>
+            or
+          </div>
+          <div className="col col--5">
+            <SectionLabel top="0">Route 2 — Manual</SectionLabel>
+            <div className="pipeline-explorer">
+              {partA.map((stage, idx) => (
+                <div key={stage.num}>
+                  <Stage {...stage} />
+                  {idx < partA.length - 1 && arrow}
                 </div>
-              </Link>
-              {idx < PIPELINE_STAGES.length - 1 && (
-                <div className="pipeline-explorer__arrow">&darr;</div>
-              )}
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="text--center" style={{margin: '1rem 0'}}>{arrow}</div>
+
+        <SectionLabel top="0">Part B — Tractography Readiness</SectionLabel>
+        <div className="pipeline-explorer">
+          {partB.map((stage, idx) => (
+            <div key={stage.num}>
+              <Stage {...stage} />
+              {arrow}
             </div>
           ))}
-          <div className="pipeline-explorer__arrow">&darr;</div>
-          <Link to="/docs/pipeline/output-contract" className="pipeline-explorer__stage">
-            <div className="pipeline-explorer__number">&#10003;</div>
-            <div className="pipeline-explorer__content">
-              <p className="pipeline-explorer__title">Tractography Handoff</p>
-              <p className="pipeline-explorer__tools">Verify outputs before tracking</p>
-            </div>
-          </Link>
+          <Stage num={<>&#10003;</>} title="Tractography Handoff" tools="Verify outputs before tracking" link="/docs/pipeline/output-contract" />
         </div>
+
         <p className="text--center" style={{marginTop: '2rem', color: 'var(--ifm-color-emphasis-600)'}}>
           Optional steps (BedpostX, shell extraction, ICV, BIDS/pyAFQ) are covered separately
           in <Link to="/docs/pipeline/overview">the pipeline overview</Link>.

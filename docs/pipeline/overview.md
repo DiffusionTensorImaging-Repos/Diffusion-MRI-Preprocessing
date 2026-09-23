@@ -19,9 +19,19 @@ The required path is **twelve steps in two parts**. Part A is the correction wor
 
 Your workflow may include fewer or more steps depending on your acquisition, analysis goals, and software choices — this is one well-tested configuration, not the only way to preprocess diffusion data.
 
-All of Part A can be run as one command. [QSIPrep](./qsiprep-route) is a containerized BIDS app that performs Steps 1–8 in a single run with a QC report per participant, using the same tools the manual steps use. If you take that route, start at [Step 9](./dtifit) with QSIPrep's output; Step 10 is not needed because QSIPrep already aligns the diffusion data to the T1. The manual steps remain the reference for what each correction does and for acquisitions QSIPrep does not handle.
-
 ### Part A — Core Preprocessing
+
+Part A has two routes. Both take raw data to corrected, brain-masked, T1-aligned diffusion data; both feed Part B. Pick one.
+
+#### Route 1: QSIPrep
+
+| Step | Name | Purpose | Tool(s) |
+|---|---|---|---|
+| — | [QSIPrep](./qsiprep-route) | Skull stripping, TOPUP, denoising, Gibbs removal, eddy, bias correction, and T1 alignment in one containerized run, with a QC report per participant | QSIPrep (Docker / Singularity) |
+
+QSIPrep reads BIDS, so DICOM conversion and BIDS layout happen first; the route page covers that. Because it writes the DWI into the T1 grid, Step 10 is not needed afterwards.
+
+#### Route 2: Manual Steps
 
 | Step | Name | Purpose | Tool(s) |
 |---|---|---|---|
@@ -33,6 +43,20 @@ All of Part A can be run as one command. [QSIPrep](./qsiprep-route) is a contain
 | 6 | [Brain Masking](./brain-masking) | Define analysis region | FSL |
 | 7 | [Denoising & Gibbs](./denoising-gibbs) | Remove noise and ringing artifacts | MRtrix3 |
 | 8 | [Eddy Correction](./eddy) | Correct motion and eddy currents | FSL |
+
+#### Choosing a Route
+
+| | Route 1: QSIPrep | Route 2: Manual |
+|---|---|---|
+| Suits | New studies, multi-site studies, anyone who wants a pinned and reproducible container | Learning what each correction does; acquisitions QSIPrep does not support; full control of every parameter |
+| Input | BIDS tree (conversion done first) | Raw DICOM |
+| Runs as | One command per participant | Eight scripts per participant |
+| Tools inside | The same: ANTs, FSL `topup` and `eddy`, MRtrix3 `dwidenoise` and `mrdegibbs` | |
+| T1 ↔ DWI | DWI resampled into the T1 grid; Step 10 skipped | Separate grids; Step 10 computes the transform |
+| QC | One HTML report per participant | A check section on each step's page |
+| Output | BIDS derivatives, linked into the contract layout by the route page's script | The contract layout directly |
+
+The two routes are not verified to be numerically identical. They use the same algorithms, but parameter defaults and step ordering differ in places, so do not mix routes within one study.
 
 ### Part B — Tractography Readiness
 

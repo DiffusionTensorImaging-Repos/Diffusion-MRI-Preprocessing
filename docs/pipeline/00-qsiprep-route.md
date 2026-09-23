@@ -1,13 +1,13 @@
 ---
 sidebar_position: 2
-title: "Part A in One Command: QSIPrep"
+title: "Part A, Route 1: QSIPrep"
 ---
 
-# Part A in One Command: QSIPrep
+# Part A, Route 1: QSIPrep
 
 ## Overview
 
-Steps 1–8 of this tutorial can be replaced by a single run of [QSIPrep](https://qsiprep.readthedocs.io/), a containerized BIDS app that does for diffusion data what fMRIPrep does for functional data. It denoises, removes Gibbs ringing, runs TOPUP and eddy, corrects bias fields, skull-strips the T1, and aligns the diffusion data to the anatomical image, with a QC report for every participant. It uses the same underlying tools this tutorial walks through, so the result is the same kind of data, produced with fewer decisions on your part.
+Part A has two routes to the same result. This is Route 1: the manual Steps 1–8 are replaced by a single run of [QSIPrep](https://qsiprep.readthedocs.io/), a containerized BIDS app that does for diffusion data what fMRIPrep does for functional data. It denoises, removes Gibbs ringing, runs TOPUP and eddy, corrects bias fields, skull-strips the T1, and aligns the diffusion data to the anatomical image, with a QC report for every participant. It uses the same underlying tools this tutorial walks through, so the result is the same kind of data, produced with fewer decisions on your part.
 
 Part B does not change. QSIPrep produces corrected diffusion data; it does not produce FA maps or FODs, so tensor fitting and the CSD chain still run afterwards. This page is the bridge: what QSIPrep gives you, and how it maps onto the [handoff contract](./output-contract).
 

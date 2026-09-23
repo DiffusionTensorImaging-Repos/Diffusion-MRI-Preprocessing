@@ -9,6 +9,8 @@ title: "Step 1: DICOM to NIfTI Conversion"
 
 Raw MRI data acquired from the scanner is stored in the **DICOM** (Digital Imaging and Communications in Medicine) format. Most neuroimaging analysis software, however, requires data in the **NIfTI** (Neuroimaging Informatics Technology Initiative) format. This first preprocessing step converts your raw DICOM directories into NIfTI volumes and simultaneously extracts the gradient tables (`.bval` and `.bvec` files) and scan metadata (`.json` sidecar files) needed for downstream diffusion processing.
 
+This is the first of the eight manual steps that make up Route 2 through Part A. The alternative, Route 1, is [one QSIPrep run](./qsiprep-route), which takes BIDS-organized data and performs Steps 1–8 together; conversion still happens on that route, as part of building the BIDS tree.
+
 ## Conceptual Background
 
 ### DICOM Format

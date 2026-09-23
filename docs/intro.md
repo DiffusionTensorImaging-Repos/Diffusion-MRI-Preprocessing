@@ -11,7 +11,7 @@ A practical guide to diffusion MRI preprocessing: from raw scanner output to dat
 
 The pipeline here is **twelve steps in two parts**, followed by a handoff checklist.
 
-- **Part A — Core Preprocessing (Steps 1–8)** takes raw DICOMs through conversion, skull stripping, distortion correction, denoising, and motion/eddy correction. This is the correction work every diffusion study needs regardless of what it does next. All of it can be done in [one QSIPrep run](./pipeline/qsiprep-route); the manual steps are there for learning and for cases QSIPrep does not cover.
+- **Part A — Core Preprocessing** is the correction work every diffusion study needs regardless of what it does next: skull stripping, distortion correction, denoising, and motion/eddy correction. It has two routes that produce the same kind of data. **Route 1** is [one QSIPrep run](./pipeline/qsiprep-route). **Route 2** is the manual [Steps 1–8](./pipeline/dicom-to-nifti), which expose every parameter and cover acquisitions QSIPrep does not. Pick one; both feed Part B.
 - **Part B — Tractography Readiness (Steps 9–12)** adds tensor fitting, registration, and the constrained spherical deconvolution chain that produces fiber orientation distributions. These are the files tract reconstruction actually reads.
 - **[Tractography Handoff](./pipeline/output-contract)** is a checklist: exactly which files must exist, what each is for, and a script to verify them before you start tracking.
 
