@@ -11,7 +11,7 @@ A practical guide to diffusion MRI preprocessing: from raw scanner output to dat
 
 The pipeline here is **twelve steps in two parts**, followed by a handoff checklist.
 
-- **Part A — Core Preprocessing (Steps 1–8)** takes raw DICOMs through conversion, skull stripping, distortion correction, denoising, and motion/eddy correction. This is the correction work every diffusion study needs regardless of what it does next.
+- **Part A — Core Preprocessing (Steps 1–8)** takes raw DICOMs through conversion, skull stripping, distortion correction, denoising, and motion/eddy correction. This is the correction work every diffusion study needs regardless of what it does next. All of it can be done in [one QSIPrep run](./pipeline/qsiprep-route); the manual steps are there for learning and for cases QSIPrep does not cover.
 - **Part B — Tractography Readiness (Steps 9–12)** adds tensor fitting, registration, and the constrained spherical deconvolution chain that produces fiber orientation distributions. These are the files tract reconstruction actually reads.
 - **[Tractography Handoff](./pipeline/output-contract)** is a checklist: exactly which files must exist, what each is for, and a script to verify them before you start tracking.
 
@@ -34,7 +34,7 @@ A few further steps — BedpostX, shell extraction, ICV, BIDS/pyAFQ — are docu
 
 | Requirement | Why |
 |---|---|
-| **Multi-shell acquisition** (2+ non-zero b-values plus b=0) | [Steps 11–12](./pipeline/response-functions) separate white matter, gray matter, and CSF, which single-shell data cannot do. A two-tissue fallback exists but is more affected by partial volume. |
+| **Multi-shell acquisition** (2+ non-zero b-values plus b=0) | [Steps 11–12](./pipeline/response-functions) separate white matter, gray matter, and CSF, which single-shell data cannot do. Single-shell data uses single-tissue CSD instead; Step 12 covers it. |
 | **Reverse phase-encode b=0 pairs** | Required for [TOPUP](./pipeline/topup) susceptibility distortion correction. |
 | **A T1-weighted structural scan** | Needed for skull stripping and for registration between diffusion and template space. |
 

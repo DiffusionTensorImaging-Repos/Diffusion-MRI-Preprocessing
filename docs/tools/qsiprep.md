@@ -76,16 +76,17 @@ $output_dir/
     sub-001/
       anat/
       dwi/
-        sub-001_space-T1w_desc-preproc_dwi.nii.gz
-        sub-001_space-T1w_desc-preproc_dwi.bval
-        sub-001_space-T1w_desc-preproc_dwi.bvec
-        sub-001_space-T1w_desc-brain_mask.nii.gz
+        sub-001_space-ACPC_desc-preproc_dwi.nii.gz
+        sub-001_space-ACPC_desc-preproc_dwi.bval
+        sub-001_space-ACPC_desc-preproc_dwi.bvec
+        sub-001_space-ACPC_desc-brain_mask.nii.gz
+        sub-001_space-ACPC_dwiref.nii.gz
       figures/
 ```
 
 ## QSIPrep vs. This Tutorial
 
-QSIPrep is a great option for processing diffusion data — especially for multi-site studies or large samples where container-based reproducibility is important. The trade-off is that it abstracts away the individual steps, so you may not learn what each stage does or why it matters. This tutorial walks through each step manually so you understand the preprocessing logic. Both approaches are valid — they serve different purposes.
+QSIPrep replaces Part A of this tutorial (Steps 1–8) with one container run; [Part A in One Command](../pipeline/qsiprep-route) shows the command and maps its outputs onto the handoff contract. It is the right default for a new or multi-site study. The manual steps remain the way to learn what each correction does and to handle acquisitions QSIPrep does not support. Part B runs the same either way.
 
 This tutorial does not validate that QSIPrep produces identical results to the manual pipeline described here. While the underlying algorithms are similar, the specific parameter choices, step ordering, and implementation details may differ.
 

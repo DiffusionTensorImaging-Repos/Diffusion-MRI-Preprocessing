@@ -28,7 +28,7 @@ The handoff splits into two parts. The first is method-neutral: corrected data t
 
 `bvecs` must be the rotated version written by `eddy`. This is the most common way a run reaches tractography and produces subtly wrong results rather than failing outright; every orientation downstream inherits the error.
 
-`str2diff.mat` is conditional. If your acquisition already has T1 and diffusion aligned, as HCP-style data does, the transform can be read straight from the image headers and no FLIRT matrix is required. Downstream workflows typically expose this as a switch between matrix and header. Check your data before assuming you need [Step 10](./flirt-registration).
+`str2diff.mat` is conditional. If T1 and diffusion already share a grid, as they do for HCP-style data and for anything preprocessed with [QSIPrep](./qsiprep-route), the transform is read from the image headers and no FLIRT matrix is required. Downstream workflows typically expose this as a switch between matrix and header. Check your data before assuming you need [Step 10](./flirt-registration).
 
 ### FOD Image
 
@@ -100,7 +100,7 @@ The stack below has been exercised end to end on real multi-shell data. Floors a
 | pyAFQ | — | 1.3.5 (also 3.3) |
 | R | 4.x | with `readr`, `dplyr`, `stringr`, `tibble`, `foreach`, `doParallel` |
 
-Multi-shell data is required. [Step 11](./response-functions) and [Step 12](./fod-estimation) need at least two non-zero b-values plus b=0 to separate tissue compartments. The worked example uses b = 1000 / 2000 / 3250 / 5000 s/mm². Single-shell data needs the two-tissue variant described in [Step 12](./fod-estimation#single-shell-data).
+Multi-shell data is required. [Step 11](./response-functions) and [Step 12](./fod-estimation) need at least two non-zero b-values plus b=0 to separate tissue compartments. The worked example uses b = 1000 / 2000 / 3250 / 5000 s/mm². Single-shell data uses single-tissue CSD instead, described in [Step 12](./fod-estimation#single-shell-data).
 
 ## Verification Script
 

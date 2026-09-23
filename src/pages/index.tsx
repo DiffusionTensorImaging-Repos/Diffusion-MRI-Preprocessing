@@ -147,8 +147,8 @@ function PipelinePreview() {
         </Heading>
         <p className="text--center" style={{marginBottom: '2rem', color: 'var(--ifm-color-emphasis-600)'}}>
           Twelve steps take raw scanner output to data a tractography workflow can run on.
-          Part A is corrections every diffusion study needs; Part B produces the specific
-          files tract reconstruction reads.
+          Part A is corrections every diffusion study needs, and can be run as a single
+          QSIPrep command; Part B produces the specific files tract reconstruction reads.
         </p>
         <div className="pipeline-explorer">
           {PIPELINE_STAGES.map((stage, idx) => (

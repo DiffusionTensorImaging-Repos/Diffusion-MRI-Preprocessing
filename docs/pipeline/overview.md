@@ -19,6 +19,8 @@ The required path is **twelve steps in two parts**. Part A is the correction wor
 
 Your workflow may include fewer or more steps depending on your acquisition, analysis goals, and software choices — this is one well-tested configuration, not the only way to preprocess diffusion data.
 
+All of Part A can be run as one command. [QSIPrep](./qsiprep-route) is a containerized BIDS app that performs Steps 1–8 in a single run with a QC report per participant, using the same tools the manual steps use. If you take that route, start at [Step 9](./dtifit) with QSIPrep's output; Step 10 is not needed because QSIPrep already aligns the diffusion data to the T1. The manual steps remain the reference for what each correction does and for acquisitions QSIPrep does not handle.
+
 ### Part A — Core Preprocessing
 
 | Step | Name | Purpose | Tool(s) |
@@ -66,6 +68,9 @@ graph TD
     E --> F["6. Brain Masking<br/><i>FSL bet</i>"]
     F --> G["7. Denoising & Gibbs<br/><i>MRtrix3</i>"]
     G --> H["8. Eddy Correction<br/><i>FSL eddy</i>"]
+    Q["QSIPrep<br/><i>Steps 1–8 in one container</i>"]
+    Q --> I
+    Q --> K
     H --> I["9. Tensor Fitting<br/><i>FSL dtifit</i>"]
     H --> K["11. Response Functions<br/><i>MRtrix3 dwi2response</i>"]
     B --> J["10. Registration<br/><i>FSL flirt</i>"]
@@ -77,7 +82,7 @@ graph TD
     M --> N["Tract reconstruction<br/><i>separate workflow</i>"]
 ```
 
-Steps 9 and 11 both branch from Step 8 — tensor fitting and FOD estimation are independent of each other and can run in parallel. Registration (Step 10) needs the skull-stripped T1 from Step 2 as well. All three converge at the [handoff](./output-contract).
+Steps 9 and 11 both branch from Step 8, or from QSIPrep output, which replaces Steps 1–8 entirely. Tensor fitting and FOD estimation are independent of each other and can run in parallel. Registration (Step 10) needs the skull-stripped T1 from Step 2 and is skipped on the QSIPrep route. Everything converges at the [handoff](./output-contract).
 
 ---
 
@@ -108,12 +113,6 @@ This sequence reflects the processing standards established by:
 - **Human Connectome Project (HCP)** -- the gold standard for diffusion MRI processing
 - **UK Biobank** -- large-scale population imaging with automated preprocessing
 - **ABCD Study** -- multi-site developmental neuroimaging with rigorous QC
-
----
-
-## Automated Alternative: QSIPrep
-
-[QSIPrep](../tools/qsiprep.md) is a containerized tool that automates many of the same preprocessing steps described in this tutorial. It runs inside Docker or Singularity and handles the full workflow automatically. See the [QSIPrep page](../tools/qsiprep.md) for more information.
 
 ---
 

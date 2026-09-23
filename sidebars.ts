@@ -40,6 +40,7 @@ const sidebars: SidebarsConfig = {
           label: 'Part A — Core Preprocessing',
           collapsed: false,
           items: [
+            'pipeline/qsiprep-route',
             'pipeline/dicom-to-nifti',
             'pipeline/skull-stripping',
             'pipeline/b0-concatenation',

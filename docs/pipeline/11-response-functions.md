@@ -11,7 +11,7 @@ Before you can estimate which directions fibers run in each voxel, you need a re
 
 This step estimates one response function per tissue type (white matter, gray matter, CSF) for every participant, then averages them into a single group response that all participants share.
 
-Three-tissue estimation needs multi-shell data: at least two non-zero b-values plus b=0. Single-shell data can only separate two tissues, and the [two-tissue variant](./fod-estimation#single-shell-data) in Step 12 covers that case. A white-matter response from a two-tissue fit is not interchangeable with one from a three-tissue fit, so single-shell and multi-shell participants must not share a group average.
+Three-tissue estimation needs multi-shell data: at least two non-zero b-values plus b=0. Single-shell data uses [single-tissue CSD](./fod-estimation#single-shell-data) with a `tournier` white-matter response instead; Step 12 gives the commands. The two responses are not interchangeable, so single-shell and multi-shell participants must not share a group average.
 
 ## Conceptual Background
 

@@ -87,25 +87,29 @@ Normalization is only as good as the brain mask. A mask that includes non-brain 
 
 ### Single-Shell Data
 
-Three-tissue estimation needs at least two non-zero shells. With single-shell data only two compartments can be separated, so the gray matter arguments are dropped from both commands:
+MSMT-CSD needs at least two non-zero shells. With single-shell data, use single-tissue CSD instead: a white-matter-only response, the `csd` algorithm, and intensity normalization of the DWI before fitting rather than `mtnormalise` after.
 
 ```bash
-# Two-tissue CSD: white matter + CSF only
-dwi2fod msmt_csd \
-  "$subj_dir/dwi.mif" \
-  "$project_dir/group_wm_response.txt"  "$subj_dir/wm_fod.mif" \
-  "$project_dir/group_csf_response.txt" "$subj_dir/csf_fod.mif" \
+# Response: tournier picks single-fiber WM voxels from the data alone
+dwi2response tournier "$subj_dir/dwi.mif" "$subj_dir/wm_response.txt" \
   -mask "$subj_dir/mask.mif"
 
-mtnormalise \
-  "$subj_dir/wm_fod.mif"  "$subj_dir/wm_fod_norm.mif" \
-  "$subj_dir/csf_fod.mif" "$subj_dir/csf_fod_norm.mif" \
+# Group-average as in Step 11
+responsemean "$project_dir"/*/wm_response.txt "$project_dir/group_wm_response.txt"
+
+# Normalize DWI intensity in a white-matter mask (FA > 0.4 from Step 9 works)
+dwinormalise individual "$subj_dir/dwi.mif" "$subj_dir/wm_mask.mif" \
+  "$subj_dir/dwi_norm.mif"
+
+# Single-tissue CSD
+dwi2fod csd "$subj_dir/dwi_norm.mif" \
+  "$project_dir/group_wm_response.txt" "$subj_dir/wm_fod_norm.mif" \
   -mask "$subj_dir/mask.mif"
 ```
 
-The gray matter response from [Step 11](./response-functions) is left unused. Everything downstream is unchanged; `wm_fod_norm.mif` is still the output that matters.
+The output is named `wm_fod_norm.mif` so the [handoff contract](./output-contract) is unchanged; the normalization happened on the DWI instead of the FOD.
 
-Two-tissue FODs are more affected by partial volume at gray matter boundaries than three-tissue FODs. If you are targeting small structures near cortex or deep gray matter, this is a limitation of single-shell acquisition rather than something the processing can recover.
+Single-tissue CSD models every voxel as white matter. Gray matter and CSF partial volume are not separated out, so FODs at tissue boundaries carry spurious peaks that the three-tissue model would have removed. For deep or small targets near CSF this is a limitation of the acquisition, not something a different setting recovers. Do not mix single-shell and multi-shell participants in one group response.
 
 ## Batch Processing Script
 
@@ -225,7 +229,7 @@ done
 
 | Symptom | Likely cause | Fix |
 |---|---|---|
-| `dwi2fod` reports "not enough shells" | Data is single-shell | Use the two-tissue variant above |
+| `dwi2fod` reports "not enough shells" | Data is single-shell | Use single-tissue CSD, above |
 | FODs look noisy everywhere | Wrong response order, or unrotated bvecs | Confirm WM/GM/CSF ordering; re-check Step 8 rotated bvecs |
 | Tissue image shows CSF inside white matter | Poor response estimation | Re-inspect Step 11 responses in `shview` |
 | `mtnormalise` fails or produces flat output | Mask includes non-brain, or a compartment is empty | Tighten the mask; confirm all three FODs were written |
