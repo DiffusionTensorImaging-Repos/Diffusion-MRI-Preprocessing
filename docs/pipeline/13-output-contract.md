@@ -40,14 +40,14 @@ This is the eighth output and the one that makes the data tractography-ready rat
 
 ### Not Produced Here
 
-Two things a tractography workflow needs that this tutorial deliberately does not generate:
+Two things a downstream analysis commonly needs that this tutorial deliberately does not generate:
 
 | Item | Where it comes from |
 |---|---|
-| NODDI maps (`fit_NDI_modulated.nii.gz`, `fit_ODI_modulated.nii.gz`, `fit_FWF.nii.gz`) | Fitted by the tractography workflow itself, from `data.nii.gz` + `bvals` + `bvecs` + mask, all of which you already deliver. |
-| `covariates.csv` | Your study's own participant table (motion, ICV, demographics). Read only at the statistics stage. |
+| Microstructure models beyond the tensor (NODDI, DKI, and similar) | Fitted separately, from `data.nii.gz` + `bvals` + `bvecs` + mask, all of which you already deliver. Which model, if any, depends on the study. |
+| Participant-level covariates (motion, ICV, demographics) | Your study records. Read only at the statistics stage. |
 
-Any scalar map on the diffusion grid can be profiled along a tract, so if your pipeline also emits MD, RD, or DKI maps, they can be added to the sampling list without changing anything structural.
+Any scalar map on the diffusion grid can be sampled along a tract, so if your pipeline also emits MD, RD, or model-derived maps, they slot in beside FA without changing anything structural.
 
 ## Directory Layout
 
@@ -67,10 +67,9 @@ project/
 │       ├── mean_b0.nii.gz               # Step 5 (QC background)
 │       ├── fa.nii.gz                    # Step 9
 │       └── wm_fod_norm.mif              # Step 12
-├── xfm/
-│   └── sub-001/
-│       └── str2diff.mat                 # Step 10 (only if grids differ)
-└── covariates.csv                       # your study records
+└── xfm/
+    └── sub-001/
+        └── str2diff.mat                 # Step 10 (only if grids differ)
 ```
 
 If your preprocessing wrote files elsewhere or under different names, symlink or copy them into this shape rather than editing the downstream scripts. Keeping the contract stable is what lets a tractography workflow be reused across studies.
@@ -183,13 +182,11 @@ Several steps in this tutorial are useful but are not part of the handoff contra
 |---|---|
 | [BedpostX](./bedpostx) | Belongs to the FSL `probtrackx2` tractography route. A CSD-based workflow uses FODs instead and never reads BedpostX output. |
 | [Shell extraction](./shell-extraction) | MSMT-CSD needs all shells; extracting a single shell would actively harm it. Extraction remains useful for tensor fitting, but the extracted files are not handed off. |
-| [ICV calculation](./icv-calculation) | A statistical covariate, not a pipeline input. Compute it whenever convenient and put it in `covariates.csv`. |
+| [ICV calculation](./icv-calculation) | A statistical covariate, not a pipeline input. Compute it whenever convenient. |
 | [BIDS & pyAFQ](./pyafq-bids) | For pyAFQ's whole-brain bundle recognition. ROI-to-ROI workflows do their own tracking and use pyAFQ only as a streamline-cleaning library, which needs no BIDS tree. |
 
-Anatomically constrained tractography (ACT) is also outside this handoff. Corridor-constrained ROI-to-ROI workflows get their anatomical constraint from an explicit tract-shaped exclusion mask rather than from a whole-brain tissue segmentation, so no `5ttgen` output is required. If you are doing whole-brain connectome work instead, ACT is documented in the MRtrix3 manual, but it is not part of this pipeline.
+Anatomically constrained tractography (ACT) is also outside this handoff. ROI-to-ROI workflows that constrain tracking with explicit include and exclude regions do not need a whole-brain tissue segmentation, so no `5ttgen` output is required. If you are doing whole-brain connectome work instead, ACT is documented in the MRtrix3 manual, but it is not part of this pipeline.
 
-## Handoff
+## After the Handoff
 
-Once the contract is satisfied, preprocessing is done and tract reconstruction begins: warping atlas ROIs into each participant, building corridor masks, tracking, cleaning bundles, and sampling scalars along them.
-
-The [MesoConnect Atlas tutorial](https://diffusiontensorimaging-repos.github.io/MesoConnect-Tutorial/) picks up from this point for mesolimbic tract reconstruction. Its first reconstruction step reads `wm_fod_norm.mif` and the files listed above.
+Once the contract is satisfied, preprocessing is done and tract reconstruction begins. The usual sequence is to bring ROIs from template space into each participant's diffusion space using the T1 and transform delivered above, define the regions that seed, include, and exclude streamlines, run tracking against `wm_fod_norm.mif`, clean the resulting bundles, and sample FA or other scalar maps along them. The specifics of each of those choices belong to the tractography method and the study question, which is where this tutorial stops.

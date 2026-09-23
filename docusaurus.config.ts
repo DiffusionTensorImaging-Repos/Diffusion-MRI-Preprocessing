@@ -85,11 +85,6 @@ const config: Config = {
           position: 'left',
         },
         {
-          href: 'https://diffusiontensorimaging-repos.github.io/MesoConnect-Tutorial/',
-          label: 'Tractography \u2192',
-          position: 'left',
-        },
-        {
           href: 'https://github.com/DiffusionTensorImaging-Repos/SDN-IMPACT-DTI',
           label: 'Worked Example',
           position: 'right',
@@ -127,7 +122,6 @@ const config: Config = {
           title: 'Next Steps',
           items: [
             {label: 'Output Contract', to: '/docs/pipeline/output-contract'},
-            {label: 'MesoConnect Atlas Tutorial', href: 'https://diffusiontensorimaging-repos.github.io/MesoConnect-Tutorial/'},
             {label: 'Worked Example', href: 'https://github.com/DiffusionTensorImaging-Repos/SDN-IMPACT-DTI'},
           ],
         },

@@ -51,9 +51,7 @@ Floors below; the [handoff page](./pipeline/output-contract#software-versions) l
 
 ## After Preprocessing
 
-Preprocessing ends where tract reconstruction begins. Once the [handoff contract](./pipeline/output-contract) is satisfied, you have everything a tractography workflow needs: corrected diffusion data, a brain mask, an FA map, a skull-stripped T1, the transform between them, and normalized FOD images.
-
-The [MesoConnect Atlas tutorial](https://diffusiontensorimaging-repos.github.io/MesoConnect-Tutorial/) picks up from exactly that point for corridor-constrained mesolimbic tract reconstruction.
+Preprocessing ends where tract reconstruction begins. Once the [handoff contract](./pipeline/output-contract) is satisfied, you have everything a tractography workflow needs: corrected diffusion data, a brain mask, an FA map, a skull-stripped T1, the transform between them, and normalized FOD images. What happens next depends on your tractography approach, and this tutorial stops at that boundary.
 
 ## Example Scripts
 
