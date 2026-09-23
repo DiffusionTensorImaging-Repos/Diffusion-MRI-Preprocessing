@@ -7,7 +7,7 @@ title: "Step 8: Eddy Current & Motion Correction"
 
 ## Overview
 
-Eddy current correction is the single most critical preprocessing step in a diffusion MRI pipeline. Every diffusion-weighted volume is acquired with a different gradient direction, and the rapidly switching magnetic field gradients required for diffusion encoding induce **eddy currents** in the conducting structures of the scanner (the cryostat, gradient coils, and RF shields). These eddy currents produce secondary magnetic fields that distort each image differently, introducing volume-specific shearing, scaling, and translational artifacts. Simultaneously, subjects inevitably move during the long diffusion acquisition (typically 10-20 minutes), and even sub-millimeter head motion degrades diffusion metric estimates.
+Every diffusion-weighted volume is acquired with a different gradient direction, and the rapidly switching magnetic field gradients required for diffusion encoding induce **eddy currents** in the conducting structures of the scanner (the cryostat, gradient coils, and RF shields). These eddy currents produce secondary magnetic fields that distort each image differently, introducing volume-specific shearing, scaling, and translational artifacts. Simultaneously, subjects inevitably move during the long diffusion acquisition (typically 10-20 minutes), and even sub-millimeter head motion degrades diffusion metric estimates.
 
 **Further reading:** [FSL eddy documentation](https://fsl.fmrib.ox.ac.uk/fsl/docs/diffusion/eddy/index.html) — Covers how eddy models distortions as a function of gradient direction and estimates motion parameters
 
@@ -44,7 +44,7 @@ Head motion introduces two distinct problems:
 
 Eddy-current distortions and head motion are not independent. The eddy-current model needs to know the true orientation of the diffusion gradient relative to the brain, but the true orientation depends on the head position, which is what the motion model is trying to estimate. Conversely, the motion model needs to register each volume to a reference, but volumes that are distorted differently by eddy currents cannot be accurately registered without first accounting for those distortions.
 
-FSL's `eddy` solves this chicken-and-egg problem by iterating between the two models. In each iteration, it:
+`eddy` resolves this by iterating between the two models. In each iteration, it:
 
 1. Estimates motion parameters assuming the current eddy-current model is correct.
 2. Re-estimates eddy-current parameters assuming the current motion parameters are correct.
@@ -56,7 +56,7 @@ This integrated approach produces substantially better corrections than applying
 
 Even after motion correction, some slices may still exhibit signal dropout caused by rapid intra-volume motion. Traditionally, entire volumes containing corrupted slices would be excluded from analysis, reducing the number of gradient directions available for the tensor fit.
 
-The `--repol` (replace outliers) flag in `eddy` takes a different approach. It uses a Gaussian process framework to predict what each slice *should* look like based on the diffusion signal model and the data from all other slices and volumes. If a slice deviates from its predicted value by more than 4 standard deviations, it is classified as an outlier and replaced with the Gaussian process prediction. This preserves the gradient direction in the dataset rather than discarding the entire volume.
+`--repol` (replace outliers) uses a Gaussian process to predict what each slice should look like from the diffusion signal model and the data in all other slices and volumes. A slice that deviates from its prediction by more than 4 standard deviations is classified as an outlier and replaced with the prediction. The gradient direction stays in the dataset instead of the whole volume being discarded.
 
 The `--repol` flag is strongly recommended for all datasets. It is particularly valuable for high-motion populations and for datasets with relatively few gradient directions, where losing even a single volume meaningfully reduces the quality of the tensor fit.
 
@@ -368,7 +368,7 @@ fsleyes "$output_dir/${subj}_eddy.nii.gz" &
 | **eddy runs extremely slowly** | Using `eddy_openmp` on a large dataset without GPU acceleration | Switch to `eddy_cuda` if a compatible GPU is available. Alternatively, reduce `--niter` (not recommended unless necessary) |
 | **Negative or NaN voxels in output** | Can occur at the edges of the brain where the mask is borderline | Check the mask; a slightly more generous mask usually resolves this |
 
-The most common and most consequential mistake after running eddy is to use the original `.bvec` file instead of the `eddy_rotated_bvecs` file for downstream analysis. When eddy corrects for head rotation, it physically rotates each volume back to the reference position. The gradient direction recorded in the original bvec file described the gradient relative to the head before rotation. After correction, the gradient direction relative to the (now-realigned) head is different. The `eddy_rotated_bvecs` file contains these updated directions. Using the original bvecs will produce systematically incorrect FA, MD, and tractography results with no error messages or warnings.
+Use `eddy_rotated_bvecs`, not the original `.bvec`, for everything downstream. When eddy corrects for head rotation, it physically rotates each volume back to the reference position. The gradient direction recorded in the original bvec file described the gradient relative to the head before rotation. After correction, the gradient direction relative to the (now-realigned) head is different. The `eddy_rotated_bvecs` file contains these updated directions. Using the original bvecs will produce systematically incorrect FA, MD, and tractography results with no error messages or warnings.
 
 ## References
 

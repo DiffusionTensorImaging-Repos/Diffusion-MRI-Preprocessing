@@ -13,7 +13,7 @@ TOPUP estimates and corrects the **geometric distortions** caused by magnetic su
 
 ## Conceptual Background
 
-### The Problem: Susceptibility-Induced Distortion
+### Susceptibility-Induced Distortion
 
 The B0 magnetic field inside the MRI scanner is intended to be perfectly uniform, but in practice it is not. Near boundaries between tissue and air -- such as the **frontal sinuses**, **temporal bones**, and **ear canals** -- the magnetic field becomes distorted because tissue and air have different magnetic susceptibilities.
 
@@ -24,9 +24,9 @@ Echo-planar imaging (EPI) sequences, which are used for diffusion MRI because of
 - Other regions appear **compressed** (signal piled up, causing artificial bright spots)
 - The distortion can be several voxels in magnitude, especially at higher field strengths (3T, 7T)
 
-### The Solution: Opposite Phase-Encoding Acquisition
+### Opposite Phase-Encoding Acquisition
 
-The key insight behind TOPUP is that if the same anatomy is imaged with **opposite** phase-encoding directions (e.g., AP and PA), the distortions appear in **opposite** directions:
+If the same anatomy is imaged with opposite phase-encoding directions (AP and PA), the distortions appear in opposite directions:
 
 - In the AP image, a region near the frontal sinuses might be stretched anteriorly
 - In the PA image, the same region is compressed anteriorly
@@ -240,7 +240,7 @@ $output_dir/
 
 ### Visual Comparison: Corrected vs. Uncorrected
 
-The most informative QC step is to compare the corrected B0 with the original uncorrected B0 volumes:
+Compare the corrected B0 with the original uncorrected B0 volumes:
 
 ```bash
 # View uncorrected AP B0 alongside the corrected output

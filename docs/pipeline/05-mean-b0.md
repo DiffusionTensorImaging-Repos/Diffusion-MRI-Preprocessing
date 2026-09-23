@@ -21,7 +21,7 @@ When you average multiple volumes together:
 - **Noise** (random): partially cancels out, reducing by a factor of √N, where N is the number of volumes averaged
 - **Signal** (consistent): remains intact
 
-The result is a cleaner image with better contrast between brain tissue and background — exactly what you need for reliable brain extraction in the next step.
+The result is a cleaner image with better contrast between brain tissue and background, which improves brain extraction in the next step.
 
 ### A Single B0 Volume
 

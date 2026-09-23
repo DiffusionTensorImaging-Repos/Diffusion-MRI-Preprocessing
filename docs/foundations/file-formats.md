@@ -5,7 +5,7 @@ title: "File Formats in Neuroimaging"
 
 # File Formats in Neuroimaging
 
-Throughout the preprocessing pipeline, you will encounter a variety of file formats. Some contain image data, some contain metadata, and some contain transformation parameters. Knowing what each file is, what information it holds, and when you will encounter it will save you significant debugging time.
+The preprocessing pipeline produces and consumes several file formats: image data, metadata, and transformation parameters.
 
 ## DICOM (.dcm)
 
@@ -141,7 +141,7 @@ project/
 - **Derivatives**: Processed outputs go in a `derivatives/` directory, keeping raw data untouched.
 - **Dataset description**: A top-level `dataset_description.json` file describes the project.
 
-**Why it matters:** BIDS-organized data can be automatically processed by a growing ecosystem of standardized pipelines (e.g., QSIPrep, fMRIPrep). It also makes data sharing and reproducibility far easier.
+BIDS-organized data can be automatically processed by a growing ecosystem of standardized pipelines (e.g., QSIPrep, fMRIPrep). It also makes data sharing and reproducibility far easier.
 
 **Reference:** [BIDS Specification](https://bids-specification.readthedocs.io)
 

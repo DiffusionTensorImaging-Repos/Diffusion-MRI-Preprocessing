@@ -25,9 +25,9 @@ $$
 
 Because the matrix is symmetric, there are six unique elements. This is why a minimum of six gradient directions (plus at least one non-diffusion-weighted image) is required to fit the tensor.
 
-In plain terms, the tensor is an ellipsoid that describes the shape and orientation of diffusion at a single voxel. A long, thin ellipsoid means water is moving primarily in one direction (high anisotropy). A sphere means water is moving equally in all directions (isotropy).
+The tensor is an ellipsoid that describes the shape and orientation of diffusion at a single voxel. A long, thin ellipsoid means water is moving primarily in one direction (high anisotropy). A sphere means water is moving equally in all directions (isotropy).
 
-## Eigendecomposition: Pulling the Tensor Apart
+## Eigendecomposition
 
 To extract useful information from the tensor, we decompose it into its **eigenvalues** and **eigenvectors**:
 
@@ -57,7 +57,7 @@ $$
 
 where $\bar{\lambda} = (\lambda_1 + \lambda_2 + \lambda_3) / 3$ is the mean of the eigenvalues.
 
-**What it tells you:** FA ranges from 0 (isotropic — equal diffusion in all directions) to 1 (strongly directional diffusion along a single axis). White matter typically has FA values between 0.4 and 0.8. Higher FA reflects more directionally coherent tissue structure. It is the most widely reported DTI metric.
+FA ranges from 0 (isotropic — equal diffusion in all directions) to 1 (strongly directional diffusion along a single axis). White matter typically has FA values between 0.4 and 0.8. Higher FA reflects more directionally coherent tissue structure. It is the most widely reported DTI metric.
 
 ### Mean Diffusivity (MD)
 
@@ -65,7 +65,7 @@ $$
 MD = \bar{\lambda} = \frac{\lambda_1 + \lambda_2 + \lambda_3}{3}
 $$
 
-**What it tells you:** MD is the average rate of diffusion across all three directions, regardless of orientation. It reflects the overall magnitude of water movement. CSF has high MD (water moves freely); white matter has lower MD (water is more constrained).
+MD is the average rate of diffusion across all three directions, regardless of orientation. It reflects the overall magnitude of water movement. CSF has high MD (water moves freely); white matter has lower MD (water is more constrained).
 
 ### Axial Diffusivity (AD)
 
@@ -73,7 +73,7 @@ $$
 AD = \lambda_1
 $$
 
-**What it tells you:** AD is simply the largest eigenvalue -- the rate of diffusion along the primary fiber direction. It reflects how easily water moves *parallel* to the axon bundle.
+AD is the largest eigenvalue, the rate of diffusion along the primary fiber direction. It reflects how easily water moves *parallel* to the axon bundle.
 
 ### Radial Diffusivity (RD)
 
@@ -81,11 +81,11 @@ $$
 RD = \frac{\lambda_2 + \lambda_3}{2}
 $$
 
-**What it tells you:** RD is the average of the two smaller eigenvalues -- diffusion *perpendicular* to the primary fiber direction.
+RD is the average of the two smaller eigenvalues -- diffusion *perpendicular* to the primary fiber direction.
 
 ## Interpreting Changes in DTI Metrics
 
-Researchers often use DTI metrics as proxy markers for specific types of white matter pathology. The following are commonly cited interpretive patterns, though it is important to note that these are **simplified heuristics** and that DTI metrics are influenced by many factors simultaneously:
+Researchers often use DTI metrics as proxy markers for specific types of white matter pathology. The following are commonly cited interpretive patterns. They are simplified heuristics; DTI metrics are influenced by many factors simultaneously:
 
 | Change | What It Reflects |
 |---|---|
@@ -99,7 +99,7 @@ These interpretations should be made cautiously. A single voxel's DTI metrics ar
 
 ## Limitations of the Single Tensor Model
 
-The most important limitation of DTI is that **the single tensor can only model one fiber direction per voxel**. In reality, an estimated 60--90% of white matter voxels contain crossing, kissing, or fanning fibers ([Jeurissen et al., 2013](https://doi.org/10.1002/hbm.22099)).
+The single tensor can only model one fiber direction per voxel. In reality, an estimated 60--90% of white matter voxels contain crossing, kissing, or fanning fibers ([Jeurissen et al., 2013](https://doi.org/10.1002/hbm.22099)).
 
 In a crossing-fiber voxel, the tensor becomes more spherical (not because diffusion is truly isotropic, but because the single ellipsoid is trying to represent two or more distinct directions at once). This leads to artificially reduced FA and unreliable eigenvector estimates -- a fundamental problem for both scalar metrics and tractography.
 

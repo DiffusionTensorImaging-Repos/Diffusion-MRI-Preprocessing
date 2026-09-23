@@ -9,7 +9,7 @@ title: "pyAFQ"
 
 pyAFQ is a Python package for automated identification and quantification of major white matter tracts. It takes BIDS-formatted diffusion data and produces **tract profiles** — measures of diffusion properties (FA, MD, RD, AD) sampled at regular intervals along the length of each white matter bundle.
 
-This is the final analysis step in the pipeline: after all preprocessing is complete, pyAFQ identifies tracts like the corticospinal tract, arcuate fasciculus, and corpus callosum, then profiles how diffusion metrics vary along each tract. These profiles are the primary output used in statistical analyses.
+After preprocessing, pyAFQ identifies tracts like the corticospinal tract, arcuate fasciculus, and corpus callosum, then profiles how diffusion metrics vary along each tract. These profiles are the primary output used in statistical analyses.
 
 **GitHub**: [https://github.com/yeatmanlab/pyAFQ](https://github.com/yeatmanlab/pyAFQ)
 **Documentation**: [https://yeatmanlab.github.io/pyAFQ/](https://yeatmanlab.github.io/pyAFQ/)

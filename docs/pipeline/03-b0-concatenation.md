@@ -30,9 +30,7 @@ TOPUP exploits this symmetry: the true anatomy lies somewhere between the two di
 
 ### The Concatenation
 
-1. **Extracts** the first B0 volume from the AP fieldmap scan
-2. **Extracts** the first B0 volume from the PA fieldmap scan
-3. **Merges** both B0 volumes into a single 4D file along the time dimension
+The first B0 volume is extracted from each of the AP and PA fieldmap scans, and the two are merged into a single 4D file along the time dimension.
 
 ## Prerequisites
 

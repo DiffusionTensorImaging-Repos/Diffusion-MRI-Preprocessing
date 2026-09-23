@@ -19,7 +19,7 @@ BedpostX output is required for **probabilistic tractography** (`probtrackx2`). 
 
 The diffusion tensor model used in [Step 9: DTIFIT](./dtifit) assumes that water diffusion at each voxel can be described by a single ellipsoid — one principal direction of diffusion. This assumption works well in regions where fibers are coherently organized in one direction.
 
-However, **60–90% of white matter voxels contain crossing, kissing, or fanning fibers**. In these regions, a single tensor cannot accurately represent the fiber architecture. For example, at the intersection of the corpus callosum (left-right) and the corticospinal tract (superior-inferior), water diffuses along both tracts simultaneously — a single tensor averages these two directions into a misleading intermediate orientation.
+However, 60–90% of white matter voxels contain crossing, kissing, or fanning fibers. In these regions, a single tensor cannot accurately represent the fiber architecture. For example, at the intersection of the corpus callosum (left-right) and the corticospinal tract (superior-inferior), water diffuses along both tracts simultaneously — a single tensor averages these two directions into a misleading intermediate orientation.
 
 ### BedpostX Outputs
 
@@ -51,7 +51,7 @@ The volume fractions sum to ≤ 1, with the remainder attributed to isotropic (n
 
 ## Directory Structure
 
-BedpostX has a **strict directory structure requirement**. It expects a directory containing exactly these files with these exact names:
+BedpostX has a strict directory structure requirement. It expects a directory containing exactly these files with these exact names:
 
 ```
 bedpostx_input/
@@ -153,7 +153,7 @@ bedpostx_dir.bedpostX/
   nodif_brain_mask.nii.gz    # Copy of input mask
 ```
 
-### Understanding the Output
+### Output Files
 
 - **dyads**: The mean fiber orientation at each voxel. `dyads1` is the primary fiber, `dyads2` is the second crossing fiber (if present). These are 4D volumes where each voxel has a 3D vector.
 - **mean_fNsamples**: The fraction of signal at each voxel explained by fiber N. A high `mean_f1samples` (close to 1.0) means a single fiber dominates; if `mean_f2samples` is also substantial, there are crossing fibers.

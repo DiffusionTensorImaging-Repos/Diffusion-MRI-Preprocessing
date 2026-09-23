@@ -5,7 +5,7 @@ title: "B-Values and Gradient Directions"
 
 # B-Values and Gradient Directions
 
-Every diffusion MRI acquisition is defined by two fundamental parameters: how strongly diffusion is weighted (the **b-value**) and in which direction diffusion is measured (the **gradient direction** or **b-vector**). Understanding these is essential for making informed decisions about acquisition protocols, shell selection, and which analyses your data can support.
+Every diffusion MRI acquisition is defined by two parameters: how strongly diffusion is weighted (the **b-value**) and in which direction diffusion is measured (the **gradient direction** or **b-vector**). They determine which analyses the data can support.
 
 ## B-Values
 
@@ -21,7 +21,7 @@ where:
 - $\delta$ is the duration of each gradient pulse
 - $\Delta$ is the time between the onset of the two gradient pulses
 
-**In plain English:** the b-value is a single number (in units of s/mm$^2$) that summarizes how much the scan is "tuned" to detect diffusion. A higher b-value means the signal is more sensitive to water movement -- voxels where water diffuses freely will lose more signal, while voxels where diffusion is restricted will retain more signal.
+The b-value is a single number (in units of s/mm$^2$) that summarizes how much the scan is "tuned" to detect diffusion. A higher b-value means the signal is more sensitive to water movement -- voxels where water diffuses freely will lose more signal, while voxels where diffusion is restricted will retain more signal.
 
 The signal attenuation follows:
 
@@ -107,7 +107,7 @@ Multi-shell sequences like the CMRR multiband diffusion sequence commonly acquir
 
 ## The B=0 Image
 
-The b=0 volumes deserve special attention. With no diffusion gradient applied, these images are essentially T2-weighted and serve as the **baseline reference** for calculating diffusion metrics (the $S_0$ in the signal equation above).
+With no diffusion gradient applied, b=0 volumes are essentially T2-weighted and serve as the **baseline reference** for calculating diffusion metrics (the $S_0$ in the signal equation above).
 
 Most protocols acquire **multiple b=0 volumes** distributed throughout the scan rather than just one at the beginning. This provides:
 - Better SNR through averaging

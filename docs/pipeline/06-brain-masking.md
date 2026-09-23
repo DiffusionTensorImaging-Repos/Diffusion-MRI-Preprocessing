@@ -15,9 +15,7 @@ This step creates a **binary brain mask** from the mean B0 image using FSL's BET
 
 ### A Second Brain Extraction
 
-You already performed skull stripping on the T1 structural image in [Step 2](./skull-stripping) using ANTs. Why do you need another brain mask here?
-
-Because the T1 mask lives in **structural space** and this mask needs to be in **diffusion space**. The T1 and DWI images have different:
+[Step 2](./skull-stripping) produced a brain mask on the T1, but that mask lives in structural space and this one needs to be in diffusion space. The T1 and DWI images have different:
 - **Resolution** (T1 is typically 1mm isotropic; DWI is typically 1.5–2mm)
 - **Contrast** (T1 shows gray/white matter contrast; B0 shows different tissue contrast)
 - **Geometric distortions** (DWI has susceptibility distortions, even after TOPUP correction)
@@ -114,7 +112,7 @@ echo "Brain masking complete."
 
 ## Quality Check
 
-This is one of the most important QC steps in the pipeline. A bad brain mask will cause problems in every subsequent step.
+A bad brain mask causes problems in every subsequent step.
 
 ### Visual Inspection in FSLeyes
 

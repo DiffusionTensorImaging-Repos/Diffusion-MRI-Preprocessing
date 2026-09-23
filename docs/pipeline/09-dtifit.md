@@ -29,7 +29,7 @@ where `S(g)` is the signal for gradient direction `g`, `S0` is the non-diffusion
 
 ### Only the b=1000 Shell Is Used
 
-The single-tensor model assumes **Gaussian diffusion**, which holds best at moderate b-values (typically b=1000 s/mm^2). At higher b-values, the DWI signal reveals non-Gaussian effects such as diffusion kurtosis and signal contributions from crossing fibers, which violate the assumptions of the single-tensor model. Including higher b-value shells in the tensor fit can bias the resulting scalar maps. For this reason, we extract only the b=0 and b=1000 volumes prior to running `dtifit`.
+The single-tensor model assumes **Gaussian diffusion**, which holds best at moderate b-values (typically b=1000 s/mm^2). At higher b-values, the DWI signal reveals non-Gaussian effects such as diffusion kurtosis and signal contributions from crossing fibers, which violate the assumptions of the single-tensor model. Including higher b-value shells in the tensor fit biases the resulting scalar maps, so extract only the b=0 and b=1000 volumes before running `dtifit` ([Shell Extraction](./shell-extraction)).
 
 ### From Eigenvalues to DTI Metrics
 

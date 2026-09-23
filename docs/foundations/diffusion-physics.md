@@ -74,7 +74,7 @@ where $\gamma$ is the gyromagnetic ratio (2.675 $\times$ 10$^8$ rad/s/T for hydr
 
 ### The b-value
 
-The b-value is the single most important parameter in a diffusion MRI acquisition. It determines how strongly the image is weighted by diffusion:
+The b-value determines how strongly the image is weighted by diffusion:
 
 | b-value (s/mm$^2$) | Sensitivity | Signal Level | Typical Use |
 |---------------------|------------|-------------|-------------|
@@ -105,7 +105,7 @@ $$
 
 This matrix has 6 unique elements (the diagonal plus the three off-diagonal elements), which is why you need at least 6 gradient directions plus a b=0 image to solve for them.
 
-### Eigendecomposition: From Matrix to Meaning
+### Eigendecomposition
 
 The tensor is decomposed into three **eigenvectors** (directions) and three **eigenvalues** (magnitudes):
 

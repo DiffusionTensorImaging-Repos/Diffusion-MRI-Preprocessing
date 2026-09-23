@@ -67,7 +67,7 @@ dwiextract "$eddy_dir/${subj}_eddy.nii.gz" \
                      "$output_dir/${subj}_dwi_no_b250.bval"
 ```
 
-Adjust the `-shells` values to match your acquisition. The key is to list every shell you want to **keep**, omitting b=250.
+Adjust the `-shells` values to match your acquisition. List every shell you want to keep, omitting b=250.
 
 ## Batch Processing
 

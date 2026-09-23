@@ -5,7 +5,7 @@ title: "Acquisition Protocols"
 
 # MRI Acquisition Protocols for DTI
 
-Before you can preprocess diffusion data, you need to acquire it properly. The quality of your raw data determines the ceiling of what preprocessing can achieve — no amount of correction can fix a fundamentally flawed acquisition. This page covers what scans you need, how to set up a DTI protocol, and what to check before leaving the scanner.
+The quality of the raw data sets the ceiling on what preprocessing can achieve; no amount of correction fixes a flawed acquisition.
 
 ## Required Scans
 

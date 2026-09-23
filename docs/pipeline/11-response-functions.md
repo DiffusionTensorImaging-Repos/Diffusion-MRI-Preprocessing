@@ -19,9 +19,9 @@ Three-tissue estimation needs multi-shell data: at least two non-zero b-values p
 
 The diffusion signal measured in a voxel is a mixture: the signal from one idealized fiber bundle, smeared across however many directions fibers actually run in that voxel. Mathematically, the measured signal is the response function convolved with the fiber orientation distribution.
 
-That framing is useful because convolution can be undone. If you know the response function, you can deconvolve it out of the measured signal and recover the orientation distribution, which is what [Step 12](./fod-estimation) does. The response function is the piece you need first.
+Convolution can be undone: if you know the response function, you can deconvolve it out of the measured signal and recover the orientation distribution, which is what [Step 12](./fod-estimation) does. The response function has to be estimated first.
 
-The optical analogue is the point spread function. A telescope blurs a point of light into a small disc; measure that blur precisely and you can deconvolve it back out and sharpen the image. The response function describes how a single fiber population blurs across the sphere of measured directions.
+A telescope blurs a point of light into a small disc; measure that blur precisely and you can deconvolve it back out and sharpen the image. The response function plays the same role, describing how a single fiber population blurs across the sphere of measured directions.
 
 ### Three Tissue Types
 

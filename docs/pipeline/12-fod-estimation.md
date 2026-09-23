@@ -9,7 +9,7 @@ title: "Step 12: Fiber Orientation Distributions"
 
 This step turns the diffusion signal into a fiber orientation distribution (FOD) at every voxel: a function on the sphere whose peaks point along the fiber bundles passing through that voxel. Tractography follows those peaks, so the FOD image is the direct input to every tracking algorithm downstream.
 
-It is the last modeling step before tractography, and the point where the tensor model is left behind.
+It is the last modeling step before tractography.
 
 ## Conceptual Background
 

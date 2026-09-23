@@ -51,7 +51,7 @@ The preprocessing pipeline described in this tutorial handles multi-shell data w
 
 ### Steps That Change
 
-**Shell Extraction** — This is where multi-shell data diverges. Instead of extracting a single shell, you select the shells needed for your analysis:
+**Shell Extraction** — Instead of extracting a single shell, you select the shells needed for your analysis:
 
 ```bash
 # For DTI: extract b=0 + b=1000

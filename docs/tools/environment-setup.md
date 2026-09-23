@@ -7,7 +7,7 @@ title: "Environment Setup"
 
 ## Overview
 
-Before you can run any DTI preprocessing, you need a working neuroimaging workstation with several specialized software packages installed and configured. This page walks you through a complete setup — from a fresh Linux install to a fully functional environment ready for diffusion processing.
+DTI preprocessing needs a workstation with several specialized packages installed and configured.
 
 If you are working on an HPC cluster or shared workstation that already has neuroimaging tools installed via module systems, skip to the [HPC / Module Systems](#hpc--module-systems) section.
 

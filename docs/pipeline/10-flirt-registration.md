@@ -36,9 +36,9 @@ FLIRT performs **linear registration** — it finds the best spatial transformat
 | **6** | Rigid body | 3 translations + 3 rotations | Same brain, different contrast (diffusion → structural) |
 | **12** | Affine | 6 rigid + 3 scales + 3 shears | Different brains, similar shape (structural → MNI template) |
 
-**Why 6 DOF for diffusion → structural?** These are images of the same person's brain acquired in the same session. The brain did not change shape — it just moved slightly between acquisitions and has different contrast. Only rigid alignment (translation + rotation) is needed.
+Diffusion → structural uses 6 DOF because both images are the same person's brain from the same session. The brain did not change shape; it moved slightly between acquisitions and has different contrast, so rigid alignment is enough.
 
-**Why 12 DOF for structural → MNI?** Different people have different brain sizes and shapes. The affine transformation allows scaling and shearing to account for these individual differences.
+Structural → MNI uses 12 DOF because different people have different brain sizes and shapes, and the affine transformation's scaling and shearing account for those differences.
 
 ### The Transformation Chain
 

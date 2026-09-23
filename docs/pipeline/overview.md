@@ -166,4 +166,4 @@ It includes batch processing scripts, configuration files, and the QC output fro
 
 ## Getting Practice Data
 
-Before diving into the pipeline stages, you will need diffusion MRI data to work with. The [Practice Data](../reference/practice-data) page provides instructions for obtaining sample datasets suitable for working through this tutorial.
+The [Practice Data](../reference/practice-data) page lists sample datasets suitable for working through this tutorial.

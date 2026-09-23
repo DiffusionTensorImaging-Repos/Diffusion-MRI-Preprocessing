@@ -97,7 +97,7 @@ Always redirect output to log files when running pipeline stages. Without logs, 
 | Very slow (days) | Using CPU version with large data | Use `eddy_cuda` or `eddy_openmp` with multiple cores |
 | High motion despite good subject | Eddy parameters misconfigured | Verify `acqp.txt` readout time and phase encoding direction |
 
-**Re-run**: Re-run Step 8 and all subsequent steps (9–14).
+**Re-run**: Re-run Step 8 and all subsequent steps (9–12).
 
 ### BedpostX
 
