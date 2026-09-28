@@ -56,7 +56,7 @@ The group average also locks the cohort. Adding a participant later changes the 
 | Eddy-corrected DWI data | [Step 8](./eddy) |
 | Rotated bvecs and bvals from eddy | [Step 8](./eddy) |
 | Brain mask in diffusion space | [Step 6](./brain-masking) |
-| Multi-shell acquisition (2+ non-zero b-values) | Acquisition |
+| Multi-shell acquisition for the three-tissue commands on this page; single-shell data uses the `tournier` response in [Step 12](./fod-estimation#single-shell-data) | Acquisition |
 | MRtrix3 installed | [Tool setup](../tools/mrtrix3) |
 
 Use the rotated bvecs written by `eddy`, not the originals. Eddy rotates volumes to correct motion and the gradient table has to be rotated with them; passing the original bvecs produces response functions, and downstream FODs, that are systematically wrong.

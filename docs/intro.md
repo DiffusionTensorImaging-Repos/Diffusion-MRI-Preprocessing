@@ -34,7 +34,7 @@ A few further steps — BedpostX, shell extraction, ICV, BIDS/pyAFQ — are docu
 
 | Requirement | Why |
 |---|---|
-| **Multi-shell acquisition** (2+ non-zero b-values plus b=0) | [Steps 11–12](./pipeline/response-functions) separate white matter, gray matter, and CSF, which single-shell data cannot do. Single-shell data uses single-tissue CSD instead; Step 12 covers it. |
+| **Diffusion shells: single or multi** | Either works. Multi-shell data (2+ non-zero b-values plus b=0) uses three-tissue MSMT-CSD in [Steps 11–12](./pipeline/response-functions). Single-shell data uses single-tissue CSD instead; [Step 12](./pipeline/fod-estimation#single-shell-data) gives the commands. Do not mix the two models within one study. |
 | **Reverse phase-encode b=0 pairs** | Required for [TOPUP](./pipeline/topup) susceptibility distortion correction. |
 | **A T1-weighted structural scan** | Needed for skull stripping and for registration between diffusion and template space. |
 

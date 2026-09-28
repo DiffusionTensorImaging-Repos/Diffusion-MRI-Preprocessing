@@ -60,6 +60,8 @@ The two routes are not verified to be numerically identical. Most steps use the 
 
 ### Part B — Tractography Readiness
 
+Steps 11–12 have two forms. Multi-shell data uses three-tissue MSMT-CSD; single-shell data uses single-tissue CSD, given in Step 12. Both produce the same output file.
+
 | Step | Name | Purpose | Tool(s) |
 |---|---|---|---|
 | 9 | [Tensor Fitting](./dtifit) | Compute FA, MD, RD, AD | FSL |

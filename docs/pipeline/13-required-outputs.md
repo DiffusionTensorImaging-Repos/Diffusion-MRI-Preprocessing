@@ -100,7 +100,7 @@ The stack below has been exercised end to end on real multi-shell data. Floors a
 | pyAFQ | — | 1.3.5 (also 3.3) |
 | R | 4.x | with `readr`, `dplyr`, `stringr`, `tibble`, `foreach`, `doParallel` |
 
-Multi-shell data is required. [Step 11](./response-functions) and [Step 12](./fod-estimation) need at least two non-zero b-values plus b=0 to separate tissue compartments. The worked example uses b = 1000 / 2000 / 3250 / 5000 s/mm². Single-shell data uses single-tissue CSD instead, described in [Step 12](./fod-estimation#single-shell-data).
+Both single-shell and multi-shell data are supported, with different CSD models. Multi-shell data (two or more non-zero b-values plus b=0) uses three-tissue MSMT-CSD, which is what the worked example ran at b = 1000 / 2000 / 3250 / 5000 s/mm². Single-shell data uses single-tissue CSD with a white-matter response; [Step 12](./fod-estimation#single-shell-data) gives the commands. Either way the output is `wm_fod_norm.mif` and this page applies unchanged. Do not mix the two models within one study.
 
 ## Verification Script
 
