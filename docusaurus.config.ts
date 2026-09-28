@@ -121,7 +121,7 @@ const config: Config = {
         {
           title: 'Next Steps',
           items: [
-            {label: 'Output Contract', to: '/docs/pipeline/output-contract'},
+            {label: 'Outputs for Tractography', to: '/docs/pipeline/required-outputs'},
             {label: 'Worked Example', href: 'https://github.com/DiffusionTensorImaging-Repos/SDN-IMPACT-DTI'},
           ],
         },

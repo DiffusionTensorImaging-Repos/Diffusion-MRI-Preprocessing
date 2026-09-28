@@ -1,17 +1,17 @@
 ---
 sidebar_position: 14
-title: "Tractography Handoff"
+title: "Outputs for Tractography"
 ---
 
-# Tractography Handoff
+# Outputs for Tractography
 
 ## Overview
 
 Preprocessing is finished when a tractography workflow can pick up your data and run without modification. This page states exactly what that means: which files must exist, what each one is for, and how to verify you have them. If everything here passes, you are ready to track. If something is missing, the table says which step produces it.
 
-## The Contract
+## Required Files
 
-The handoff splits into two parts. The first is method-neutral: corrected data that any tractography approach would want, regardless of how it reconstructs tracts. The second is the FOD image, which is specific to spherical-deconvolution tracking.
+The required files split into two groups. The first is method-neutral: corrected data that any tractography approach would want, regardless of how it reconstructs tracts. The second is the FOD image, which is specific to spherical-deconvolution tracking.
 
 ### Method-Neutral Outputs
 
@@ -72,7 +72,7 @@ project/
         └── str2diff.mat                 # Step 10 (only if grids differ)
 ```
 
-If your preprocessing wrote files elsewhere or under different names, symlink or copy them into this shape rather than editing the downstream scripts. Keeping the contract stable is what lets a tractography workflow be reused across studies.
+If your preprocessing wrote files elsewhere or under different names, symlink or copy them into this shape rather than editing the downstream scripts. Keeping this layout stable is what lets a tractography workflow be reused across studies.
 
 ## Coordinate Spaces
 
@@ -104,11 +104,11 @@ Multi-shell data is required. [Step 11](./response-functions) and [Step 12](./fo
 
 ## Verification Script
 
-Run this before handing off. It checks the contract for every participant.
+Run this before starting tractography. It checks every required file for every participant.
 
 ```bash
 #!/bin/bash
-# check_handoff.sh — verify preprocessing outputs against the tractography contract
+# check_outputs.sh — verify every required output exists for every participant
 
 base_dir="/path/to/project"
 need_xfm=1          # set to 0 if T1 and diffusion share a grid (header-based transform)
@@ -150,7 +150,7 @@ done
 
 echo
 if [ "$fail" -eq 0 ]; then
-    echo "All participants satisfy the handoff contract."
+    echo "All participants have every required output."
 else
     echo "Some required files are missing — see the '--' entries above."
 fi
@@ -176,7 +176,7 @@ fslstats "$d/fa.nii.gz" -R
 
 ## Not Required
 
-Several steps in this tutorial are useful but are not part of the handoff contract. Skipping them does not block tracking.
+Several steps in this tutorial are useful but are not among the required outputs. Skipping them does not block tracking.
 
 | Step | Reason |
 |---|---|
@@ -185,8 +185,8 @@ Several steps in this tutorial are useful but are not part of the handoff contra
 | [ICV calculation](./icv-calculation) | A statistical covariate, not a pipeline input. Compute it whenever convenient. |
 | [BIDS & pyAFQ](./pyafq-bids) | For pyAFQ's whole-brain bundle recognition. ROI-to-ROI workflows do their own tracking and use pyAFQ only as a streamline-cleaning library, which needs no BIDS tree. |
 
-Anatomically constrained tractography (ACT) is also outside this handoff. ROI-to-ROI workflows that constrain tracking with explicit include and exclude regions do not need a whole-brain tissue segmentation, so no `5ttgen` output is required. If you are doing whole-brain connectome work instead, ACT is documented in the MRtrix3 manual, but it is not part of this pipeline.
+Anatomically constrained tractography (ACT) is also not required. ROI-to-ROI workflows that constrain tracking with explicit include and exclude regions do not need a whole-brain tissue segmentation, so no `5ttgen` output is required. If you are doing whole-brain connectome work instead, ACT is documented in the MRtrix3 manual, but it is not part of this pipeline.
 
-## After the Handoff
+## After Preprocessing
 
-Once the contract is satisfied, preprocessing is done and tract reconstruction begins. The usual sequence is to bring ROIs from template space into each participant's diffusion space using the T1 and transform delivered above, define the regions that seed, include, and exclude streamlines, run tracking against `wm_fod_norm.mif`, clean the resulting bundles, and sample FA or other scalar maps along them. The specifics of each of those choices belong to the tractography method and the study question, which is where this tutorial stops.
+Once every required file is in place, preprocessing is done and tract reconstruction begins. The usual sequence is to bring ROIs from template space into each participant's diffusion space using the T1 and transform delivered above, define the regions that seed, include, and exclude streamlines, run tracking against `wm_fod_norm.mif`, clean the resulting bundles, and sample FA or other scalar maps along them. The specifics of each of those choices belong to the tractography method and the study question, which is where this tutorial stops.

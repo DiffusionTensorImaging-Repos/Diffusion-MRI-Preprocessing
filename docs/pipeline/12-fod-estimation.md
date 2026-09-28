@@ -107,7 +107,7 @@ dwi2fod csd "$subj_dir/dwi_norm.mif" \
   -mask "$subj_dir/mask.mif"
 ```
 
-The output is named `wm_fod_norm.mif` so the [handoff contract](./output-contract) is unchanged; the normalization happened on the DWI instead of the FOD.
+The output is named `wm_fod_norm.mif` so the [required outputs](./required-outputs) are unchanged; the normalization happened on the DWI instead of the FOD.
 
 Single-tissue CSD models every voxel as white matter. Gray matter and CSF partial volume are not separated out, so FODs at tissue boundaries carry spurious peaks that the three-tissue model would have removed. For deep or small targets near CSF this is a limitation of the acquisition, not something a different setting recovers. Do not mix single-shell and multi-shell participants in one group response.
 
@@ -244,4 +244,4 @@ done
 
 ## Next Step
 
-The modeling is finished. Proceed to the [Tractography Handoff](./output-contract) to verify that your outputs match what a tractography workflow expects before you start tracking.
+The modeling is finished. Proceed to the [Outputs for Tractography](./required-outputs) to verify that your outputs match what a tractography workflow expects before you start tracking.

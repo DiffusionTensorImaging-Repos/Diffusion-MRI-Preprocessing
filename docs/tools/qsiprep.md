@@ -86,7 +86,7 @@ $output_dir/
 
 ## QSIPrep vs. This Tutorial
 
-QSIPrep replaces Part A of this tutorial (Steps 1–8) with one container run; [Part A in One Command](../pipeline/qsiprep-route) shows the command and maps its outputs onto the handoff contract. It is the right default for a new or multi-site study. The manual steps remain the way to learn what each correction does and to handle acquisitions QSIPrep does not support. Part B runs the same either way.
+QSIPrep replaces Part A of this tutorial (Steps 1–8) with one container run; [Part A in One Command](../pipeline/qsiprep-route) shows the command and maps its outputs onto the required outputs. It is the right default for a new or multi-site study. The manual steps remain the way to learn what each correction does and to handle acquisitions QSIPrep does not support. Part B runs the same either way.
 
 This tutorial does not validate that QSIPrep produces identical results to the manual pipeline described here. While the underlying algorithms are similar, the specific parameter choices, step ordering, and implementation details may differ.
 

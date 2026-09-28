@@ -54,7 +54,7 @@ QSIPrep reads BIDS, so DICOM conversion and BIDS layout happen first; the route 
 | Tools inside | FSL `topup` and `eddy`, MRtrix3 `dwidenoise` and `mrdegibbs`; SynthStrip for skull stripping; N4 bias correction on the DWI by default | ANTs for skull stripping; no DWI bias correction |
 | T1 ↔ DWI | DWI resampled into the T1 grid; Step 10 skipped | Separate grids; Step 10 computes the transform |
 | QC | One HTML report per participant | A check section on each step's page |
-| Output | BIDS derivatives, linked into the contract layout by the route page's script | The contract layout directly |
+| Output | BIDS derivatives, linked into the required layout by the route page's script | The required layout directly |
 
 The two routes are not verified to be numerically identical. Most steps use the same tool, but skull stripping differs, QSIPrep's Gibbs removal is off unless requested, and its bias correction is on unless disabled; the [route page](./qsiprep-route) lists these step by step. Do not mix routes within one study.
 
@@ -66,7 +66,7 @@ The two routes are not verified to be numerically identical. Most steps use the 
 | 10 | [Registration](./flirt-registration) | Align T1 to diffusion space | FSL |
 | 11 | [Response Functions](./response-functions) | Estimate per-tissue reference signals | MRtrix3 |
 | 12 | [FOD Estimation](./fod-estimation) | Deconvolve to fiber orientation distributions | MRtrix3 |
-| — | [Tractography Handoff](./output-contract) | Verify outputs before tracking | — |
+| — | [Outputs for Tractography](./required-outputs) | Verify outputs before tracking | — |
 
 ### Optional Steps
 
@@ -101,12 +101,12 @@ graph TD
     I --> J
     K --> L["12. FOD Estimation<br/><i>MRtrix3 dwi2fod</i>"]
     I --> M
-    J --> M{"Tractography Handoff"}
+    J --> M{"Outputs for Tractography"}
     L --> M
     M --> N["Tract reconstruction<br/><i>separate workflow</i>"]
 ```
 
-Steps 9 and 11 both branch from Step 8, or from QSIPrep output, which replaces Steps 1–8 entirely. Tensor fitting and FOD estimation are independent of each other and can run in parallel. Registration (Step 10) needs the skull-stripped T1 from Step 2 and is skipped on the QSIPrep route. Everything converges at the [handoff](./output-contract).
+Steps 9 and 11 both branch from Step 8, or from QSIPrep output, which replaces Steps 1–8 entirely. Tensor fitting and FOD estimation are independent of each other and can run in parallel. Registration (Step 10) needs the skull-stripped T1 from Step 2 and is skipped on the QSIPrep route. Everything converges at the [required outputs](./required-outputs).
 
 ---
 

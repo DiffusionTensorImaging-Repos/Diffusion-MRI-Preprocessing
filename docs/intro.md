@@ -9,11 +9,11 @@ A practical guide to diffusion MRI preprocessing: from raw scanner output to dat
 
 ## Scope
 
-The pipeline here is **twelve steps in two parts**, followed by a handoff checklist.
+The pipeline here is **twelve steps in two parts**, followed by a checklist of required outputs.
 
 - **Part A — Core Preprocessing** is the correction work every diffusion study needs regardless of what it does next: skull stripping, distortion correction, denoising, and motion/eddy correction. It has two routes that produce the same kind of data. **Route 1** is [one QSIPrep run](./pipeline/qsiprep-route). **Route 2** is the manual [Steps 1–8](./pipeline/dicom-to-nifti), which expose every parameter and cover acquisitions QSIPrep does not. Pick one; both feed Part B.
 - **Part B — Tractography Readiness (Steps 9–12)** adds tensor fitting, registration, and the constrained spherical deconvolution chain that produces fiber orientation distributions. These are the files tract reconstruction actually reads.
-- **[Tractography Handoff](./pipeline/output-contract)** is a checklist: exactly which files must exist, what each is for, and a script to verify them before you start tracking.
+- **[Outputs for Tractography](./pipeline/required-outputs)** is a checklist: exactly which files must exist, what each is for, and a script to verify them before you start tracking.
 
 A few further steps — BedpostX, shell extraction, ICV, BIDS/pyAFQ — are documented but **optional**. They are grouped separately so the required path stays unambiguous.
 
@@ -40,7 +40,7 @@ A few further steps — BedpostX, shell extraction, ICV, BIDS/pyAFQ — are docu
 
 ### Software Versions
 
-Floors below; the [handoff page](./pipeline/output-contract#software-versions) lists specific tested versions.
+Floors below; the [required outputs page](./pipeline/required-outputs#software-versions) lists specific tested versions.
 
 | Software | Minimum |
 |---|---|
@@ -51,7 +51,7 @@ Floors below; the [handoff page](./pipeline/output-contract#software-versions) l
 
 ## After Preprocessing
 
-Preprocessing ends where tract reconstruction begins. Once the [handoff contract](./pipeline/output-contract) is satisfied, you have everything a tractography workflow needs: corrected diffusion data, a brain mask, an FA map, a skull-stripped T1, the transform between them, and normalized FOD images. What happens next depends on your tractography approach, and this tutorial stops at that boundary.
+Preprocessing ends where tract reconstruction begins. Once every [required output](./pipeline/required-outputs) is in place, you have everything a tractography workflow needs: corrected diffusion data, a brain mask, an FA map, a skull-stripped T1, the transform between them, and normalized FOD images. What happens next depends on your tractography approach, and this tutorial stops at that boundary.
 
 ## Example Scripts
 

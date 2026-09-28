@@ -382,4 +382,4 @@ Use `eddy_rotated_bvecs`, not the original `.bvec`, for everything downstream. W
 
 Proceed to **[Step 9: Tensor Fitting (DTIFIT)](./dtifit)** to compute FA and the other tensor metrics.
 
-Eddy also marks the end of Part A. From here the path splits: tensor fitting (Step 9) and response function estimation (Step 11) are independent of each other and can run in parallel. Both are needed before the [handoff](./output-contract).
+Eddy also marks the end of Part A. From here the path splits: tensor fitting (Step 9) and response function estimation (Step 11) are independent of each other and can run in parallel. Both are needed before the [required outputs](./required-outputs).

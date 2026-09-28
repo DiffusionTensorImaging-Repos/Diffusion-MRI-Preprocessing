@@ -67,7 +67,7 @@ const sidebars: SidebarsConfig = {
             'pipeline/flirt-registration',
             'pipeline/response-functions',
             'pipeline/fod-estimation',
-            'pipeline/output-contract',
+            'pipeline/required-outputs',
           ],
         },
         {

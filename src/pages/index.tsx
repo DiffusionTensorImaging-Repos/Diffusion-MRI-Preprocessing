@@ -224,7 +224,7 @@ function PipelinePreview() {
               {arrow}
             </div>
           ))}
-          <Stage num={<>&#10003;</>} title="Tractography Handoff" tools="Verify outputs before tracking" link="/docs/pipeline/output-contract" />
+          <Stage num={<>&#10003;</>} title="Outputs for Tractography" tools="Verify outputs before tracking" link="/docs/pipeline/required-outputs" />
         </div>
 
         <p className="text--center" style={{marginTop: '2rem', color: 'var(--ifm-color-emphasis-600)'}}>

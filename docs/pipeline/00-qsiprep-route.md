@@ -9,7 +9,7 @@ title: "Part A, Route 1: QSIPrep"
 
 Part A has two routes to the same result. This is Route 1: the manual Steps 1–8 are replaced by a single run of [QSIPrep](https://qsiprep.readthedocs.io/), a containerized BIDS app that does for diffusion data what fMRIPrep does for functional data. It denoises, removes Gibbs ringing, runs TOPUP and eddy, corrects bias fields, skull-strips the T1, and aligns the diffusion data to the anatomical image, with a QC report for every participant. It uses most of the same underlying tools this tutorial walks through, with two differences the table below calls out, so the result is the same kind of data produced with fewer decisions on your part.
 
-Part B does not change. QSIPrep produces corrected diffusion data; it does not produce FA maps or FODs, so tensor fitting and the CSD chain still run afterwards. This page is the bridge: what QSIPrep gives you, and how it maps onto the [handoff contract](./output-contract).
+Part B does not change. QSIPrep produces corrected diffusion data; it does not produce FA maps or FODs, so tensor fitting and the CSD chain still run afterwards. This page is the bridge: what QSIPrep gives you, and how it maps onto the [required outputs](./required-outputs).
 
 Whether to use QSIPrep or the manual steps is a real choice. QSIPrep is reproducible, container-pinned, and the right default for a new study or a multi-site one. The manual steps expose every parameter and are the right way to learn what the corrections do, or to handle an acquisition QSIPrep does not support. Both routes converge at Step 9.
 
@@ -139,7 +139,7 @@ singularity run --cleanenv \
 
 ## Output
 
-QSIPrep writes BIDS derivatives. The files that matter for the handoff:
+QSIPrep writes BIDS derivatives. The files that matter downstream:
 
 ```
 out/qsiprep/sub-001/
@@ -159,9 +159,9 @@ QSIPrep versions before 1.0 wrote `space-T1w` in place of `space-ACPC`. The file
 
 The preprocessed DWI is already in the T1-aligned grid. That is the one structural difference from the manual route, and it has a consequence: T1 and diffusion share a space, so the FLIRT matrix from [Step 10](./flirt-registration) is not needed. The header carries the alignment.
 
-## Mapping to the Handoff Contract
+## Mapping to the Required Outputs
 
-| Contract file | QSIPrep source | Notes |
+| Required file | QSIPrep source | Notes |
 |---|---|---|
 | `data.nii.gz` | `dwi/*_desc-preproc_dwi.nii.gz` | |
 | `bvals` | `dwi/*_desc-preproc_dwi.bval` | |
@@ -173,11 +173,11 @@ The preprocessed DWI is already in the T1-aligned grid. That is the one structur
 | `fa.nii.gz` | not produced | Run [Step 9](./dtifit) on the preprocessed DWI. |
 | `wm_fod_norm.mif` | not produced | Run [Steps 11–12](./response-functions). |
 
-Linking the outputs into the contract layout:
+Linking the outputs into the required layout:
 
 ```bash
 #!/bin/bash
-# qsiprep_to_contract.sh — lay out QSIPrep derivatives in the handoff structure
+# qsiprep_to_layout.sh — lay out QSIPrep derivatives in the required structure
 
 qsiprep_dir="/path/to/out/qsiprep"
 project="/path/to/project"
@@ -205,7 +205,7 @@ for d in "$qsiprep_dir"/sub-*; do
 done
 ```
 
-Then run [Step 9](./dtifit) for FA and [Steps 11–12](./response-functions) for FODs, and set `need_xfm=0` in the handoff check script.
+Then run [Step 9](./dtifit) for FA and [Steps 11–12](./response-functions) for FODs, and set `need_xfm=0` in the output check script.
 
 ## Quality Check
 

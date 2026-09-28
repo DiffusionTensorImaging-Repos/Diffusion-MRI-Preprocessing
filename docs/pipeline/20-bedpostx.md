@@ -209,4 +209,4 @@ fsleyes "$bedpostx_dir.bedpostX/mean_f2samples" -cm hot &
 
 ## Next Step
 
-BedpostX sits outside the main path — nothing later in this tutorial reads its output. Return to **[Step 9: Tensor Fitting](./dtifit)** to continue toward the [tractography handoff](./output-contract), or see [Shell Extraction](./shell-extraction) if you need a single shell isolated.
+BedpostX sits outside the main path — nothing later in this tutorial reads its output. Return to **[Step 9: Tensor Fitting](./dtifit)** to continue toward the [required outputs](./required-outputs), or see [Shell Extraction](./shell-extraction) if you need a single shell isolated.

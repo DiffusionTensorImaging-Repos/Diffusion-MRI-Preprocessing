@@ -61,4 +61,4 @@ Atropos -d 3 \
 
 ## Next Step
 
-ICV is a covariate rather than a pipeline input, so nothing downstream blocks on it. Return to the [Tractography Handoff](./output-contract) to confirm the rest of your outputs are in place, or see [BIDS & pyAFQ](./pyafq-bids) if you plan to use pyAFQ's whole-brain bundle recognition.
+ICV is a covariate rather than a pipeline input, so nothing downstream blocks on it. Return to the [Outputs for Tractography](./required-outputs) to confirm the rest of your outputs are in place, or see [BIDS & pyAFQ](./pyafq-bids) if you plan to use pyAFQ's whole-brain bundle recognition.
