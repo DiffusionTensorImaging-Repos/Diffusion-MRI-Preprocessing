@@ -28,6 +28,7 @@ This is the manual route's eight steps against what one QSIPrep run does. Where 
 | 7a. Denoising | Done | `--denoise-method dwidenoise` (on) | Yes, MRtrix3 `dwidenoise` |
 | 7b. Gibbs removal | Done **only if requested** | `--unringing-method none` (**off**) | Yes, MRtrix3 `mrdegibbs`, when enabled |
 | 8. Eddy + motion | Done | `--hmc-method eddy` (on); default config has `repol: true` | Yes, FSL `eddy` with outlier replacement, as in Step 8 |
+| Shell extraction (optional, Part C) | Not a QSIPrep option. Handled in Part 1 below: strip the shell from the BIDS DWI before QSIPrep runs. | — | Yes, MRtrix3 `dwiextract`, run before rather than after |
 | — | **N4 bias-field correction on the DWI.** The manual route does not do this. | `--dwi-biascorrect n4` (on) | Extra step |
 | — | **DWI resampled into the T1 (ACPC) grid.** The manual route keeps native DWI space. | On, at `--output-resolution` | This is why Step 10 is skipped |
 
@@ -68,6 +69,16 @@ dcm2niix -b y -z y -f "${subj}_dir-AP_dwi" -o "$bids/$subj/dwi" "$raw/dwi_ap"
 # Reverse phase-encode b=0 for TOPUP
 dcm2niix -b y -z y -f "${subj}_dir-PA_epi" -o "$bids/$subj/fmap" "$raw/dwi_pa_b0"
 
+# Optional: drop a very low shell (e.g. b=250) BEFORE QSIPrep sees it.
+# Set keep_shells to the b-values you want; leave it empty to keep everything.
+keep_shells="0,1000,2000,3000"
+if [ -n "$keep_shells" ]; then
+    d="$bids/$subj/dwi/${subj}_dir-AP_dwi"
+    dwiextract "$d.nii.gz" -fslgrad "$d.bvec" "$d.bval" -shells "$keep_shells" \
+        "$d.tmp.nii.gz" -export_grad_fsl "$d.tmp.bvec" "$d.tmp.bval" -quiet
+    mv -f "$d.tmp.nii.gz" "$d.nii.gz"; mv -f "$d.tmp.bvec" "$d.bvec"; mv -f "$d.tmp.bval" "$d.bval"
+fi
+
 # Tell QSIPrep which DWI the fieldmap corrects
 python3 - <<EOF
 import json
@@ -83,7 +94,7 @@ EOF
 EOF
 ```
 
-Check the DWI sidecar has `PhaseEncodingDirection` and `TotalReadoutTime`; without them QSIPrep cannot run TOPUP. If your reverse-phase scan is a full DWI rather than b=0 only, put it in `dwi/` as `dir-PA_dwi` instead and QSIPrep will use both.
+Removing volumes here is safe: the JSON sidecar carries no per-volume fields, so it stays valid after the shell is dropped. Check it has `PhaseEncodingDirection` and `TotalReadoutTime`; without them QSIPrep cannot run TOPUP. If your reverse-phase scan is a full DWI rather than b=0 only, put it in `dwi/` as `dir-PA_dwi` instead and QSIPrep will use both.
 
 ### Part 2: QSIPrep
 
@@ -206,6 +217,40 @@ done
 ```
 
 Then run [Step 9](./dtifit) for FA and [Steps 11–12](./response-functions) for FODs, and set `need_xfm=0` in the output check script.
+
+## Optional Steps on This Route
+
+The manual route's optional steps still apply after QSIPrep; they just read the linked files instead of eddy output.
+
+### Shell extraction
+
+QSIPrep has no option to drop a shell, so the place to do it is Part 1, before QSIPrep runs; the script above has the block. That way denoising, eddy, and everything else operate on exactly the shells you intend, and the one QSIPrep command needs no follow-up. The reasons to drop a very low shell such as b=250 are on the [Shell Extraction](./shell-extraction) page and are the same on both routes.
+
+Do not try to achieve this with `--b0-threshold`. Raising it above 250 makes QSIPrep treat b=250 volumes as b=0 references, which contaminates the b=0 average and eddy's reference image with diffusion-weighted signal. The threshold exists to absorb scanner jitter around b=0 (values like 5 or 50), not to remove a shell.
+
+Tensor fitting is the one case that still extracts after QSIPrep, because [Step 9](./dtifit) wants b=0 and b=1000 only while Steps 11–12 want every shell:
+
+```bash
+dwiextract "$project/dwi/$subj/data.nii.gz" \
+  -fslgrad "$project/dwi/$subj/bvecs" "$project/dwi/$subj/bvals" \
+  -shells 0,1000 \
+  "$project/dwi/$subj/data_1000.nii.gz" \
+  -export_grad_fsl "$project/dwi/$subj/bvecs_1000" "$project/dwi/$subj/bvals_1000"
+```
+
+This is identical to what Route 2 does before Step 9.
+
+### ICV
+
+`fslstats "$project/anat/$subj/${subj}_T1w_brain.nii.gz" -V` on the linked brain image, exactly as in [ICV Calculation](./icv-calculation).
+
+### BedpostX
+
+Not needed for the CSD route. If you want FSL probabilistic tractography instead, [BedpostX](./bedpostx) runs on the linked `data.nii.gz`, `bvals`, `bvecs`, and `nodif_brain_mask.nii.gz`; the four names it insists on are already the names the layout uses.
+
+### BIDS and pyAFQ
+
+QSIPrep's output is already a BIDS derivatives tree, so the copy-and-rename work in [BIDS & pyAFQ](./pyafq-bids) is not needed; point pyAFQ at `out/qsiprep` directly.
 
 ## Quality Check
 

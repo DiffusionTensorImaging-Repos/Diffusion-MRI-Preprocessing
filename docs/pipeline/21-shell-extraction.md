@@ -41,6 +41,8 @@ Scanners often produce b-values like 248, 1003, or 2005 instead of exactly 250, 
 
 Use the rotated bvecs from eddy (`eddy_rotated_bvecs`), not the original bvecs from DICOM conversion. Eddy corrects for head rotation during the scan and updates the gradient directions accordingly. Using the original bvecs means your gradient directions no longer match the data.
 
+On the QSIPrep route the inputs are the linked `data.nii.gz`, `bvals`, and `bvecs` from the [route page](./qsiprep-route); QSIPrep keeps every acquired shell, so this step applies there in exactly the same way.
+
 ## Command
 
 Remove b=250 by extracting only the shells you want to keep:
