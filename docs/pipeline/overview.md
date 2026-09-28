@@ -50,13 +50,13 @@ QSIPrep reads BIDS, so DICOM conversion and BIDS layout happen first; the route 
 |---|---|---|
 | Suits | New studies, multi-site studies, anyone who wants a pinned and reproducible container | Learning what each correction does; acquisitions QSIPrep does not support; full control of every parameter |
 | Input | BIDS tree (conversion done first) | Raw DICOM |
-| Runs as | One command per participant | Eight scripts per participant |
-| Tools inside | The same: ANTs, FSL `topup` and `eddy`, MRtrix3 `dwidenoise` and `mrdegibbs` | |
+| Runs as | `dcm2niix` into BIDS, then one command per participant | Eight scripts per participant |
+| Tools inside | FSL `topup` and `eddy`, MRtrix3 `dwidenoise` and `mrdegibbs`; SynthStrip for skull stripping; N4 bias correction on the DWI by default | ANTs for skull stripping; no DWI bias correction |
 | T1 ↔ DWI | DWI resampled into the T1 grid; Step 10 skipped | Separate grids; Step 10 computes the transform |
 | QC | One HTML report per participant | A check section on each step's page |
 | Output | BIDS derivatives, linked into the contract layout by the route page's script | The contract layout directly |
 
-The two routes are not verified to be numerically identical. They use the same algorithms, but parameter defaults and step ordering differ in places, so do not mix routes within one study.
+The two routes are not verified to be numerically identical. Most steps use the same tool, but skull stripping differs, QSIPrep's Gibbs removal is off unless requested, and its bias correction is on unless disabled; the [route page](./qsiprep-route) lists these step by step. Do not mix routes within one study.
 
 ### Part B — Tractography Readiness
 
