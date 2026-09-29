@@ -9,13 +9,13 @@ A practical guide to diffusion MRI preprocessing: from raw scanner output to dat
 
 ## Scope
 
-The pipeline here is **twelve steps in two parts**, followed by a checklist of required outputs.
+Twelve steps in two parts, followed by a checklist of the resulting files.
 
-- **Part A — Core Preprocessing** is the correction work every diffusion study needs regardless of what it does next: skull stripping, distortion correction, denoising, and motion/eddy correction. It has two routes that produce the same kind of data. **Route 1** is [one QSIPrep run](./pipeline/qsiprep-route). **Route 2** is the manual [Steps 1–8](./pipeline/dicom-to-nifti), which expose every parameter and cover acquisitions QSIPrep does not. Pick one; both feed Part B.
-- **Part B — Tractography Readiness (Steps 9–12)** adds tensor fitting, registration, and the constrained spherical deconvolution chain that produces fiber orientation distributions. These are the files tract reconstruction actually reads.
-- **[Outputs for Tractography](./pipeline/required-outputs)** is a checklist: exactly which files must exist, what each is for, and a script to verify them before you start tracking.
+- **Part A — Core Preprocessing** applies the corrections required of any diffusion dataset: brain extraction, susceptibility distortion correction, denoising, and head motion and eddy current correction. It has two routes. Route 1 is [a single QSIPrep run](./pipeline/qsiprep-route). Route 2 is [Steps 1–8](./pipeline/dicom-to-nifti) run individually, which expose every parameter and handle acquisitions QSIPrep does not support. Both lead into Part B.
+- **Part B — Tractography Readiness (Steps 9–12)** fits the diffusion tensor, registers the anatomical image to the diffusion data, and runs the constrained spherical deconvolution that produces fiber orientation distributions. These are the files a tractography workflow reads.
+- **[Outputs for Tractography](./pipeline/required-outputs)** lists the required files, what each is for, and a script that verifies them before tracking.
 
-A few further steps — BedpostX, shell extraction, ICV, BIDS/pyAFQ — are documented but **optional**. They are grouped separately so the required path stays unambiguous.
+BedpostX, shell extraction, intracranial volume, and BIDS conversion for pyAFQ are documented separately. They sit outside the required path.
 
 ## Sections
 
@@ -51,7 +51,7 @@ Floors below; the [required outputs page](./pipeline/required-outputs#software-v
 
 ## After Preprocessing
 
-Preprocessing ends where tract reconstruction begins. Once every [required output](./pipeline/required-outputs) is in place, you have everything a tractography workflow needs: corrected diffusion data, a brain mask, an FA map, a skull-stripped T1, the transform between them, and normalized FOD images. What happens next depends on your tractography approach, and this tutorial stops at that boundary.
+This guide ends where tract reconstruction begins. With every [required output](./pipeline/required-outputs) in place, the dataset holds what a tractography workflow reads: corrected diffusion data, a brain mask, an FA map, a skull-stripped T1, the transform between the two, and normalized FOD images. What follows depends on the tracking approach.
 
 ## Example Scripts
 

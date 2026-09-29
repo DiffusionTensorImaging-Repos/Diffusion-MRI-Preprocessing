@@ -25,15 +25,20 @@
   gap: 0.5rem;
 }
 
-.features {
-  display: flex;
-  align-items: stretch;
-  padding: 3rem 0;
-  width: 100%;
+.sectionLede {
+  max-width: 620px;
+  margin: 0 auto 2.5rem;
+  color: var(--ifm-color-emphasis-700);
+  font-size: 1.05rem;
+}
+
+.sectionNote {
+  margin-top: 2.5rem;
+  color: var(--ifm-color-emphasis-600);
 }
 
 .pipelineSection {
-  padding: 3rem 0 4rem;
+  padding: 4rem 0 4.5rem;
   background: var(--ifm-background-surface-color);
 }
 

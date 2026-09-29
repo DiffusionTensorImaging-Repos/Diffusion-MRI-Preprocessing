@@ -6,7 +6,7 @@ import rehypeKatex from 'rehype-katex';
 
 const config: Config = {
   title: 'Diffusion MRI Preprocessing',
-  tagline: 'From raw scanner output to tractography-ready diffusion data',
+  tagline: 'Preprocessing diffusion MRI data for tractography',
   favicon: 'img/favicon.ico',
 
   future: {

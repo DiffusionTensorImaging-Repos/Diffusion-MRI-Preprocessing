@@ -5,23 +5,19 @@ title: "Pipeline Overview"
 
 # Pipeline Overview
 
-## Introduction
+Diffusion preprocessing follows a common sequence across large studies: brain extraction, denoising, Gibbs ringing removal, susceptibility distortion correction, head motion and eddy current correction, and model fitting. The Human Connectome Project, UK Biobank, and ABCD pipelines all implement that sequence. The configuration documented here is one version of it.
 
-This pipeline follows the standardized preprocessing flow used across major diffusion MRI projects including the Human Connectome Project (HCP), UK Biobank, and the Adolescent Brain Cognitive Development (ABCD) study. The core stages -- brain extraction, denoising, motion correction, distortion correction, and tensor fitting -- represent the accepted minimum set of operations required to produce reliable diffusion tensor maps from raw scanner data.
-
-**Reference:** Maximov, I.I., Alnaes, D., & Westlye, L.T. (2019). Towards an optimised processing pipeline for diffusion magnetic resonance imaging data: Effects of artefact corrections on diffusion metrics and their age associations in UK Biobank. *Human Brain Mapping*, 40(14), 4146-4162. See also: https://doi.org/10.1016/j.neuroimage.2021.118756
-
----
+Maximov, Alnaes, and Westlye (2019) quantify which of these corrections change diffusion metrics and by how much: *Human Brain Mapping* 40(14), 4146-4162, [doi:10.1016/j.neuroimage.2021.118756](https://doi.org/10.1016/j.neuroimage.2021.118756).
 
 ## Pipeline Stages
 
-The required path is **twelve steps in two parts**. Part A is the correction work every diffusion study needs. Part B produces the specific files a tractography workflow reads. A few further steps are useful but optional, and are listed separately.
+Twelve steps in two parts. Part A applies the corrections required of any diffusion dataset. Part B fits the diffusion models and writes the files a tractography workflow reads. Several further steps are useful but sit outside the required path and are listed separately below.
 
-Your workflow may include fewer or more steps depending on your acquisition, analysis goals, and software choices — this is one well-tested configuration, not the only way to preprocess diffusion data.
+The number of steps a given study needs depends on its acquisition and its analysis. This is one tested configuration rather than the only valid one.
 
 ### Part A — Core Preprocessing
 
-Part A has two routes. Both take raw data to corrected, brain-masked, T1-aligned diffusion data; both feed Part B. Pick one.
+Part A has two routes. Both take raw data to corrected, brain-masked, T1-aligned diffusion data, and both feed Part B.
 
 #### Route 1: QSIPrep
 
@@ -60,7 +56,7 @@ The two routes are not verified to be numerically identical. Most steps use the 
 
 ### Part B — Tractography Readiness
 
-Steps 11–12 have two forms. Multi-shell data uses three-tissue MSMT-CSD; single-shell data uses single-tissue CSD, given in Step 12. Both produce the same output file.
+Steps 11 and 12 take two forms. Multi-shell data uses three-tissue MSMT-CSD. Single-shell data uses single-tissue CSD, given in Step 12. Both produce the same output file.
 
 | Step | Name | Purpose | Tool(s) |
 |---|---|---|---|
