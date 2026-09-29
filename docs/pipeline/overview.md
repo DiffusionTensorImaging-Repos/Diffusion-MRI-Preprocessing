@@ -70,7 +70,7 @@ Steps 11 and 12 take two forms. Multi-shell data uses three-tissue MSMT-CSD. Sin
 
 These are covered in this tutorial but are not required to reach tractography.
 
-| Name | Purpose | When you need it |
+| Name | Purpose | When it applies |
 |---|---|---|
 | [BedpostX](./bedpostx) | Per-voxel fiber orientations for FSL `probtrackx2` — the FSL counterpart to Steps 11–12, which do the same job for MRtrix3 `tckgen` | Only if your tractography tool is `probtrackx2`; pick one, not both |
 | [Shell Extraction](./shell-extraction) | Isolate b-value shells | Tensor fitting — **not** for MSMT-CSD, which needs all shells |
@@ -171,7 +171,7 @@ derivatives/
       ...
 ```
 
-This structure keeps raw data separate from processed outputs and groups outputs by processing stage, making it straightforward to locate files and run batch operations.
+This structure keeps raw data separate from processed outputs and groups outputs by processing stage.
 
 ---
 

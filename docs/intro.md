@@ -59,4 +59,4 @@ The [worked example repository](https://github.com/DiffusionTensorImaging-Repos/
 
 ## Getting Started
 
-Head to [Foundations](./foundations/what-is-dti) for the conceptual building blocks, or go directly to the [Pipeline Overview](./pipeline/overview) if you are ready to preprocess.
+[Foundations](./foundations/what-is-dti) covers the conceptual background: what diffusion MRI measures, how the tensor works, and what the file formats hold. The [Pipeline Overview](./pipeline/overview) lists the twelve steps in order with the tool each one uses.
