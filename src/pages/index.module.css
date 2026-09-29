@@ -10,15 +10,6 @@
   margin: 0 auto;
 }
 
-.heroLabel {
-  font-size: 0.95rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  opacity: 0.8;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-}
-
 @media screen and (max-width: 996px) {
   .heroBanner {
     padding: 3rem 1rem;

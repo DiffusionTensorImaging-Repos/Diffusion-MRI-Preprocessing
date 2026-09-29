@@ -78,7 +78,7 @@ const FeatureList: FeatureItem[] = [
       </>
     ),
     link: '/docs/foundations/what-is-dti',
-    linkText: 'Start Learning',
+    linkText: 'Foundations',
   },
   {
     title: 'Step-by-Step Pipeline',
@@ -90,7 +90,7 @@ const FeatureList: FeatureItem[] = [
       </>
     ),
     link: '/docs/pipeline/overview',
-    linkText: 'View Pipeline',
+    linkText: 'Pipeline',
   },
   {
     title: 'Practice Data & Tools',
@@ -102,14 +102,14 @@ const FeatureList: FeatureItem[] = [
       </>
     ),
     link: '/docs/reference/practice-data',
-    linkText: 'Get Started',
+    linkText: 'Practice data and tools',
   },
 ];
 
 function Feature({title, icon, description, link, linkText}: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
-      <div className="feature-card">
+      <Link to={link} className="feature-card feature-card--link">
         <div
           className="text--center"
           style={{
@@ -124,11 +124,9 @@ function Feature({title, icon, description, link, linkText}: FeatureItem) {
         <div className="text--center padding-horiz--md">
           <Heading as="h3">{title}</Heading>
           <p>{description}</p>
-          <Link className="button button--primary button--sm" to={link}>
-            {linkText}
-          </Link>
+          <span className="feature-card__cta">{linkText} &rarr;</span>
         </div>
-      </div>
+      </Link>
     </div>
   );
 }
@@ -161,6 +159,17 @@ function Stage({num, title, tools, link}: {num: ReactNode; title: string; tools:
   );
 }
 
+const QSIPREP_COVERS = [
+  'DICOM to BIDS (dcm2niix)',
+  'Skull stripping (SynthStrip)',
+  'Denoising',
+  'Gibbs correction (optional)',
+  'TOPUP',
+  'Eddy',
+  'Brain mask',
+  'QC report',
+];
+
 function PipelinePreview() {
   const partA = PIPELINE_STAGES.filter((s) => s.part === 'A');
   const partB = PIPELINE_STAGES.filter((s) => s.part === 'B');
@@ -172,53 +181,52 @@ function PipelinePreview() {
           From Scanner to Tractography-Ready
         </Heading>
         <p className="text--center" style={{marginBottom: '2rem', color: 'var(--ifm-color-emphasis-600)'}}>
-          Part A corrects the raw data and has two routes to the same result.
-          Part B produces the specific files tract reconstruction reads.
+          Part A corrects the raw data by one of two routes. Part B turns the corrected data
+          into the files tract reconstruction reads.
         </p>
 
-        <SectionLabel top="0">Part A — Core Preprocessing · choose one route</SectionLabel>
-        <div className="row" style={{alignItems: 'flex-start'}}>
-          <div className="col col--5">
-            <SectionLabel top="0">Route 1 — QSIPrep</SectionLabel>
-            <div className="pipeline-explorer">
-              <Stage
-                num="1"
-                title="One QSIPrep run"
-                tools="Steps 1–8 in a container · BIDS in, derivatives out · QC report per participant"
-                link="/docs/pipeline/qsiprep-route"
-              />
+        <SectionLabel top="0">Part A — Core Preprocessing · one of two routes</SectionLabel>
+        <div className="row" style={{rowGap: '1rem', alignItems: 'flex-start'}}>
+          <div className="col col--6">
+            <div className="route-card">
+              <p className="route-card__kicker">Route 1</p>
+              <p className="route-card__title">QSIPrep</p>
+              <p className="route-card__body">
+                One containerized run. BIDS in, corrected diffusion data out, with a QC report
+                per participant. Covers everything in Route 2:
+              </p>
+              <ul className="route-card__list">
+                {QSIPREP_COVERS.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+              <Link to="/docs/pipeline/qsiprep-route" className="route-card__link">
+                Route 1: QSIPrep &rarr;
+              </Link>
             </div>
           </div>
-          <div
-            className="col col--2 text--center"
-            style={{
-              alignSelf: 'center',
-              fontSize: '0.85rem',
-              fontWeight: 600,
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              color: 'var(--ifm-color-emphasis-500)',
-            }}>
-            or
-          </div>
-          <div className="col col--5">
-            <SectionLabel top="0">Route 2 — Manual</SectionLabel>
-            <div className="pipeline-explorer">
-              {partA.map((stage, idx) => (
-                <div key={stage.num}>
-                  <Stage {...stage} />
-                  {idx < partA.length - 1 && arrow}
-                </div>
-              ))}
+          <div className="col col--6">
+            <div className="route-card">
+              <p className="route-card__kicker">Route 2</p>
+              <p className="route-card__title">Manual, eight steps</p>
+              <p className="route-card__body">
+                Each correction run by hand with FSL, MRtrix3, and ANTs. Full control over every
+                parameter, and the reference for what Route 1 does inside the container.
+              </p>
+              <div className="pipeline-explorer pipeline-explorer--compact">
+                {partA.map((stage) => (
+                  <Stage key={stage.num} {...stage} />
+                ))}
+              </div>
             </div>
           </div>
         </div>
 
         <div className="text--center" style={{margin: '1rem 0'}}>{arrow}</div>
 
-        <SectionLabel top="0">Part B — Tractography Readiness</SectionLabel>
-        <div className="pipeline-explorer">
-          {partB.map((stage, idx) => (
+        <SectionLabel top="0">Part B — Tractography Readiness · both routes continue here</SectionLabel>
+        <div className="pipeline-explorer pipeline-explorer--narrow">
+          {partB.map((stage) => (
             <div key={stage.num}>
               <Stage {...stage} />
               {arrow}
@@ -242,7 +250,6 @@ function HomepageHeader() {
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
         <div className={styles.heroInner}>
-          <p className={styles.heroLabel}>Diffusion MRI Preprocessing</p>
           <Heading as="h1" className="hero__title">
             {siteConfig.title}
           </Heading>
@@ -250,13 +257,6 @@ function HomepageHeader() {
           <div className={styles.buttons}>
             <Link className="button button--secondary button--lg" to="/docs/intro">
               Get Started
-            </Link>
-            <Link
-              className="button button--outline button--lg"
-              to="/docs/pipeline/overview"
-              style={{color: 'white', borderColor: 'rgba(255,255,255,0.5)', marginLeft: '1rem'}}
-            >
-              View Pipeline
             </Link>
           </div>
         </div>
