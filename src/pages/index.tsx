@@ -31,46 +31,52 @@ type FeatureItem = {
 };
 
 const iconProps = {
-  width: 28,
-  height: 28,
-  viewBox: '0 0 24 24',
+  width: 36,
+  height: 36,
+  viewBox: '0 0 32 32',
   fill: 'none',
   stroke: 'currentColor',
-  strokeWidth: 1.5,
+  strokeWidth: 1.8,
   strokeLinecap: 'round' as const,
   strokeLinejoin: 'round' as const,
 };
 
-const BookIcon = () => (
+/* Diffusion tensor: an anisotropic ellipsoid with its principal axis. */
+const TensorIcon = () => (
   <svg {...iconProps} aria-hidden="true">
-    <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v18H6.5A2.5 2.5 0 0 0 4 22.5z" />
-    <path d="M4 4.5V22.5" />
-    <path d="M8 7h8M8 11h8" />
+    <ellipse cx="16" cy="16" rx="11.6" ry="6.4" transform="rotate(-33 16 16)" />
+    <path d="M8.2 20.9 L23.8 11.1" />
+    <path d="M21.3 10.2 L24.6 10.7 L24.1 14" />
+    <path d="M10.7 21.8 L7.4 21.3 L7.9 18" />
   </svg>
 );
 
-const StepsIcon = () => (
+/* Preprocessing: a corrected image volume feeding reconstructed streamlines. */
+const VolumeToTractIcon = () => (
   <svg {...iconProps} aria-hidden="true">
-    <path d="M3 21h4v-4" />
-    <path d="M7 17h4v-4" />
-    <path d="M11 13h4v-4" />
-    <path d="M15 9h4V5" />
-    <path d="M3 21h18" />
+    <rect x="2.5" y="9.5" width="11" height="13" rx="2.5" />
+    <path d="M8 9.5v13M2.5 16h11" />
+    <path d="M15.8 16h3.6" />
+    <path d="M17.8 14.3 L19.6 16 L17.8 17.7" />
+    <path d="M23 25.5 C23 16.5 28.8 16 28.8 6.5" />
+    <path d="M26.2 25.5 C26.2 17.5 29.4 16.5 29.4 8" />
   </svg>
 );
 
-const DatabaseIcon = () => (
+/* Data and tools: a stack of image slices you can pull down. */
+const SliceStackIcon = () => (
   <svg {...iconProps} aria-hidden="true">
-    <ellipse cx="12" cy="5" rx="8" ry="3" />
-    <path d="M4 5v6c0 1.66 3.58 3 8 3s8-1.34 8-3V5" />
-    <path d="M4 11v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6" />
+    <path d="M16 3 L27.5 8.3 L16 13.6 L4.5 8.3 Z" />
+    <path d="M4.5 14.3 L16 19.6 L27.5 14.3" />
+    <path d="M16 23 v6.3" />
+    <path d="M13.3 26.6 L16 29.3 L18.7 26.6" />
   </svg>
 );
 
 const FeatureList: FeatureItem[] = [
   {
     title: 'Learn DTI Concepts',
-    icon: <BookIcon />,
+    icon: <TensorIcon />,
     description: (
       <>
         Understand the physics of diffusion imaging, what FA, MD, and RD actually
@@ -82,7 +88,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Step-by-Step Pipeline',
-    icon: <StepsIcon />,
+    icon: <VolumeToTractIcon />,
     description: (
       <>
         Walk through each preprocessing stage with generalized, copy-paste-ready
@@ -94,7 +100,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Practice Data & Tools',
-    icon: <DatabaseIcon />,
+    icon: <SliceStackIcon />,
     description: (
       <>
         Download public DTI datasets to practice with, and find setup guides for

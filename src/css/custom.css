@@ -175,9 +175,9 @@ html {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 56px;
-  height: 56px;
-  border-radius: 14px;
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
   color: var(--ifm-color-primary);
   background: linear-gradient(160deg, rgba(98, 182, 232, 0.16), rgba(27, 94, 140, 0.08));
   border: 1px solid var(--card-border);
