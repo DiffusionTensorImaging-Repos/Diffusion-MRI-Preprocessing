@@ -180,7 +180,7 @@ Several steps in this tutorial are useful but are not among the required outputs
 
 | Step | Reason |
 |---|---|
-| [BedpostX](./bedpostx) | Belongs to the FSL `probtrackx2` tractography route. A CSD-based workflow uses FODs instead and never reads BedpostX output. |
+| [BedpostX](./bedpostx) | The FSL counterpart to Steps 11–12: fiber orientations for `probtrackx2` instead of `tckgen`. A CSD-based workflow uses the FOD instead and never reads BedpostX output. |
 | [Shell extraction](./shell-extraction) | MSMT-CSD needs all shells; extracting a single shell would actively harm it. Extraction remains useful for tensor fitting, but the extracted files are not handed off. |
 | [ICV calculation](./icv-calculation) | A statistical covariate, not a pipeline input. Compute it whenever convenient. |
 | [BIDS & pyAFQ](./pyafq-bids) | For pyAFQ's whole-brain bundle recognition. ROI-to-ROI workflows do their own tracking and use pyAFQ only as a streamline-cleaning library, which needs no BIDS tree. |

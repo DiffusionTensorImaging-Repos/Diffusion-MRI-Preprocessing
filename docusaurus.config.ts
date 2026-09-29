@@ -67,7 +67,7 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'DTI Tutorial',
+      title: 'Diffusion MRI Preprocessing',
       logo: {
         alt: 'Diffusion MRI Preprocessing',
         src: 'img/logo.svg',

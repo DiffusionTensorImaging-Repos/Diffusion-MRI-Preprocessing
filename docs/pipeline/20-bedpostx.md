@@ -1,6 +1,6 @@
 ---
 sidebar_position: 20
-title: "BedpostX (optional)"
+title: "BedpostX — FSL Alternative to Steps 11–12"
 ---
 
 # BedpostX — Fiber Orientation Estimation
@@ -9,7 +9,7 @@ title: "BedpostX (optional)"
 
 BedpostX (Bayesian Estimation of Diffusion Parameters Obtained using Sampling Techniques) estimates the number and orientation of **crossing fiber populations** at each voxel using Markov Chain Monte Carlo (MCMC) sampling. Unlike the single-tensor model used in DTIFIT, BedpostX can resolve up to 3 crossing fibers per voxel.
 
-BedpostX output is required for **probabilistic tractography** (`probtrackx2`). If you only need DTI scalar maps (FA, MD, RD, AD) and are not planning to do tractography, you can skip this step.
+BedpostX is the FSL counterpart to [Steps 11–12](./response-functions). Both estimate per-voxel fiber orientations for tractography; they do it with different models and feed different tracking tools. BedpostX output is what FSL's `probtrackx2` reads. The FOD image from Step 12 is what MRtrix3's `tckgen` reads. A study picks one tractography tool and runs the matching orientation step; there is no reason to run both, and the CSD-based route this tutorial leads to never reads BedpostX output.
 
 **Further reading:** [FDT Tractography Practical](https://fsl.fmrib.ox.ac.uk/fslcourse/2019_Beijing/lectures/FDT/fdt2.html) — FSL Course walkthrough of BedpostX outputs and how they feed into probtrackx2
 
@@ -32,13 +32,18 @@ At each voxel, BedpostX estimates:
 
 The volume fractions sum to ≤ 1, with the remainder attributed to isotropic (non-directional) diffusion.
 
-### When to Run BedpostX
+### BedpostX or Steps 11–12
 
-| Plan | Run BedpostX? | Why |
-|------|--------------|-----|
-| Probabilistic tractography (`probtrackx2`) | **Yes** — required | probtrackx2 uses BedpostX fiber orientation distributions |
-| DTI scalar maps only (FA, MD, RD) | **No** — skip to [Shell Extraction](./shell-extraction) | DTIFIT is sufficient for scalar maps |
-| Connectome analysis | **Yes** — required | Tractography-based connectivity requires BedpostX |
+| | BedpostX | Steps 11–12 (CSD) |
+|---|---|---|
+| Model | Ball-and-sticks, fitted by MCMC sampling | Constrained spherical deconvolution |
+| Per-voxel output | Up to 2–3 discrete fiber directions with volume fractions and posterior samples | A continuous orientation distribution (FOD) |
+| Feeds | FSL `probtrackx2` | MRtrix3 `tckgen` |
+| Output file | `*.bedpostX/merged_*samples.nii.gz` | `wm_fod_norm.mif` |
+| Shells | Single- or multi-shell (`--model 2` or `3`) | Multi-shell for three-tissue; single-shell uses single-tissue CSD |
+| Runtime | Hours per participant on CPU; minutes on GPU | Minutes per participant |
+
+Run BedpostX if your tractography will be `probtrackx2`. Run Steps 11–12 if it will be `tckgen`. If you only need DTI scalar maps and no tractography, neither is needed.
 
 ## Prerequisites
 

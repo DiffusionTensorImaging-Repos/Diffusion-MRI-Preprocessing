@@ -246,7 +246,7 @@ This is identical to what Route 2 does before Step 9.
 
 ### BedpostX
 
-Not needed for the CSD route. If you want FSL probabilistic tractography instead, [BedpostX](./bedpostx) runs on the linked `data.nii.gz`, `bvals`, `bvecs`, and `nodif_brain_mask.nii.gz`; the four names it insists on are already the names the layout uses.
+The FSL counterpart to Steps 11–12; not needed on the CSD route. If your tractography will be `probtrackx2` instead of `tckgen`, [BedpostX](./bedpostx) runs on the linked `data.nii.gz`, `bvals`, `bvecs`, and `nodif_brain_mask.nii.gz`; the four names it insists on are already the names the layout uses.
 
 ### BIDS and pyAFQ
 

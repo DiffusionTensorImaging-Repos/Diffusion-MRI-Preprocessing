@@ -76,7 +76,7 @@ These are covered in this tutorial but are not required to reach tractography.
 
 | Name | Purpose | When you need it |
 |---|---|---|
-| [BedpostX](./bedpostx) | Bayesian fiber orientation estimation | The FSL `probtrackx2` tractography route |
+| [BedpostX](./bedpostx) | Per-voxel fiber orientations for FSL `probtrackx2` — the FSL counterpart to Steps 11–12, which do the same job for MRtrix3 `tckgen` | Only if your tractography tool is `probtrackx2`; pick one, not both |
 | [Shell Extraction](./shell-extraction) | Isolate b-value shells | Tensor fitting — **not** for MSMT-CSD, which needs all shells |
 | [ICV Calculation](./icv-calculation) | Estimate intracranial volume | As a statistical covariate |
 | [BIDS & pyAFQ](./pyafq-bids) | Organize for pyAFQ | pyAFQ's automated whole-brain bundle recognition |

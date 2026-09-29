@@ -36,12 +36,9 @@ const sidebars: SidebarsConfig = {
       items: [
         'pipeline/overview',
         {
-          type: 'category',
+          type: 'doc',
+          id: 'pipeline/qsiprep-route',
           label: 'Part A, Route 1 — QSIPrep',
-          collapsed: false,
-          items: [
-            'pipeline/qsiprep-route',
-          ],
         },
         {
           type: 'category',
@@ -72,7 +69,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'category',
-          label: 'Part C — Optional Steps',
+          label: 'Part C — Optional and Alternative Steps',
           collapsed: true,
           items: [
             'pipeline/bedpostx',

@@ -228,7 +228,7 @@ function PipelinePreview() {
         </div>
 
         <p className="text--center" style={{marginTop: '2rem', color: 'var(--ifm-color-emphasis-600)'}}>
-          Optional steps (BedpostX, shell extraction, ICV, BIDS/pyAFQ) are covered separately
+          Optional and alternative steps (BedpostX for the FSL tractography route, shell extraction, ICV, BIDS/pyAFQ) are covered separately
           in <Link to="/docs/pipeline/overview">the pipeline overview</Link>.
         </p>
       </div>
