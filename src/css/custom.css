@@ -1,59 +1,103 @@
 /**
  * Diffusion MRI Preprocessing — Custom Styles
- * Clean, professional palette — deep red as a subtle accent only
+ * Ink-and-blue palette: deep navy surfaces, a single cyan-blue accent,
+ * layered depth instead of flat panels.
  */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-  /* Calm slate-blue primary — softer, less intense */
-  --ifm-color-primary: #3A6B8C;
-  --ifm-color-primary-dark: #34607E;
-  --ifm-color-primary-darker: #315A77;
-  --ifm-color-primary-darkest: #284A62;
-  --ifm-color-primary-light: #40769A;
-  --ifm-color-primary-lighter: #437BA1;
-  --ifm-color-primary-lightest: #5590B5;
+  /* Primary — deep instrument blue */
+  --ifm-color-primary: #1b5e8c;
+  --ifm-color-primary-dark: #18547d;
+  --ifm-color-primary-darker: #174f76;
+  --ifm-color-primary-darkest: #124061;
+  --ifm-color-primary-light: #1e689b;
+  --ifm-color-primary-lighter: #206da2;
+  --ifm-color-primary-lightest: #2a86c4;
 
   --ifm-code-font-size: 95%;
   --ifm-font-family-base: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --docusaurus-highlighted-code-line-bg: rgba(58, 107, 140, 0.07);
+  --docusaurus-highlighted-code-line-bg: rgba(27, 94, 140, 0.08);
 
-  /* Accent color — used sparingly */
-  --accent: #9D2235;
-  --accent-soft: #C7657A;
-  --surface-subtle: #f8f9fb;
-  --surface-border: #e4e7ec;
-  --accent-gold: #C8A951;
+  /* Page and surfaces — tinted, never flat white */
+  --ifm-background-color: #f5f8fb;
+  --ifm-background-surface-color: #eef3f8;
+  --ifm-card-background-color: #ffffff;
+  --ifm-heading-color: #0d1b2a;
+  --ifm-font-color-base: #2b3945;
+
+  --ifm-navbar-background-color: rgba(255, 255, 255, 0.86);
+  --ifm-navbar-shadow: inset 0 -1px 0 rgba(13, 27, 42, 0.08);
+
+  --surface-subtle: #eef3f8;
+  --surface-border: rgba(13, 27, 42, 0.1);
+  --card-border: rgba(27, 94, 140, 0.18);
+  --card-border-strong: rgba(27, 94, 140, 0.42);
+  --card-shadow: 0 1px 2px rgba(13, 27, 42, 0.05), 0 10px 28px -14px rgba(13, 27, 42, 0.28);
+  --card-shadow-hover: 0 2px 4px rgba(13, 27, 42, 0.06), 0 22px 44px -20px rgba(27, 94, 140, 0.45);
+
+  /* Ink used by the hero and footer in both color modes */
+  --ink-900: #070d15;
+  --ink-800: #0b131f;
+  --ink-700: #101b2b;
+  --glow: rgba(98, 182, 232, 0.28);
+
+  --accent: #9d2235;
+  --accent-soft: #c7657a;
+  --accent-gold: #c8a951;
 }
 
 [data-theme='dark'] {
-  --ifm-color-primary: #82B4D4;
-  --ifm-color-primary-dark: #6DA7CC;
-  --ifm-color-primary-darker: #62A0C8;
-  --ifm-color-primary-darkest: #428DBB;
-  --ifm-color-primary-light: #97C1DC;
-  --ifm-color-primary-lighter: #A2C8E0;
-  --ifm-color-primary-lightest: #C2DBEC;
-  --docusaurus-highlighted-code-line-bg: rgba(130, 180, 212, 0.1);
+  --ifm-color-primary: #62b6e8;
+  --ifm-color-primary-dark: #48a9e3;
+  --ifm-color-primary-darker: #3ba2e1;
+  --ifm-color-primary-darkest: #1f8bcd;
+  --ifm-color-primary-light: #7cc3ed;
+  --ifm-color-primary-lighter: #89c9ef;
+  --ifm-color-primary-lightest: #b0dcf5;
+  --docusaurus-highlighted-code-line-bg: rgba(98, 182, 232, 0.12);
 
-  --surface-subtle: rgba(255, 255, 255, 0.03);
-  --surface-border: rgba(255, 255, 255, 0.08);
+  --ifm-background-color: #080d14;
+  --ifm-background-surface-color: #0b121b;
+  --ifm-card-background-color: #101a26;
+  --ifm-heading-color: #eaf2fa;
+  --ifm-font-color-base: #c8d6e4;
+
+  --ifm-navbar-background-color: rgba(8, 13, 20, 0.86);
+  --ifm-navbar-shadow: inset 0 -1px 0 rgba(98, 182, 232, 0.14);
+
+  --surface-subtle: rgba(98, 182, 232, 0.06);
+  --surface-border: rgba(98, 182, 232, 0.14);
+  --card-border: rgba(98, 182, 232, 0.2);
+  --card-border-strong: rgba(98, 182, 232, 0.55);
+  --card-shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 14px 34px -18px rgba(0, 0, 0, 0.9);
+  --card-shadow-hover: 0 1px 0 rgba(255, 255, 255, 0.06) inset, 0 24px 48px -20px rgba(98, 182, 232, 0.35);
 }
 
-/* Hero banner — soft gradient, not overpowering */
+html {
+  background-color: var(--ifm-background-color);
+}
+
+.navbar {
+  backdrop-filter: saturate(160%) blur(12px);
+}
+
+/* ---------------------------------------------------------------- Hero */
+
 .hero--primary {
-  --ifm-hero-background-color: #10151c;
+  --ifm-hero-background-color: var(--ink-800);
   --ifm-hero-text-color: #ffffff;
-  background-color: #10151c;
+  background-color: var(--ink-800);
   background-image:
-    radial-gradient(120% 120% at 50% -20%, rgba(130, 180, 212, 0.16) 0%, rgba(16, 21, 28, 0) 60%),
-    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
-  background-size: 100% 100%, 44px 44px, 44px 44px;
-  background-position: center top, center center, center center;
+    radial-gradient(90% 130% at 50% -25%, var(--glow) 0%, rgba(11, 19, 31, 0) 62%),
+    radial-gradient(60% 90% at 85% 10%, rgba(27, 94, 140, 0.35) 0%, rgba(11, 19, 31, 0) 70%),
+    linear-gradient(rgba(148, 197, 230, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 197, 230, 0.05) 1px, transparent 1px),
+    linear-gradient(165deg, var(--ink-700) 0%, var(--ink-900) 100%);
+  background-size: 100% 100%, 100% 100%, 46px 46px, 46px 46px, 100% 100%;
   color: #ffffff;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(98, 182, 232, 0.22);
 }
 
 /* Fade the grid out toward the bottom so it never reads as a table */
@@ -62,7 +106,7 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(to bottom, rgba(16, 21, 28, 0) 35%, #10151c 100%);
+  background: linear-gradient(to bottom, rgba(7, 13, 21, 0) 30%, rgba(7, 13, 21, 0.85) 100%);
 }
 
 .hero--primary > * {
@@ -72,43 +116,47 @@
 
 .hero--primary .hero__title {
   font-weight: 700;
-  font-size: clamp(2rem, 6vw, 3rem);
+  font-size: clamp(2rem, 6vw, 3.15rem);
   color: #ffffff;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
 }
 
 .hero--primary .hero__subtitle {
-  font-size: clamp(1rem, 2.6vw, 1.25rem);
-  max-width: 620px;
-  margin: 0 auto;
-  color: rgba(255, 255, 255, 0.72);
+  font-size: clamp(1rem, 2.6vw, 1.2rem);
+  max-width: 600px;
+  margin: 0.75rem auto 0;
+  color: rgba(226, 238, 249, 0.74);
   font-weight: 400;
 }
 
 .hero--primary .button--secondary {
   background: #ffffff;
   border-color: #ffffff;
-  color: #10151c;
+  color: var(--ink-900);
+  box-shadow: 0 12px 30px -12px rgba(98, 182, 232, 0.65);
 }
 
 .hero--primary .button--secondary:hover {
-  background: rgba(255, 255, 255, 0.88);
-  border-color: rgba(255, 255, 255, 0.88);
-  color: #10151c;
+  background: #eaf4fc;
+  border-color: #eaf4fc;
+  color: var(--ink-900);
 }
 
-/* Feature cards */
+/* ------------------------------------------------------------- Surfaces */
+
 .feature-card {
   background: var(--ifm-card-background-color);
-  border: 1px solid var(--surface-border);
-  border-radius: 12px;
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
   padding: 2rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: var(--card-shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .feature-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  border-color: var(--card-border-strong);
+  box-shadow: var(--card-shadow-hover);
 }
 
 .feature-card--link {
@@ -121,7 +169,18 @@
 .feature-card--link:hover {
   color: inherit;
   text-decoration: none;
-  border-color: var(--ifm-color-primary);
+}
+
+.feature-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  color: var(--ifm-color-primary);
+  background: linear-gradient(160deg, rgba(98, 182, 232, 0.16), rgba(27, 94, 140, 0.08));
+  border: 1px solid var(--card-border);
 }
 
 .feature-card__cta {
@@ -131,50 +190,78 @@
 
 /* Part A route cards on the landing page */
 .route-card {
+  position: relative;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   background: var(--ifm-card-background-color);
-  border: 1px solid var(--surface-border);
-  border-radius: 12px;
-  padding: 1.5rem;
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 1.75rem;
+  box-shadow: var(--card-shadow);
+}
+
+.route-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--ifm-color-primary), rgba(98, 182, 232, 0));
 }
 
 .route-card__kicker {
-  margin: 0 0 0.25rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--ifm-color-emphasis-600);
+  color: var(--ifm-color-primary);
 }
 
 .route-card__title {
   margin: 0 0 0.75rem;
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   font-weight: 700;
+  letter-spacing: -0.015em;
 }
 
 .route-card__body {
-  margin: 0 0 1rem;
+  margin: 0 0 1.1rem;
   color: var(--ifm-color-emphasis-700);
 }
 
 .route-card__list {
-  margin: 0 0 1.25rem;
-  padding-left: 1.25rem;
+  margin: 0 0 1.4rem;
+  padding-left: 1.1rem;
   columns: 2;
   column-gap: 1.5rem;
   font-size: 0.9rem;
+  color: var(--ifm-color-emphasis-700);
 }
 
 .route-card__list li {
   break-inside: avoid;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.3rem;
+}
+
+.route-card__list li::marker {
+  color: var(--ifm-color-primary);
 }
 
 .route-card__link {
   margin-top: auto;
   font-weight: 600;
+}
+
+/* --------------------------------------------------- Pipeline explorer */
+
+.pipeline-explorer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
 }
 
 .pipeline-explorer.pipeline-explorer--narrow {
@@ -198,6 +285,72 @@
   .route-card__list {
     columns: 1;
   }
+}
+
+.pipeline-explorer__stage {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: var(--ifm-card-background-color);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  text-decoration: none;
+  color: inherit;
+}
+
+.pipeline-explorer__stage:hover {
+  border-color: var(--card-border-strong);
+  box-shadow: var(--card-shadow-hover);
+  transform: translateX(4px);
+  text-decoration: none;
+  color: inherit;
+}
+
+.pipeline-explorer__number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(150deg, var(--ifm-color-primary-lightest), var(--ifm-color-primary));
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 1px var(--card-border), 0 6px 14px -8px var(--ifm-color-primary);
+}
+
+[data-theme='dark'] .pipeline-explorer__number {
+  color: var(--ink-900);
+}
+
+.pipeline-explorer__content {
+  flex: 1;
+}
+
+.pipeline-explorer__title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin: 0;
+  color: var(--ifm-heading-color);
+}
+
+.pipeline-explorer__tools {
+  font-size: 0.8rem;
+  color: var(--ifm-color-emphasis-600);
+  margin: 0;
+}
+
+.pipeline-explorer__arrow {
+  text-align: center;
+  color: var(--ifm-color-primary);
+  opacity: 0.55;
+  font-size: 1.2rem;
 }
 
 .pipeline-explorer--compact .pipeline-explorer__stage {
@@ -224,40 +377,47 @@
   font-size: 0.75rem;
 }
 
-/* Pipeline stage cards in overview */
+/* --------------------------------------------------------- Doc content */
+
 .pipeline-stage {
   border-left: 4px solid var(--ifm-color-primary);
   padding-left: 1rem;
   margin-bottom: 1.5rem;
 }
 
-/* Code blocks */
 .theme-code-block {
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
-/* Admonition customizations */
 .admonition {
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
-/* Navbar tweaks */
 .navbar__title {
   font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
-/* Footer */
+.markdown a,
+.route-card__link,
+.feature-card__cta {
+  text-underline-offset: 3px;
+}
+
 .footer--dark {
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  background: linear-gradient(170deg, var(--ink-700) 0%, var(--ink-900) 100%);
+  border-top: 1px solid rgba(98, 182, 232, 0.16);
 }
 
-/* Mermaid diagram styling */
+.footer__title {
+  color: rgba(234, 242, 250, 0.92);
+}
+
 .mermaid {
   text-align: center;
   margin: 2rem 0;
 }
 
-/* Table styling */
 table {
   display: table;
   width: 100%;
@@ -268,76 +428,7 @@ table th {
 }
 
 [data-theme='dark'] table th {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-/* Pipeline explorer component */
-.pipeline-explorer {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 1rem;
-}
-
-.pipeline-explorer__stage {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem 1.5rem;
-  border: 1px solid var(--surface-border);
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-decoration: none;
-  color: inherit;
-}
-
-.pipeline-explorer__stage:hover {
-  border-color: var(--ifm-color-primary);
-  background: var(--surface-subtle);
-  transform: translateX(4px);
-  text-decoration: none;
-  color: inherit;
-}
-
-[data-theme='dark'] .pipeline-explorer__stage:hover {
-  background: rgba(130, 180, 212, 0.06);
-}
-
-.pipeline-explorer__number {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: var(--ifm-color-primary);
-  color: white;
-  font-weight: 700;
-  font-size: 0.9rem;
-  flex-shrink: 0;
-}
-
-.pipeline-explorer__content {
-  flex: 1;
-}
-
-.pipeline-explorer__title {
-  font-weight: 600;
-  font-size: 1rem;
-  margin: 0;
-}
-
-.pipeline-explorer__tools {
-  font-size: 0.8rem;
-  color: var(--ifm-color-emphasis-600);
-  margin: 0;
-}
-
-.pipeline-explorer__arrow {
-  text-align: center;
-  color: var(--ifm-color-emphasis-400);
-  font-size: 1.2rem;
+  background: rgba(98, 182, 232, 0.08);
 }
 
 /* KaTeX math formulas — ensure visibility in both modes */

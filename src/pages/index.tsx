@@ -31,8 +31,8 @@ type FeatureItem = {
 };
 
 const iconProps = {
-  width: 48,
-  height: 48,
+  width: 28,
+  height: 28,
   viewBox: '0 0 24 24',
   fill: 'none',
   stroke: 'currentColor',
@@ -110,16 +110,8 @@ function Feature({title, icon, description, link, linkText}: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
       <Link to={link} className="feature-card feature-card--link">
-        <div
-          className="text--center"
-          style={{
-            marginBottom: '1rem',
-            color: 'var(--ifm-color-primary)',
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          {icon}
+        <div className="text--center" style={{marginBottom: '1.25rem'}}>
+          <span className="feature-card__icon">{icon}</span>
         </div>
         <div className="text--center padding-horiz--md">
           <Heading as="h3">{title}</Heading>
