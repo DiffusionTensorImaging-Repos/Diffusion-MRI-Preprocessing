@@ -70,7 +70,7 @@ const config: Config = {
       title: 'Diffusion MRI Preprocessing',
       logo: {
         alt: 'Diffusion MRI Preprocessing',
-        src: 'img/logo.svg',
+        src: 'img/logo.png',
       },
       items: [
         {
